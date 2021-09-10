@@ -1,0 +1,38 @@
+:root {
+    /* light mode colours */
+  --primary-0: rgba(215,222,219,1);         
+  --primary-1 : rgba(141,183,165,1); 
+  --primary-2 : rgba(172,202,189,1);      
+  --primary-3 : rgba(166,179,173,1); 
+  --primary-4 : rgba(144,160,153,1);
+  --complement-0 : rgba(255,249,246,1);         
+  --complement-1 : rgba(255,213,196,1); 
+  --complement-2 : rgba(255,228,217,1);
+  --complement-3 : rgba(255,242,236,1); 
+  --complement-4 : rgba(233,217,211,1); 
+   /* dark mode colours */
+  
+  }
+  
+  body {
+    background-color: var(--primary-0)
+  }
+  
+  
+   .left-column, .middle-column, .right-column {
+    text-align: center;
+  } 
+  
+  img {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+  }
+  
+  
+  
+  footer{
+    position: fixed;
+    bottom: 0;
+  }
