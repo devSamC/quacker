@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const importData = require('./data.json');
-const User = require(`../models/users`)
+const User = require(`./models/users`)
 const cors = require('cors')
 
 let port = process.env.PORT || 3000;
