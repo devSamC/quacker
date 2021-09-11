@@ -1,4 +1,5 @@
-[{
+
+const users = [{
         "id": 1,
         "name": "Lebron",
         "picture": "none",
@@ -11,3 +12,5 @@
         "posts": 28
     }
 ]
+
+module.exports = users;
