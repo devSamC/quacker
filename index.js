@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json())
 app.use(bodyParser.json())
 app.get('/',(req,res) => {
-    res.send(`hello world`)
+    res.sendFile(`./index.html`)
 })
 
 app.get('/players',(req,res) => {
@@ -40,3 +40,5 @@ app.post('/players', (req,res) => {
 app.listen(port, () => {
     console.log(`twitter clone listening on port ${port}`)
 })
+
+// module.exports = index
