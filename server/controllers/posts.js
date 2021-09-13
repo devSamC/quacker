@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const postsData = require('./data.js')
+const postsData = require('../data.js')
 
 router.get('/', (req,res) => {
   res.send('hello world')
