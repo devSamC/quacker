@@ -23,7 +23,7 @@ app.post('/players', (req,res) => {
     // console.log(req)
     const data = req.body
     console.log(data)
-    const newPost = new Post(data)
+    const newPost = Post.create(data)
     res.send({
         message: `${newPost.text} added to collection`
     })
