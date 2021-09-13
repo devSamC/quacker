@@ -65,6 +65,7 @@ function addQuack(e) {
     imageInputForm.value = ""
     imageInputForm.classList.toggle('hidden');
     quackBox.value = ""
+    //insightful comment
     const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/players', {
         method: 'POST',
         headers: {
