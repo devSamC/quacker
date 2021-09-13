@@ -12,9 +12,9 @@ router.get('/posts', (req,res) => {
 
 router.post('/posts', (req,res) => {
   const data = req.body
-  const newUser = User.create(data)
+  const newPost = Post.create(data)
   res.send({
-    message: `${newUser.name} added`
+    message: `${newPost.text} added`
   })
 })
 
