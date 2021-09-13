@@ -23,8 +23,6 @@ body {
     display: flex;
     justify-content: space-evenly;
     position: sticky;
-   
-
 }
 
 .top {
@@ -94,13 +92,14 @@ body {
     width:187%;
 }
 
+/*
 input {
-    /* background-color: white;
+     background-color: white;
     border-color: white;
-    border-image: none; */
-    /* border-width:0px; */
+    border-image: none; 
+    border-width:0px; 
 }
-
+*/
 
 
 #quack-input { 
