@@ -16,7 +16,7 @@
 // ]
 
 
-const posts = [{
+const postsData = [{
     "id": 1,
     "text": "my first quack. wow i love coding",
     "picture": "",
@@ -47,4 +47,4 @@ const posts = [{
 //     this.comments = data.comments
 //     this.date = data.date
 //   }
-module.exports = posts;
+module.exports = postsData;

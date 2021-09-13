@@ -7,11 +7,19 @@ async function generateCard() {
     const postsData = await posts.json()
     console.log(postsData)
     const postBox = document.getElementById('quack-test-holder');
-    const newPost = document.createElement('div');
-    const newPostText = document.createElement('p')
-    newPost.appendChild(newPostText)
-    postBox.appendChild(newPost)
-    newPostText.textContent = postsData[0].text;
+    postBox.innerHTML = ""
+    for (let i = 0; i < postsData.length; i++) {
+        const newPost = document.createElement('div');
+        const newPostBody = document.createElement('div');
+        const newPostText = document.createElement('p')
+        newPost.appendChild(newPostBody)
+        newPostBody.appendChild(newPostText)
+        newPost.classList.add('card');
+        newPostBody.classList.add('card-body');
+        postBox.appendChild(newPost)
+        newPostText.classList.add('card-text');
+        newPostText.textContent = postsData[i].text;
+    }
 }
 
 
@@ -20,9 +28,22 @@ function addQuack(e) {
     console.log('clicked')
     //send post data to server and then retrieve
     //first just console log the data that we get
-    // const quackBox = document.getElementById('quack-input');
-    // const postText = quackBox.value
-    // console.log(postText)
-    generateCard();
+    const quackBox = document.getElementById('quack-input');
+    const postText = quackBox.value
+    const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/players', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "id": 4,
+            "text": `${postText}`,
+            "picture": "",
+            "reactions": "",
+            "comments": "",
+            "date": ""
+        })
+    }).then(response => {generateCard()})
+    
 }
 generateCard()
