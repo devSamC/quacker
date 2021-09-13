@@ -24,8 +24,7 @@ class Post {
     }
   }
   static create(post) {
-    const newPost = new Post({ ...post })
-    newPost.id = postsData.length+1
+    const newPost = new Post({ id: postsData.length+1, ...post })
     postsData.push(newPost);
     return newPost;
   }
