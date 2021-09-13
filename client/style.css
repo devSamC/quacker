@@ -129,12 +129,12 @@ input {
     align-items: baseline;
 }
 
-.add-image {
+#add-image {
   font-size: 25px;
   
 }
 
-.add-image:hover {
+#add-image:hover {
   color: #60a74a;
   cursor: pointer;
 }
@@ -163,6 +163,10 @@ input {
   cursor:pointer;
 }
 
+.img-input {
+    width: 100%;
+  }
+  
 
 .bluef {
   color:lightskyblue;
@@ -214,6 +218,10 @@ input {
 .card {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 
