@@ -7,14 +7,14 @@ async function generateCard() {
     const postsData = await posts.json()
     console.log(postsData)
     const postBox = document.getElementById('quack-test-holder');
-    postBox.innerHTML= ""
+    postBox.innerHTML = ""
     for (let i = 0; i < postsData.length; i++) {
-    const newPost = document.createElement('div');
-    const newPostText = document.createElement('p')
-    newPost.appendChild(newPostText)
-    newPost.classList.add('card');
-    postBox.appendChild(newPost)
-    newPostText.textContent = postsData[i].text;
+        const newPost = document.createElement('div');
+        const newPostText = document.createElement('p')
+        newPost.appendChild(newPostText)
+        newPost.classList.add('card');
+        postBox.appendChild(newPost)
+        newPostText.textContent = postsData[i].text;
     }
 }
 
@@ -32,7 +32,12 @@ function addQuack(e) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "text": `${postText}`
+            "id": 4,
+            "text": `${postText}`,
+            "picture": "",
+            "reactions": "",
+            "comments": "",
+            "date": ""
         })
     })
     generateCard();
