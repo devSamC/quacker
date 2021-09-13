@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const importData = require('./data.js');
 const User = require(`./models/users`)
+const Post = require('./models/posts');
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
@@ -20,20 +21,10 @@ app.get('/players',(req,res) => {
 
 app.post('/players', (req,res) => {
     // console.log(req)
-    console.log(User.all)
-    console.log(req.body)
-    const data = (req.body);
-    console.log(data)
-    const fakeData = {
-        "id": 3,
-        "name": "James",
-        "picture": "none",
-        "posts": 30
-    }
-    const newUser = User.create(data);
-    console.log(User.all)
+    const data = req.body
+    const newPost = new Post(data)
     res.send({
-        message: `${newUser.name} added to collection`
+        message: `${newPost.text} added to collection`
     })
 })
 

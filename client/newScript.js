@@ -32,7 +32,7 @@ function addQuack(e) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            text: `${postText}`
+            "text": `${postText}`
         })
     })
     generateCard();
