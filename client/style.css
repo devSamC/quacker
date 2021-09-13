@@ -122,8 +122,52 @@ input {
 }
 .bottom-quack {
     display: flex;
-    justify-content: flex-end;
-    margin-right: 5px 
+    justify-content: space-between;
+    margin-right: 5px;
+    align-items: baseline;
+}
+
+.add-image {
+  font-size: 25px;
+  
+}
+
+.add-image:hover {
+  color: #60a74a;
+  cursor: pointer;
+}
+
+.gif {
+  font-weight: 800;
+  
+}
+
+.gif:hover {
+  cursor: pointer;
+  
+}
+.redg {
+  color: red;
+}
+.redg:hover {
+  color: rgb(0, 255, 221);
+  cursor:pointer;
+}
+.yellowi {
+  color: greenyellow
+}
+.yellowi:hover {
+  color: rgb(248, 165, 55);
+  cursor:pointer;
+}
+
+
+.bluef {
+  color:lightskyblue;
+}
+.bluef:hover {
+  color:rgb(233, 87, 208);
+  cursor:pointer;
 }
 #quack-btn {
     border-radius: 30px;
