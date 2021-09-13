@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const importData = require('./data.js');
-const User = require(`./models/users`)
 const Post = require('./models/posts');
 const cors = require('cors')
 const bodyParser = require('body-parser')
@@ -17,11 +16,11 @@ app.get('/',(req,res) => {
     })
 })
 
-app.get('/players',(req,res) => {
+app.get('/posts',(req,res) => {
     res.send(importData)
 })
 
-app.post('/players', (req,res) => {
+app.post('/posts', (req,res) => {
     // console.log(req)
     const data = req.body
     console.log(data)
