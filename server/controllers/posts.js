@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const importData = require('./data.js')
+const postsData = require('./data.js')
 
 router.get('/', (req,res) => {
   res.send('hello world')
 })
 
 router.get('/posts', (req,res) => {
-  res.send(importData)
+  res.send(postsData)
 })
 
 router.post('/posts', (req,res) => {
@@ -18,3 +18,4 @@ router.post('/posts', (req,res) => {
   })
 })
 
+module.exports = router;
