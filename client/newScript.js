@@ -10,10 +10,14 @@ async function generateCard() {
     postBox.innerHTML = ""
     for (let i = 0; i < postsData.length; i++) {
         const newPost = document.createElement('div');
+        const newPostBody = document.createElement('div');
         const newPostText = document.createElement('p')
-        newPost.appendChild(newPostText)
+        newPost.appendChild(newPostBody)
+        newPostBody.appendChild(newPostText)
         newPost.classList.add('card');
+        newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
+        newPostText.classList.add('card-text');
         newPostText.textContent = postsData[i].text;
     }
 }
