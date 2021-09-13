@@ -184,6 +184,10 @@ input {
     background-color: #6bbd52;
 }
 
+.img-input {
+  width: 100%;
+}
+
 .search {
     border: 1px solid lightgray;
     width: 230px;
