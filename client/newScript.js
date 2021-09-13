@@ -39,7 +39,7 @@ function addQuack(e) {
             "comments": "",
             "date": ""
         })
-    })
-    generateCard();
+    }).then(response => {generateCard()})
+    
 }
 generateCard()
