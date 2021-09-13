@@ -25,12 +25,12 @@ const posts = [{
     "date": ""
 }]
 
-constructor(data) {
-    this.id = data.id
-    this.text = data.text
-    this.picture = data.picture
-    this.reactions = data.reactions
-    this.comments = data.comments
-    this.date = data.date
-  }
+// constructor(data) {
+//     this.id = data.id
+//     this.text = data.text
+//     this.picture = data.picture
+//     this.reactions = data.reactions
+//     this.comments = data.comments
+//     this.date = data.date
+//   }
 module.exports = posts;
