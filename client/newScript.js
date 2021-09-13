@@ -27,7 +27,7 @@ function addImage() {
 
 
 async function generateCard() {
-    const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/players')
+    const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/posts')
     console.log(posts)
     const postsData = await posts.json()
     console.log(postsData)
@@ -66,7 +66,7 @@ function addQuack(e) {
     imageInputForm.classList.toggle('hidden');
     quackBox.value = ""
     //insightful comment
-    const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/players', {
+    const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/posts', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
