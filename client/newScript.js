@@ -39,7 +39,8 @@ async function generateCard() {
     console.log(postsData)
     const postBox = document.getElementById('quack-test-holder');
     postBox.innerHTML = ""
-    for (let i = 0; i < postsData.length; i++) {
+    for (let i = postsData.length-1; i >= 0; i--) {
+        //iterate backwards through array to give posts in chronological order
         const newPost = document.createElement('div');
         const newPostBody = document.createElement('div');
         const newPostImage = document.createElement('img');
