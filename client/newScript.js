@@ -88,7 +88,7 @@ function addQuack(e) {
             "picture": `${newImage}`,
             "reactions": "",
             "comments": "",
-            "date": ""
+            // "date": ""
         })
     }).then(response => {
         generateCard()

@@ -1,4 +1,5 @@
 const postsData = require(`../data.js`)
+const dayjs = require('dayjs')
 
 class Post {
   constructor(data) {
@@ -24,8 +25,10 @@ class Post {
     }
   }
   static create(post) {
+    const currentTime = dayjs().toString();
     const newPost = new Post({
       id: postsData.length + 1,
+      date: currentTime,
       ...post
     })
     postsData.push(newPost);
