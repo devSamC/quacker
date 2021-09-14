@@ -12,6 +12,10 @@ router.get('/posts', (req, res) => {
   res.send(postsData)
 })
 
+router.get('/posts/:id/comments',(req,res)=> {
+  res.send(postsData[i].comments)
+})
+
 router.post('/posts', (req, res) => {
   const data = req.body
   const newPost = Post.create(data)
@@ -19,6 +23,12 @@ router.post('/posts', (req, res) => {
   res.send({
     message: `${newPost.text} added`
   })
+})
+
+router.patch("/posts/:id/comments", (req,res) => {
+  const postToPatch = Post.findById(req.params.id);
+  postToPatch.addComment(req.body);
+  res.sendStatus(204);
 })
 
 module.exports = router;
