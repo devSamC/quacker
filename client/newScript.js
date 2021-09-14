@@ -190,7 +190,7 @@ function addReactionCount(postId, reactionId, currentReactionCount) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "count": currentReactionCount + 1
+            "count": currentReactionCount
         })
     }).then(response => createPage())
 }

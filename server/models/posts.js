@@ -41,7 +41,7 @@ class Post {
   }
 
   addReaction(reactionData, id, reactionId) {
-    const reactionCount = reactionData.count
+    const reactionCount = parseInt(reactionData.count)
     const currentPost = postsData[id-1];
     console.log(currentPost)
     currentPost.reactions[reactionId-1].count = reactionCount+1;
