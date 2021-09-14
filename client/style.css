@@ -13,11 +13,19 @@
  /* dark mode colours */
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
 
 body {
     font-family: 'Lato', sans-serif;
 }
-
 
 .navBar {
     display: flex;
@@ -34,18 +42,17 @@ body {
 
 
 .logo {
-    width: 60px;
+    width: 6rem;
     display: flex;
-   justify-content: flex-end;
-   position: fixed;
-   margin-top: 10px ;
-
-
+    justify-content: flex-end;
+    position: fixed;
+    margin-top: 1rem ;
 }
+
 .left-footer {
     position: fixed;
     bottom: 0;
-    left: 15px;
+    left: 1.5rem;
 }
 
 .top-right {
@@ -53,36 +60,36 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-   
 }
 
 .search {
     position: fixed;
-    margin-top: 10px ;
+    margin-top: 1rem ;
 }
 
 .sort {
     position: fixed;
-    top:70px
+    top: 7rem;
 }
+
 .trending {
     position: fixed;
-    top: 120px
+    top: 12rem;
 }
 
 .quacker {
     font-family: 'Lato', sans-serif;
-    font-size: 30px;
+    font-size: 3rem;
     display: flex;
     justify-self: flex-start;
-    margin-left: 20px;
-    margin-top: 10px;
+    margin-left: 2rem;
+    margin-top: 1rem;
 }
 
 #quack-test-holder {
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .quack-box {
@@ -90,11 +97,10 @@ body {
     display: flex;
     flex-direction: row;
     width: 100%;
-    margin-top: 40px;
+    margin-top: 4rem;
 }
 
 .rightbox {
-    
     width:187%;
 }
 
@@ -107,12 +113,11 @@ input {
 }
 */
 
-
 #quack-input { 
     border-width: 0px;
-    padding-bottom: 10px;
+    padding-bottom: 1rem;
     width: 100%;
-    height: 60px;
+    height: 6rem;
 
 }
 #quack-input:hover {
@@ -125,65 +130,67 @@ input {
 .bottom-quack {
     display: flex;
     justify-content: space-between;
-    margin-right: 5px;
+    margin-right: 0.5rem;
     align-items: baseline;
 }
 
 #add-image {
-  font-size: 25px;
-  
+    font-size: 2.5rem;  
 }
 
 #add-image:hover {
-  color: #60a74a;
-  cursor: pointer;
+    color: #60a74a;
+    cursor: pointer;
 }
 
 .gif {
-  font-weight: 800;
-  
+    font-weight: 800;
 }
 
 .gif:hover {
-  cursor: pointer;
-  
+    cursor: pointer; 
 }
+
 .redg {
-  color: red;
+    color: red;
 }
+
 .redg:hover {
-  color: rgb(0, 255, 221);
-  cursor:pointer;
+    color: rgb(0, 255, 221);
+    cursor:pointer;
 }
+
 .yellowi {
-  color: greenyellow
+    color: greenyellow
 }
+
 .yellowi:hover {
-  color: rgb(248, 165, 55);
-  cursor:pointer;
+    color: rgb(248, 165, 55);
+    cursor:pointer;
 }
 
 .img-input {
     width: 100%;
-  }
+}
   
 
 .bluef {
-  color:lightskyblue;
+    color:lightskyblue;
 }
 .bluef:hover {
-  color:rgb(233, 87, 208);
-  cursor:pointer;
+    color:rgb(233, 87, 208);
+    cursor:pointer;
 }
 #quack-btn {
-    border-radius: 30px;
+    border-radius: 3rem;
     border-width: 0px;
-    width: 100px;
+    width: 10rem;
     background-color: #60a74a;
     color: white;
     font-weight: 800;
-    margin-top: 5px;
+    margin-top: 0.5rem;
 }
+
 #quack-btn:hover {
     background-color: #6bbd52;
 }
@@ -198,18 +205,19 @@ input {
 }
 
 .card-footer p {
-    margin-top: 10px;
-    font-size: 0.7rem;
+    margin-top: 1rem;
+    font-size: 0.5rem;
     margin-bottom: -5px;
 }
 
-#timeStamp {
-    font-size: 8px;
+.timeStamp {
+    font-size: 0.8rem;
 }
+
 .quack-reactions .card-icons {
-    margin-top: 5px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .quack-reactions .card-icons:hover {
@@ -219,12 +227,12 @@ input {
 
 .search {
     border: 1px solid lightgray;
-    width: 230px;
-    height: 40px;
-    border-radius: 30px;
+    width: 23rem;
+    height: 4rem;
+    border-radius: 3rem;
     display: flex;
     align-items: center;
-    padding-left: 15px;
+    padding-left: 1.5rem;
 }
 
 #search-input {
@@ -232,21 +240,21 @@ input {
 }
 #search-input:focus {
     outline: none;
-    margin-left: 3px;
+    margin-left: 0.3rem;
 }
 .mobile-logo {
     display: none;
 }
 .mobile-btns {
     display: none;
-    font-size: 30px;
+    font-size: 3rem;
     color:black;
-    margin-top: 8px;
+    margin-top: 0.8rem;
 }
 
 .card {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .hidden {
@@ -254,7 +262,7 @@ input {
 }
 
 .quack-holder {
-    margin-bottom: 40px;
+    margin-bottom: 4rem;
 }
 
 
