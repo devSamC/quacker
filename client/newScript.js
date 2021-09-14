@@ -1,5 +1,7 @@
 const submitButton = document.getElementById('quack-btn');
 const imageButton = document.getElementById('add-image')
+
+
 imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
 
@@ -66,10 +68,12 @@ async function generateCard() {
         const cardCommentIcon = document.createElement('i')
         cardCommentIcon.classList.add('far', 'fa-comments', 'card-icons')
         newPostReactionsEtc.appendChild(cardCommentIcon)
+        cardCommentIcon.setAttribute('id-tag', `${postsData[i].id}`)
         //reaction
         const cardReactionIcon = document.createElement('i')
         cardReactionIcon.classList.add('far', 'fa-heart', 'card-icons')
         newPostReactionsEtc.appendChild(cardReactionIcon)
+        cardReactionIcon.setAttribute('id-tag', `${postsData[i].id}`)
         //timestamp
         const timeStamp = document.createElement('p')
         timeStamp.textContent = postsData[i].date;
@@ -83,16 +87,20 @@ async function generateCard() {
         const commentBox = document.createElement('input');
         commentBox.setAttribute('type', 'text');
         commentBox.setAttribute('placeholder', 'write a comment')
-        commentBox.setAttribute('id',`comment-box-${postsData[i].id}`)
+        commentBox.setAttribute('id', `comment-box-${postsData[i].id}`)
+        commentBox.classList.add('comment-input','hidden')
         cardFooter.appendChild(commentBox)
-        
+
         //submit comment button
         const submitComment = document.createElement('input')
         submitComment.setAttribute('type', 'submit')
         submitComment.setAttribute('value', 'Submit comment')
-        submitComment.classList.add('comment-button')
+        submitComment.setAttribute('id', `comment-button-${postsData[i].id}`)
+        submitComment.classList.add('comment-button', 'hidden')
         cardFooter.appendChild(submitComment)
-        submitComment.setAttribute('id-tag',`${postsData[i].id}`)
+        submitComment.setAttribute('id-tag', `${postsData[i].id}`)
+        //
+
         //iterate through comments array and add each one to footer
         if (postsData[i].comments.length !== 0) {
             for (let j = 0; j < postsData[i].comments.length; j++) {
@@ -131,8 +139,8 @@ function addComment(postId) {
         body: JSON.stringify({
             "text": `${commentText}`
         })
-    }).then(response => generateCard())
-    
+    }).then(response => createPage())
+
 }
 
 
@@ -171,27 +179,61 @@ function addQuack(e) {
 
         })
     }).then(response => {
-        generateCard()
+        createPage()
     })
 
 }
-generateCard()
 
-const commentButtonsHTML = document.getElementsByClassName('comment-button')
-console.log(commentButtonsHTML)
-setTimeout(()=> {
-    const commentButtons = Array.from(commentButtonsHTML)
-    console.log(commentButtons)
-    for (let i = 0; i < commentButtons.length; i++) {
-        console.log('hello')
-        commentButtons[i].addEventListener('click', function (e) {
-            const postId = this.getAttribute("id-tag");
-            addComment(postId);
-    
-        })
-        console.log(`added event listener to ${commentButtons[i]}`)
-    }
-}, 1000)
+function createPage() {
+    generateCard()
+    makeCommentsWork()
+    makeCommentIconsWork()
+}
+createPage()
+
+
+function makeCommentsWork() {
+    const commentButtonsHTML = document.getElementsByClassName('comment-button')
+    console.log(commentButtonsHTML)
+    setTimeout(() => {
+        const commentButtons = Array.from(commentButtonsHTML)
+        console.log(commentButtons)
+        for (let i = 0; i < commentButtons.length; i++) {
+            console.log('hello')
+            commentButtons[i].addEventListener('click', function (e) {
+                const postId = this.getAttribute("id-tag");
+                addComment(postId);
+
+            })
+            console.log(`added event listener to ${commentButtons[i]}`)
+        }
+    }, 1000)
+}
+
+function toggleHidden(id) {
+    const postId = id
+    const hiddenBox = document.getElementById(`comment-box-${id}`)
+    const hiddenButton = document.getElementById(`comment-button-${id}`)
+    hiddenButton.classList.toggle('hidden')
+    hiddenBox.classList.toggle('hidden');
+}  
+
+function makeCommentIconsWork() {
+    const cardIcons = document.getElementsByClassName('fa-comments')
+    setTimeout(() => {
+        const cardIconsArray = Array.from(cardIcons)
+        for (let i = 0; i < cardIconsArray.length; i++) {
+            cardIconsArray[i].addEventListener('click', function(e) {
+                const postId = this.getAttribute('id-tag')
+                toggleHidden(postId)
+            })
+
+        }
+    },1000)
+}
+
+
+
 
 // for (let i = 0; i < commentButtonsArray.length; i++)
 // console.log(commentButtonsArray)
