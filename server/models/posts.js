@@ -19,7 +19,9 @@ class Post {
     try {
       console.log(id)
       const postsData = postsData.filter((post) => post.id === id);
+      console.log(postsData)
       const post = new Post(postsData);
+      console.log(post)
       return post
     } catch (error) {
       throw new Error('no such post with id')
