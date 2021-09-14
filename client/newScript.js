@@ -115,6 +115,8 @@ async function generateCard() {
 
 function addComment(postId) {
     const commentBox = document.getElementsByClassName(`comment-box-${postId}`);
+    console.log('current comment box is')
+    console.log(commentBox)
     const commentText = commentBox.value;
     //somehow get current id
     const id = postId
@@ -125,7 +127,7 @@ function addComment(postId) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            text: commentText
+            text: `${commentText}`
         })
     })
     generateCard()
