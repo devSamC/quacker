@@ -82,7 +82,8 @@ function addQuack(e) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            // "id": ``,
+            //because we are using object destructuring in the router, we can send only the parameters we want
+            //to be overwritten w.r.t default
             "text": `${postText}`,
             "picture": `${newImage}`,
             "reactions": "",
