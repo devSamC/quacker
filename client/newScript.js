@@ -69,12 +69,11 @@ function addQuack(e) {
     const imageInputForm = document.getElementById('img-input')
     const newImage = imageInputForm.value
     imageInputForm.value = ""
-    imageInputForm.classList.toggle('hidden');
+    //check if hidden class exists before toggling
+    if (!imageInputForm.classList.contains('hidden')) {
+        imageInputForm.classList.toggle('hidden');
+    }
     quackBox.value = ""
-    //insightful comment
-    //need to be able to see the number of all posts to give the post the correct id
-    //but surely this should be handled on the server side?
-    //will keep this here for now
     const allPosts = getAllPosts()
     const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/posts', {
         method: 'POST',
@@ -88,7 +87,7 @@ function addQuack(e) {
             "picture": `${newImage}`,
             "reactions": "",
             "comments": "",
-            // "date": ""
+            
         })
     }).then(response => {
         generateCard()
