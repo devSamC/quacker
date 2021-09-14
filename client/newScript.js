@@ -76,7 +76,7 @@ async function generateCard() {
         newPostTitle.classList.add('card-title','custom-card-title')
         //add current reactions below the main text
         //we will add a button for each reaction choice, hopefully styled as a pill or something
-        for (let k= 0; i < reactionChoices.length ; k++) {
+        for (let k= 0; k < reactionChoices.length ; k++) {
             const reactionButton = document.createElement('button')
             const currentReactionCount = postsData[i]
             reactionButton.classList.add('btn','btn-outline-dark','btn-sm')
