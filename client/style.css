@@ -251,6 +251,9 @@ input {
 .hidden {
     visibility: hidden;
 }
+.quack-holder {
+    margin-bottom: 25px;
+}
 
 
 
