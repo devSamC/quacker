@@ -17,7 +17,11 @@ const postsData = [{
     "text": "my third quack. wow i love coding",
     "picture": "",
     "reactions": "",
-    "comments": "",
+    "comments": [{
+        id: 1,
+        text: "me too!",
+        reactions: ""
+    }],
     "date": "Tue, 14 Sep 2021 09:45:55 GMT"
 }]
 

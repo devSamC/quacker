@@ -60,10 +60,7 @@ async function generateCard() {
         const cardFooter = document.createElement('div')
         cardFooter.classList.add('card-footer', 'text-muted')
         newPost.appendChild(cardFooter)
-        //timestamp
-        const timeStamp = document.createElement('p')
-        timeStamp.textContent = postsData[i].date;
-        cardFooter.appendChild(timeStamp)
+        
         //comment and reaction icons
         //comment
         const cardCommentIcon = document.createElement('i')
@@ -73,6 +70,10 @@ async function generateCard() {
         const cardReactionIcon = document.createElement('i')
         cardReactionIcon.classList.add('far', 'fa-heart', 'card-icons')
         cardFooter.appendChild(cardReactionIcon)
+        //timestamp
+        const timeStamp = document.createElement('p')
+        timeStamp.textContent = postsData[i].date;
+        cardFooter.appendChild(timeStamp)
 
 
     }

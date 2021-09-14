@@ -188,6 +188,27 @@ input {
     background-color: #6bbd52;
 }
 
+.card-footer{
+    /* display: flex; */
+    /* justify-content: space-evenly; */
+}
+
+.card-footer p {
+    margin-top: 10px;
+    font-size: 0.7rem;
+    margin-bottom: -5px;
+}
+.card-footer .card-icons {
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.card-footer .card-icons:hover {
+    color: #60a74a;
+    cursor: pointer;
+}
+
 .search {
     border: 1px solid lightgray;
     width: 230px;
