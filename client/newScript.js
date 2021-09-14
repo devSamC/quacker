@@ -131,8 +131,8 @@ function addComment(postId) {
         body: JSON.stringify({
             "text": `${commentText}`
         })
-    })
-    generateCard()
+    }).then(response => generateCard())
+    
 }
 
 
