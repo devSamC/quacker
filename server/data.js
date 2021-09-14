@@ -3,14 +3,14 @@ const postsData = [{
     "text": "my first quack. wow i love coding",
     "picture": "",
     "reactions": "",
-    "comments": "[]",
+    "comments": [],
     "date": "Sun, 12 Sep 2021 09:45:55 GMT"
 }, {
     "id": 2,
     "text": "my second quack. wow i love coding",
     "picture": "",
     "reactions": "",
-    "comments": "[]",
+    "comments": [],
     "date": "Mon, 13 Sep 2021 09:45:55 GMT"
 }, {
     "id": 3,
