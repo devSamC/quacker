@@ -17,12 +17,14 @@ class Post {
 
   static findById(id) {
     try {
-      console.log(id)
-      const postsData = postsData.filter((post) => post.id === id);
-      console.log(postsData)
-      const post = new Post(postsData);
-      console.log(post)
-      return post
+      // console.log(id)
+      // console.log(postsData)
+      // console.log(postsData)
+      // const postsData = postsData.filter((post) => post.id === id);
+      // console.log(postsData)
+      // const post = new Post(postsData);
+      // console.log(post)
+      return postsData[id-1]
     } catch (error) {
       throw new Error('no such post with id')
     }
