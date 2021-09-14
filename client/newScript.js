@@ -83,6 +83,10 @@ async function generateCard() {
         const cardFooter = document.createElement('div')
         cardFooter.classList.add('card-footer', 'text-muted')
         newPost.appendChild(cardFooter)
+        //comments section title
+        const commentsTitle = document.createElement('h4')
+        commentsTitle.textContent = "Comments"
+        cardFooter.appendChild(commentsTitle)
         //add comment box
         const commentBox = document.createElement('input');
         commentBox.setAttribute('type', 'text');
@@ -99,7 +103,8 @@ async function generateCard() {
         submitComment.classList.add('comment-button', 'hidden')
         cardFooter.appendChild(submitComment)
         submitComment.setAttribute('id-tag', `${postsData[i].id}`)
-        //
+        
+
 
         //iterate through comments array and add each one to footer
         if (postsData[i].comments.length !== 0) {
@@ -114,6 +119,10 @@ async function generateCard() {
                 commentCardBody.appendChild(commentText);
                 cardFooter.appendChild(commentCard);
             }
+        } else {
+            const noCommentText = document.createElement('p')
+            noCommentText.textContent = "no comments :( be the first?"
+            cardFooter.appendChild(noCommentText)
         }
 
 
@@ -128,6 +137,10 @@ function addComment(postId) {
     const commentText = commentBox.value;
     console.log('current box text is')
     console.log(commentText)
+    if (commentText === "") {
+        commentBox.setAttribute("placeholder", "write something!")
+        return console.log('empty string detected');
+    }
     //somehow get current id
     const id = postId
     //send patch request to post id with new comment
