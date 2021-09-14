@@ -225,7 +225,7 @@ function addQuack(e) {
             //to be overwritten w.r.t default
             "text": `${postText}`,
             "picture": `${newImage}`,
-            "reactions": "",
+            "reactions": [{id: 1, count: 0},{id: 2, count: 0},{id: 3, count: 0}],
             "comments": [],
 
         })
