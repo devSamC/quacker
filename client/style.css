@@ -197,9 +197,11 @@ input {
     border-radius: 3rem;
     border-width: 0px;
     width: 10rem;
+    height: 3rem;
     background-color: #60a74a;
     color: white;
-    font-weight: 800;
+    font-weight: 700;
+    font-size: 15px;
     margin-top: 0.5rem;
 }
 
