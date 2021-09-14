@@ -114,7 +114,7 @@ async function generateCard() {
 }
 
 function addComment(postId) {
-    const commentBox = document.getElementsByClassName(`comment-box-${postId}`);
+    const commentBox = document.getElementById(`comment-box-${postId}`);
     console.log('current comment box is')
     console.log(commentBox)
     const commentText = commentBox.value;
