@@ -128,9 +128,9 @@ function addComment(postId) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: {
-            text: `${commentText}`
-        }
+        body: JSON.stringify({
+            "text": `${commentText}`
+        })
     })
     generateCard()
 }
