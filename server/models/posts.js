@@ -46,20 +46,14 @@ class Post {
   }
 
   addComment(commentData, id) {
-    console.log('logging comment data')
-    console.log(commentData)
     const commentText = commentData.text
-    console.log(commentText)
     // //get current post
     // const post = findById(id);
     //get current id then create new comment with id
     // const post = currentPost
     const currentPost = postsData[id-1];
-    console.log(postsData)
-    console.log(postsData[id])
-    console.log(postsData[id-1])
     console.log(currentPost)
-    currentCommentId = currentPost.comments.length
+    const currentCommentId = currentPost.comments.length
     currentPost.comments.push({id: currentCommentId + 1, text: commentText, reactions: ""})
   }
 
