@@ -13,7 +13,7 @@ router.get('/posts', (req, res) => {
 })
 
 router.get('/posts/:id/comments',(req,res)=> {
-  res.send(postsData[req.params.id].comments)
+  res.send(postsData[req.params.id-1].comments)
 })
 
 router.post('/posts', (req, res) => {
