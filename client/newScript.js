@@ -271,6 +271,7 @@ function addQuack(e) {
         return console.log('empty string detected');
     }
     const gifInputForm = document.getElementById('search')
+    const gifForm = document.getElementById('gifForm')
     const imageInputForm = document.getElementById('img-input')
     //check if gif input form has anything - if so use that for image
     const newGif = gifInputForm.value;
@@ -281,6 +282,10 @@ function addQuack(e) {
     //check if hidden class exists before toggling
     if (!imageInputForm.classList.contains('hidden')) {
         imageInputForm.classList.toggle('hidden');
+
+    }
+    if (!gifForm.classList.contains('hidden')) {
+        gifForm.classList.toggle('hidden')
     }
     quackBox.value = ""
     const allPosts = getAllPosts()
