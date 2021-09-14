@@ -66,11 +66,11 @@ async function generateCard() {
         //comment and reaction icons
         //comment
         const cardCommentIcon = document.createElement('i')
-        cardCommentIcon.classList.add('far', 'fa-comments')
+        cardCommentIcon.classList.add('far', 'fa-comments', 'card-icons')
         cardFooter.appendChild(cardCommentIcon)
         //reaction
         const cardReactionIcon = document.createElement('i')
-        cardReactionIcon.classList.add('far', 'fa-heart')
+        cardReactionIcon.classList.add('far', 'fa-heart', 'card-icons')
         cardFooter.appendChild(cardReactionIcon)
 
 

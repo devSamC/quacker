@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const postsData = require('../data.js')
 const Post = require('../models/posts')
-const dayjs = require('dayjs')
+
 
 router.get('/', (req, res) => {
   res.send('hello world')

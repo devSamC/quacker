@@ -138,7 +138,16 @@ input {
 
 }
 
-#add-image:hover {
+#add-image:hover{
+    color: #60a74a;
+    cursor: pointer;
+}
+
+.card-footer .card-icons {
+    margin-top: 5px;
+}
+
+.card-footer .card-icons:hover {
     color: #60a74a;
     cursor: pointer;
 }
