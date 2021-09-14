@@ -46,15 +46,19 @@ async function generateCard() {
     for (let i = postsData.length - 1; i >= 0; i--) {
         //iterate backwards through array to give posts in chronological order
         const newPost = document.createElement('div');
+        const newPostTitle = document.createElement('h2');
         const newPostBody = document.createElement('div');
         const newPostImage = document.createElement('img');
         const newPostText = document.createElement('p')
         const newPostReactionsEtc = document.createElement('div')
+        //give div the right children
         newPost.appendChild(newPostImage)
         newPost.appendChild(newPostBody)
+        newPostBody.appendChild(newPostTitle)
         newPostBody.appendChild(newPostText)
         newPostBody.appendChild(newPostReactionsEtc)
-        newPost.classList.add(`card`);
+        //make it a card
+        newPost.classList.add(`card`);  
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text');
@@ -62,6 +66,9 @@ async function generateCard() {
         newPostReactionsEtc.classList.add('text-muted', 'quack-reactions')
         newPostText.textContent = postsData[i].text;
         newPostImage.setAttribute("src", `${postsData[i].picture}`)
+        //set the title
+        newPostTitle.textContent = `Quack id${postsData[i].id}`
+        newPostTitle.classList.add('card-title','custom-card-title')
 
         //comment and reaction icons
         //comment
