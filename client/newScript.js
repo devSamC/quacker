@@ -1,6 +1,31 @@
 const submitButton = document.getElementById('quack-btn');
+const imageButton = document.getElementById('add-image')
+imageButton.addEventListener('click', e=> addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
 // const axios = require('axios')
+
+
+function addImage() {
+    console.log('clicked image button')
+    const imageInputForm = document.getElementById('img-input')
+    imageInputForm.classList.toggle('hidden')
+    // const topQuack = document.getElementById('top-quack')
+    // const imageInputDiv = document.createElement('div');
+    // const imageInputForm = document.createElement('input')
+    // imageInputForm.setAttribute("type","text")
+    // imageInputForm.setAttribute("placeholder","enter image url")
+    // topQuack.appendChild(imageInputDiv);
+    // imageInputDiv.appendChild(imageInputForm);
+    //redundant code above
+
+    //good code below
+
+    const newImage = imageInputForm.value
+    
+}
+
+
+
 async function generateCard() {
     const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/players')
     console.log(posts)
@@ -11,14 +36,19 @@ async function generateCard() {
     for (let i = 0; i < postsData.length; i++) {
         const newPost = document.createElement('div');
         const newPostBody = document.createElement('div');
+        const newPostImage = document.createElement('img');
         const newPostText = document.createElement('p')
+        newPost.appendChild(newPostImage)
         newPost.appendChild(newPostBody)
         newPostBody.appendChild(newPostText)
+        
         newPost.classList.add('card');
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text');
+        newPostImage.classList.add('card-img-top')
         newPostText.textContent = postsData[i].text;
+        newPostImage.setAttribute("src",`${postsData[i].picture}`)
     }
 }
 
@@ -30,6 +60,12 @@ function addQuack(e) {
     //first just console log the data that we get
     const quackBox = document.getElementById('quack-input');
     const postText = quackBox.value
+    const imageInputForm = document.getElementById('img-input')
+    const newImage = imageInputForm.value
+    imageInputForm.value = ""
+    imageInputForm.classList.toggle('hidden');
+    quackBox.value = ""
+    //insightful comment
     const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/players', {
         method: 'POST',
         headers: {
@@ -38,7 +74,7 @@ function addQuack(e) {
         body: JSON.stringify({
             "id": 4,
             "text": `${postText}`,
-            "picture": "",
+            "picture": `${newImage}`,
             "reactions": "",
             "comments": "",
             "date": ""
