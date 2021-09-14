@@ -100,7 +100,7 @@ async function generateCard() {
         const timeStamp = document.createElement('p')
         timeStamp.textContent = postsData[i].date;
         newPostReactionsEtc.appendChild(timeStamp)
-        timeStamp.id = 'timeStamp'
+        timeStamp.classList.add('timeStamp')
 
         //card footer
         const cardFooter = document.createElement('div')
