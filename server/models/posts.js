@@ -45,14 +45,15 @@ class Post {
     post.reactions
   }
 
-  addComment(commentData) {
+  addComment(commentData, id) {
     const commentText = commentData.text
     // //get current post
     // const post = findById(id);
     //get current id then create new comment with id
     // const post = currentPost
-    currentCommentId = this.comments.length
-    this.comments.push({id: currentCommentId + 1, text: commentText, reactions: ""})
+    const currentPost = postsData[id-1];
+    currentCommentId = currentPost.comments.length
+    currentPost.comments.push({id: currentCommentId + 1, text: commentText, reactions: ""})
   }
 
   deletePost(id) {
