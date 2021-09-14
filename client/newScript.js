@@ -1,5 +1,14 @@
 const submitButton = document.getElementById('quack-btn');
 const imageButton = document.getElementById('add-image')
+// const giphyURL = require('./giphy.js')
+
+// console.log('now logging giphy url')
+// console.log(giphyURL)
+
+// const giphyURL = giphy.init()
+
+
+
 
 
 imageButton.addEventListener('click', e => addImage(e))
@@ -61,6 +70,7 @@ async function generateCard() {
         newPostBody.appendChild(newPostTitle)
         newPostBody.appendChild(newPostText)
         newPostBody.appendChild(reactionsHolder)
+        reactionsHolder.classList.add('reactions-div')
         newPostBody.appendChild(newPostReactionsEtc)
         //make it a card
         newPost.classList.add(`card`);
@@ -195,6 +205,46 @@ function addReactionCount(postId, reactionId, currentReactionCount) {
     }).then(response => createPage())
 }
 
+// giphy api stuff 
+
+let APIKEY = "91J9L3KzBaZxex6NxItZcvPTbFjKvQnn";
+// you will need to get your own API KEY
+// https://developers.giphy.com/dashboard/
+document.addEventListener("DOMContentLoaded", init);
+
+function init() {
+    document.getElementById("btnSearch").addEventListener("click", ev => {
+        ev.preventDefault(); //to stop the page reload
+        let url = `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&limit=10&q=`;
+        let str = document.getElementById("search").value.trim();
+        url = url.concat(str);
+        console.log(url);
+        fetch(url)
+            .then(response => response.json())
+            .then(content => {
+                //  data, pagination, meta
+                console.log(content.data);
+                console.log('sausage')
+                console.log("META", content.meta);
+                console.log(content.data[0].images.downsized_small.url)
+                let fig = document.createElement("figure");
+                let img = document.createElement("img");
+                img.src = content.data[0].images.downsized.url;
+                img.alt = content.data[0].title;
+                document.querySelector("#search").value = content.data[0].images.downsized.url;
+                console.log('img.src is')
+                console.log(img.src)
+                return img.src;
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+}
+
+
+
+
 function addQuack(e) {
     e.preventDefault();
     console.log('clicked')
@@ -206,8 +256,16 @@ function addQuack(e) {
         quackBox.setAttribute("placeholder", "You need to write something!")
         return console.log('empty string detected');
     }
-    const imageInputForm = document.getElementById('search')
-    const newImage = imageInputForm.value
+    const gifInputForm = document.getElementById('search')
+    const imageInputForm = document.getElementById('img-input')
+    //check if gif input form has anything - if so use that for image
+    if (gifInputForm.value) {
+        console.log('found gif')
+        const newImage = gifInputForm.value;
+    } else {
+        const newImage = imageInputForm.value
+    }
+
     imageInputForm.value = ""
     //check if hidden class exists before toggling
     if (!imageInputForm.classList.contains('hidden')) {
@@ -225,7 +283,16 @@ function addQuack(e) {
             //to be overwritten w.r.t default
             "text": `${postText}`,
             "picture": `${newImage}`,
-            "reactions": [{id: 1, count: 0},{id: 2, count: 0},{id: 3, count: 0}],
+            "reactions": [{
+                id: 1,
+                count: 0
+            }, {
+                id: 2,
+                count: 0
+            }, {
+                id: 3,
+                count: 0
+            }],
             "comments": [],
 
         })
@@ -236,10 +303,12 @@ function addQuack(e) {
 }
 
 function createPage() {
+    init()
     generateCard()
     makeCommentsWork()
     makeCommentIconsWork()
     makeReactionsWork()
+
 }
 createPage()
 
