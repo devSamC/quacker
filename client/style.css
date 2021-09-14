@@ -200,6 +200,20 @@ input {
     
 }
 
+.reactions-div {
+    margin-bottom: 30px;
+}
+
+.reaction-button:focus {
+    outline: none;
+    box-shadow: none !important;
+}
+
+.quack-reactions i {
+    
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
 
 .card-footer {
     /* display: flex; */

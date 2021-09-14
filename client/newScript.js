@@ -50,7 +50,29 @@ async function generateCard() {
     const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/posts')
     
     const postsData = await posts.json()
-    
+    const selectionButton = document.getElementById('sortBy');
+    console.log(selectionButton.value)
+    console.log(postsData)
+    if (selectionButton.value === 'Hot') {
+        postsData.sort(function compareFunction(a,b) {
+            //a counter
+            console.log(a)
+            let acount = 0
+            for (let i = 0; i < a.reactions.length; i++) {
+                acount += a.reactions[i].count
+                console.log(`added ${a.reactions[i].count} to acount`)
+            }
+            console.log(acount)
+            let bcount = 0
+            for (let i = 0; i < b.reactions.length; i++) {
+                bcount += b.reactions[i].count
+            }
+            console.log(bcount)
+            console.log(bcount-acount)
+            return acount-bcount;
+        })
+    }
+    console.log(postsData)
     const postBox = document.getElementById('quack-test-holder');
     postBox.innerHTML = ""
     for (let i = postsData.length - 1; i >= 0; i--) {
@@ -93,7 +115,7 @@ async function generateCard() {
         for (let k = 0; k < reactionChoices.length; k++) {
             const reactionButton = document.createElement('button')
             const currentReactionCount = postsData[i].reactions[k].count
-            reactionButton.classList.add('btn', 'btn-outline-dark', 'btn-sm', 'reaction-button')
+            reactionButton.classList.add('btn', 'btn-outline-dark', 'reaction-button')
             
             reactionButton.setAttribute('type', 'button')
             reactionButton.setAttribute('id', `reaction-button-${k}-${postsData[i].id}`)
@@ -340,7 +362,8 @@ function makeReactionsWork() {
                 const currentValue = this.textContent
                 const valueArray = currentValue.split(' ')
                 this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
-                
+                this.classList.remove('btn-outline-dark')
+                this.classList.add('btn-dark')
                 console.log(currentValue)
                 
             }, {once: true})
