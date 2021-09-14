@@ -27,7 +27,7 @@ router.post('/posts', (req, res) => {
 
 router.patch("/posts/:id/comments", (req,res) => {
   const id = req.params.id
-  const commentData = req.params.body
+  const commentData = req.body
   console.log('logging id and comment data')
   console.log(id,commentData)
   const postToPatch = new Post(Post.findById(id));
