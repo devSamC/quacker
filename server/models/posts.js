@@ -24,21 +24,24 @@ class Post {
     }
   }
   static create(post) {
-    const newPost = new Post({ id: postsData.length+1, ...post })
+    const newPost = new Post({
+      id: postsData.length + 1,
+      ...post
+    })
     postsData.push(newPost);
     return newPost;
   }
 
-  addReaction (id, reactionData) {
+  addReaction(id, reactionData) {
     const post = findById(id);
-    post.reactions 
+    post.reactions
   }
 
   addComment(id, commentData) {
     const post = findById(id);
     currentCommentId = post.comments.length
-    post.comments[currentCommentId+1] = commentData
-    
+    post.comments[currentCommentId + 1] = commentData
+
   }
 
   deletePost(id) {

@@ -11,7 +11,7 @@ let port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json())
 app.use(bodyParser.json())
-app.use('/',postsRoutes);
+app.use('/', postsRoutes);
 // app.get('/',(req,res) => {
 //     res.send({
 //         message: `Hello World`

@@ -1,8 +1,14 @@
 const submitButton = document.getElementById('quack-btn');
 const imageButton = document.getElementById('add-image')
-imageButton.addEventListener('click', e=> addImage(e))
+imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
 // const axios = require('axios')
+
+async function getAllPosts() {
+    const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/posts')
+    const postsData = await posts.json()
+    return postsData
+}
 
 
 function addImage() {
@@ -21,7 +27,7 @@ function addImage() {
     //good code below
 
     const newImage = imageInputForm.value
-    
+
 }
 
 
@@ -41,14 +47,14 @@ async function generateCard() {
         newPost.appendChild(newPostImage)
         newPost.appendChild(newPostBody)
         newPostBody.appendChild(newPostText)
-        
+
         newPost.classList.add('card');
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text');
         newPostImage.classList.add('card-img-top')
         newPostText.textContent = postsData[i].text;
-        newPostImage.setAttribute("src",`${postsData[i].picture}`)
+        newPostImage.setAttribute("src", `${postsData[i].picture}`)
     }
 }
 
@@ -57,7 +63,7 @@ function addQuack(e) {
     e.preventDefault();
     console.log('clicked')
     //send post data to server and then retrieve
-    //first just console log the data that we get
+    //first just console log the data that we get 
     const quackBox = document.getElementById('quack-input');
     const postText = quackBox.value
     const imageInputForm = document.getElementById('img-input')
@@ -66,20 +72,26 @@ function addQuack(e) {
     imageInputForm.classList.toggle('hidden');
     quackBox.value = ""
     //insightful comment
+    //need to be able to see the number of all posts to give the post the correct id
+    //but surely this should be handled on the server side?
+    //will keep this here for now
+    const allPosts = getAllPosts()
     const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/posts', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "id": 4,
+            "id": ``,
             "text": `${postText}`,
             "picture": `${newImage}`,
             "reactions": "",
             "comments": "",
             "date": ""
         })
-    }).then(response => {generateCard()})
-    
+    }).then(response => {
+        generateCard()
+    })
+
 }
 generateCard()

@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,700&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/2d1fe27aec.js" crossorigin="anonymous"></script>
-<script src="./newScript.js" defer></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/2d1fe27aec.js" crossorigin="anonymous"></script>
+    <script src="./newScript.js" defer></script>
     <title>Quacker</title>
 </head>
+
 <body>
     <header>
         <nav class="navBar">
             <div class="top-left">
                 <img class="logo" src="./images/logo.png">
-                <p class = "left-footer">Project by Sam, Sansi and Brodie</p>
+                <p class="left-footer">Project by Sam, Sansi and Brodie</p>
             </div>
             <div class="top">
                 <img class="mobile-logo" src="./images/logo.png">
@@ -27,7 +30,7 @@
                     <!-- includes user image  -->
                     <div class="left-box ">
                         <img src="./images/user.png">
-                    </div> 
+                    </div>
                     <!-- includes text input submit button and gif option -->
                     <div class="rightbox">
                         <div class="top-quack" id="top-quack">
@@ -35,54 +38,56 @@
                         </div>
                         <div class=big-bottom>
                             <div class="bottom-quack">
-                              <i class="add-image far fa-image" id="add-image"></i> 
-                              <p class="gif"><span class="redg">g</span><span class="yellowi">i</span><span class="bluef">f</span></p>
-                              
-                              <input id="quack-btn" value="Quack" type="submit">
+                                <i class="add-image far fa-image" id="add-image"></i>
+                                <p class="gif"><span class="redg">g</span><span class="yellowi">i</span><span
+                                        class="bluef">f</span></p>
+
+                                <input id="quack-btn" value="Quack" type="submit">
                             </div>
                             <div class="bottom-bottom">
-                              <input id="img-input" class="img-input hidden" type="text" placeholder="Enter Image Url">
+                                <input id="img-input" class="img-input hidden" type="text"
+                                    placeholder="Enter Image Url">
                             </div>
                         </div>
-                        
-                        
+
+
                     </div>
 
                 </div>
-            <section class ="quack-holder">
-                <div class="quack-test" id ="quack-test-holder"></div> 
-            </section> 
+                <section class="quack-holder">
+                    <div class="quack-test" id="quack-test-holder"></div>
+                </section>
 
-               
-            
+
+
             </div>
-            <div class="top-right"> 
-             <div class ="search">
-                <i class="fas fa-search pe-2"></i>
-                <input id="search-input" type="text" placeholder="Search Quacker"> 
-             </div>
-             <div class="sort">
-                 <label for="sortBy">Sort By</label>
-                 <select name="hotOrNew" id="sortBy">
-                     <option value="Hot">Hot</option>
-                     <option value="New">New</option>
-                 </select>
-             </div>
-             <div class="trending"> Trending 
-                <div class="card p-auto" style="width: 18rem;">
-                    <img src="./images/E_IICk0WUAYdqIP.jpeg" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <p class="card-text">Gravitas - Elon Musk</p>
+            <div class="top-right">
+                <div class="search">
+                    <i class="fas fa-search pe-2"></i>
+                    <input id="search-input" type="text" placeholder="Search Quacker">
+                </div>
+                <div class="sort">
+                    <label for="sortBy">Sort By</label>
+                    <select name="hotOrNew" id="sortBy">
+                        <option value="Hot">Hot</option>
+                        <option value="New">New</option>
+                    </select>
+                </div>
+                <div class="trending"> Trending
+                    <div class="card p-auto" style="width: 18rem;">
+                        <img src="./images/E_IICk0WUAYdqIP.jpeg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <p class="card-text">Gravitas - Elon Musk</p>
+                        </div>
                     </div>
-                  </div>
 
-             </div>
+                </div>
 
 
-        </div>
+            </div>
         </nav>
     </header>
-    <footer> 
+    <footer>
         <section class="mobile-btns">
             <i id="left-icon" class="fas fa-fire"></i>
             <i id="middle-icon" class="fas fa-search"></i>
@@ -92,4 +97,5 @@
         </section>
     </footer>
 </body>
+
 </html>
