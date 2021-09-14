@@ -227,6 +227,28 @@ input {
     cursor: pointer;
 }
 
+.reactions-div {
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+    margin: auto;
+    padding: 1rem;
+}
+
+.reactions-div > button {
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    border: var(--primary-2) solid 0.5px;
+}
+
+.reactions-div > button:hover, 
+.reactions-div > button:active {
+    border: var(--complement-0) solid 0.5px;
+    background-color: var(--primary-0);
+    font-weight: bolder;
+    color: var(--complement-0);
+}
+
 .search {
     border: 1px solid lightgray;
     width: 23rem;
