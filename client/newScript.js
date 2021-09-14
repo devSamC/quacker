@@ -340,9 +340,10 @@ function makeReactionsWork() {
                 const currentValue = this.textContent
                 const valueArray = currentValue.split(' ')
                 this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
+                
                 console.log(currentValue)
                 
-            })
+            }, {once: true})
         }
     }, 1000)
 }
