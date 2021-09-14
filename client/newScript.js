@@ -5,6 +5,7 @@ const imageButton = document.getElementById('add-image')
 imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
 
+const reactionChoices = ['❤','❓','🔝']
 
 // const axios = require('axios')
 
@@ -51,11 +52,15 @@ async function generateCard() {
         const newPostImage = document.createElement('img');
         const newPostText = document.createElement('p')
         const newPostReactionsEtc = document.createElement('div')
+        const currentReactions = document.createElement('div')
+        const reactionsHolder = document.createElement('div')
+
         //give div the right children
         newPost.appendChild(newPostImage)
         newPost.appendChild(newPostBody)
         newPostBody.appendChild(newPostTitle)
         newPostBody.appendChild(newPostText)
+        newPostBody.appendChild(reactionsHolder)
         newPostBody.appendChild(newPostReactionsEtc)
         //make it a card
         newPost.classList.add(`card`);  
@@ -69,7 +74,17 @@ async function generateCard() {
         //set the title
         newPostTitle.textContent = `Quack id${postsData[i].id}`
         newPostTitle.classList.add('card-title','custom-card-title')
-
+        //add current reactions below the main text
+        //we will add a button for each reaction choice, hopefully styled as a pill or something
+        for (let k= 0; i < reactionChoices.length ; k++) {
+            const reactionButton = document.createElement('button')
+            const currentReactionCount = postsData[i]
+            reactionButton.classList.add('btn','btn-outline-dark','btn-sm')
+            console.log(reactionChoices[k])
+            reactionButton.setAttribute('type','button')
+            reactionButton.textContent = `${reactionChoices[k]}`
+            reactionsHolder.append(reactionButton)
+        }
         //comment and reaction icons
         //comment
         const cardCommentIcon = document.createElement('i')
