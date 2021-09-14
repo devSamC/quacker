@@ -17,6 +17,7 @@ class Post {
 
   static findById(id) {
     try {
+      console.log(id)
       const postsData = postsData.filter((post) => post.id === id);
       const post = new Post(postsData);
       return post
@@ -40,11 +41,14 @@ class Post {
     post.reactions
   }
 
-  addComment(id, commentData) {
-    const post = findById(id);
+  addComment(commentData) {
+    const commentText = commentData.text
+    // //get current post
+    // const post = findById(id);
     //get current id then create new comment with id
-    currentCommentId = post.comments.length
-    post.comments.push({id: currentCommentId + 1, text: commentData, reactions: ""})
+    // const post = currentPost
+    currentCommentId = this.comments.length
+    this.comments.push({id: currentCommentId + 1, text: commentText, reactions: ""})
   }
 
   deletePost(id) {
