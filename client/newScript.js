@@ -2,6 +2,8 @@ const submitButton = document.getElementById('quack-btn');
 const imageButton = document.getElementById('add-image')
 imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
+
+
 // const axios = require('axios')
 
 async function getAllPosts() {
@@ -50,7 +52,7 @@ async function generateCard() {
         newPost.appendChild(newPostBody)
         newPostBody.appendChild(newPostText)
         newPostBody.appendChild(newPostReactionsEtc)
-        newPost.classList.add('card');
+        newPost.classList.add(`card`);
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text');
@@ -77,6 +79,20 @@ async function generateCard() {
         const cardFooter = document.createElement('div')
         cardFooter.classList.add('card-footer', 'text-muted')
         newPost.appendChild(cardFooter)
+        //add comment box
+        const commentBox = document.createElement('input');
+        commentBox.setAttribute('type', 'text');
+        commentBox.setAttribute('placeholder', 'write a comment')
+        commentBox.setAttribute('id',`comment-box-${postsData[i].id}`)
+        cardFooter.appendChild(commentBox)
+        
+        //submit comment button
+        const submitComment = document.createElement('input')
+        submitComment.setAttribute('type', 'submit')
+        submitComment.setAttribute('value', 'Submit comment')
+        submitComment.classList.add('comment-button')
+        cardFooter.appendChild(submitComment)
+        submitComment.setAttribute('id-tag',`${postsData[i].id}`)
         //iterate through comments array and add each one to footer
         if (postsData[i].comments.length !== 0) {
             for (let j = 0; j < postsData[i].comments.length; j++) {
@@ -85,7 +101,7 @@ async function generateCard() {
                 const commentCardBody = document.createElement('div');
                 commentCardBody.classList.add('card-body')
                 const commentText = document.createElement('p');
-                commentText.textContent =  postsData[i].comments[j].text
+                commentText.textContent = postsData[i].comments[j].text
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
                 cardFooter.appendChild(commentCard);
@@ -95,6 +111,24 @@ async function generateCard() {
 
 
     }
+}
+
+function addComment(postId) {
+    const commentBox = document.getElementsByClassName(`comment-box-${postId}`);
+    const commentText = commentBox.value;
+    //somehow get current id
+    const id = postId
+    //send patch request to post id with new comment
+    const newComment = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${id}/comments`, {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            text: commentText
+        })
+    })
+    generateCard()
 }
 
 
@@ -138,3 +172,22 @@ function addQuack(e) {
 
 }
 generateCard()
+
+const commentButtonsHTML = document.getElementsByClassName('comment-button')
+console.log(commentButtonsHTML)
+setTimeout(()=> {
+    const commentButtons = Array.from(commentButtonsHTML)
+    console.log(commentButtons)
+    for (let i = 0; i < commentButtons.length; i++) {
+        console.log('hello')
+        commentButtons[i].addEventListener('click', function (e) {
+            const postId = this.getAttribute("id-tag");
+            addComment(postId);
+    
+        })
+        console.log(`added event listener to ${commentButtons[i]}`)
+    }
+}, 1000)
+
+// for (let i = 0; i < commentButtonsArray.length; i++)
+// console.log(commentButtonsArray)
