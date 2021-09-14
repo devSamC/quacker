@@ -146,6 +146,7 @@ input {
 
 .gif {
     font-weight: 800;
+    font-size: 15px;
 }
 
 .gif:hover {
@@ -173,7 +174,17 @@ input {
 .img-input {
     width: 100%;
 }
-  
+
+#gifForm {
+    margin-top: 5px;
+}
+
+#search {
+    width: 97%;
+    margin-left: -1.5px;
+}
+
+
 
 .bluef {
     color:lightskyblue;

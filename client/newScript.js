@@ -44,6 +44,22 @@ function addImage() {
 
 }
 
+function makeGifBtnWork() {
+    setTimeout(()=> {
+        const gifForm = document.getElementById('gifForm')
+        const gifBtn = document.getElementById('gifBtn')
+        gifBtn.addEventListener('click', e => hideGifInput(e)) 
+    }, 1000)
+
+   
+
+
+}
+
+function hideGifInput() {
+   
+    gifForm.classList.toggle('hidden')
+}
 
 
 async function generateCard() {
@@ -304,6 +320,7 @@ function createPage() {
     makeCommentsWork()
     makeCommentIconsWork()
     makeReactionsWork()
+    makeGifBtnWork()
 
 }
 createPage()
@@ -340,9 +357,10 @@ function makeReactionsWork() {
                 const currentValue = this.textContent
                 const valueArray = currentValue.split(' ')
                 this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
+                
                 console.log(currentValue)
                 
-            })
+            }, {once: true})
         }
     }, 1000)
 }
