@@ -26,7 +26,7 @@ router.post('/posts', (req, res) => {
 })
 
 router.patch("/posts/:id/comments", (req,res) => {
-  const postToPatch = Post.findById(req.params.id);
+  const postToPatch = new Post(Post.findById(req.params.id));
   postToPatch.addComment(req.body);
   res.sendStatus(204);
 })
