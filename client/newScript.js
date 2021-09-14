@@ -59,6 +59,7 @@ async function generateCard() {
         const newPostTitle = document.createElement('h2');
         const newPostBody = document.createElement('div');
         const newPostImage = document.createElement('img');
+        const newPostGif = document.createElement('img')
         const newPostText = document.createElement('p')
         const newPostReactionsEtc = document.createElement('div')
         const currentReactions = document.createElement('div')
@@ -66,6 +67,7 @@ async function generateCard() {
 
         //give div the right children
         newPost.appendChild(newPostImage)
+        newPost.appendChild(newPostGif)
         newPost.appendChild(newPostBody)
         newPostBody.appendChild(newPostTitle)
         newPostBody.appendChild(newPostText)
@@ -78,9 +80,11 @@ async function generateCard() {
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text');
         newPostImage.classList.add('card-img-top')
+        newPostGif.classList.add('card-img-top')
         newPostReactionsEtc.classList.add('text-muted', 'quack-reactions')
         newPostText.textContent = postsData[i].text;
         newPostImage.setAttribute("src", `${postsData[i].picture}`)
+        newPostGif.setAttribute("src", `${postsData[i].gif}`)
         //set the title
         newPostTitle.textContent = `Quack id${postsData[i].id}`
         newPostTitle.classList.add('card-title', 'custom-card-title')
@@ -253,14 +257,11 @@ function addQuack(e) {
     const gifInputForm = document.getElementById('search')
     const imageInputForm = document.getElementById('img-input')
     //check if gif input form has anything - if so use that for image
-    if (gifInputForm.value) {
-        console.log('found gif')
-        const newImage = gifInputForm.value;
-    } else {
-        const newImage = imageInputForm.value
-    }
+    const newGif = gifInputForm.value;
+    const newImage = imageInputForm.value;
 
     imageInputForm.value = ""
+    gifInputForm.value = ""
     //check if hidden class exists before toggling
     if (!imageInputForm.classList.contains('hidden')) {
         imageInputForm.classList.toggle('hidden');

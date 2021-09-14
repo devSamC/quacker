@@ -6,6 +6,7 @@ class Post {
     this.id = data.id
     this.text = data.text
     this.picture = data.picture
+    this.gif = data.gif
     this.reactions = data.reactions
     this.comments = data.comments
     this.date = data.date
