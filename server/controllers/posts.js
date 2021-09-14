@@ -26,10 +26,15 @@ router.post('/posts', (req, res) => {
 })
 
 router.patch("/posts/:id/comments", (req,res) => {
-  const postToPatch = new Post(Post.findById(req.params.id));
+  const id = req.params.id
+  const commentData = req.params.body
+  console.log('logging id and comment data')
+  console.log(id,commentData)
+  const postToPatch = new Post(Post.findById(id));
+  console.log(postToPatch)
   console.log('logging req params id below')
-  console.log(req.params.id)
-  postToPatch.addComment(req.body, req.params.id);
+  console.log(id)
+  postToPatch.addComment(commentData, id);
   res.sendStatus(204);
 })
 
