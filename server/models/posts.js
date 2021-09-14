@@ -46,6 +46,8 @@ class Post {
   }
 
   addComment(commentData, id) {
+    console.log('logging comment data')
+    console.log(commentData)
     const commentText = commentData.text
     console.log(commentText)
     // //get current post

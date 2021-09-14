@@ -118,6 +118,8 @@ function addComment(postId) {
     console.log('current comment box is')
     console.log(commentBox)
     const commentText = commentBox.value;
+    console.log('current box text is')
+    console.log(commentText)
     //somehow get current id
     const id = postId
     //send patch request to post id with new comment
@@ -126,9 +128,9 @@ function addComment(postId) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({
+        body: {
             text: `${commentText}`
-        })
+        }
     })
     generateCard()
 }
