@@ -7,7 +7,7 @@ const allUsers = getUsers()
 //get request that returns all users from heroku
 
 function getUsers() {
-    axios.get('https://quackerapi-nodejs.herokuapp.com/players').then((response) => console.log(response.data))
+    axios.get('https://quackerapi-nodejs.herokuapp.com/posts').then((response) => console.log(response.data))
 
 }
 
@@ -19,7 +19,7 @@ function getPosts() {
 //post request that creates new user - need to change to use logic from users.js
 //please ignore david for now - i am just using this to illustrate the data structure we need for the user object
 function postDavid() {
-    axios.post('https://quackerapi-nodejs.herokuapp.com/players', {
+    axios.post('https://quackerapi-nodejs.herokuapp.com/posts', {
         id: 3,
         name: 'David',
         picture: 'also-none',
@@ -98,7 +98,7 @@ function addReaction(userId, postId) {
 //need to be able to remove user by name or id
 // commenting this out for now - need to add delete router to index.js
 // function deleteDavid() {
-//   axios.delete('https://quackerapi-nodejs.herokuapp.com/players', {
+//   axios.delete('https://quackerapi-nodejs.herokuapp.com/posts', {
 //   id: 3,
 //     name: 'David',
 //     picture: 'also-none',

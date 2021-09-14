@@ -6,7 +6,7 @@ jest.mock('axios');
 //get request that returns all users from heroku
 
 // function getUsers() {
-//   axios.get('https://quackerapi-nodejs.herokuapp.com/players').then((response) => console.log(response.data))
+//   axios.get('https://quackerapi-nodejs.herokuapp.com/posts').then((response) => console.log(response.data))
 
 // }
 

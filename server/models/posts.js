@@ -1,4 +1,5 @@
 const postsData = require(`../data.js`)
+const dayjs = require('dayjs')
 
 class Post {
   constructor(data) {
@@ -16,7 +17,7 @@ class Post {
 
   static findById(id) {
     try {
-      const postData = postsData.filter((post) => post.id === id);
+      const postsData = postsData.filter((post) => post.id === id);
       const post = new Post(postsData);
       return post
     } catch (error) {
@@ -24,21 +25,26 @@ class Post {
     }
   }
   static create(post) {
-    const newPost = new Post({ ...post })
+    const currentTime = dayjs().toString();
+    const newPost = new Post({
+      id: postsData.length + 1,
+      date: currentTime,
+      ...post
+    })
     postsData.push(newPost);
     return newPost;
   }
 
-  addReaction (id, reactionData) {
+  addReaction(id, reactionData) {
     const post = findById(id);
-    post.reactions 
+    post.reactions
   }
 
   addComment(id, commentData) {
     const post = findById(id);
     currentCommentId = post.comments.length
-    post.comments[currentCommentId+1] = commentData
-    
+    post.comments[currentCommentId + 1] = commentData
+
   }
 
   deletePost(id) {
