@@ -23,6 +23,7 @@ html {
     font-size: 62.5%;
 }
 
+
 body {
     font-family: 'Lato', sans-serif;
 }
@@ -206,7 +207,7 @@ input {
 
 .card-footer p {
     margin-top: 1rem;
-    font-size: 0.5rem;
+    font-size: 1rem;
     margin-bottom: -5px;
 }
 
