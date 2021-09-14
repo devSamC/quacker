@@ -88,6 +88,7 @@ function addQuack(e) {
     const postText = quackBox.value
     if(postText === "") {
         quackBox.setAttribute("placeholder","You need to write something!")
+        return console.log('empty string detected');
     }
     const imageInputForm = document.getElementById('img-input')
     const newImage = imageInputForm.value
