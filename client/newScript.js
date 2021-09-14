@@ -206,7 +206,7 @@ function addQuack(e) {
         quackBox.setAttribute("placeholder", "You need to write something!")
         return console.log('empty string detected');
     }
-    const imageInputForm = document.getElementById('img-input')
+    const imageInputForm = document.getElementById('search')
     const newImage = imageInputForm.value
     imageInputForm.value = ""
     //check if hidden class exists before toggling
