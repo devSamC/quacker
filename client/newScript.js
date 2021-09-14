@@ -85,6 +85,9 @@ function addQuack(e) {
     //first just console log the data that we get 
     const quackBox = document.getElementById('quack-input');
     const postText = quackBox.value
+    if(postText === "") {
+        quackBox.setAttribute("placeholder","You need to write something!")
+    }
     const imageInputForm = document.getElementById('img-input')
     const newImage = imageInputForm.value
     imageInputForm.value = ""
@@ -106,7 +109,7 @@ function addQuack(e) {
             "picture": `${newImage}`,
             "reactions": "",
             "comments": "",
-            
+
         })
     }).then(response => {
         generateCard()
