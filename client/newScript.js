@@ -26,7 +26,7 @@ async function getAllPosts() {
 
 
 function addImage() {
-    console.log('clicked image button')
+    
     const imageInputForm = document.getElementById('img-input')
     imageInputForm.classList.toggle('hidden')
     // const topQuack = document.getElementById('top-quack')
@@ -48,9 +48,9 @@ function addImage() {
 
 async function generateCard() {
     const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/posts')
-    console.log(posts)
+    
     const postsData = await posts.json()
-    console.log(postsData)
+    
     const postBox = document.getElementById('quack-test-holder');
     postBox.innerHTML = ""
     for (let i = postsData.length - 1; i >= 0; i--) {
@@ -90,7 +90,7 @@ async function generateCard() {
             const reactionButton = document.createElement('button')
             const currentReactionCount = postsData[i].reactions[k].count
             reactionButton.classList.add('btn', 'btn-outline-dark', 'btn-sm', 'reaction-button')
-            console.log(reactionChoices[k])
+            
             reactionButton.setAttribute('type', 'button')
             reactionButton.setAttribute('id', `reaction-button-${k}-${postsData[i].id}`)
             reactionButton.setAttribute('id-tag', `${postsData[i].id}`)
@@ -169,11 +169,9 @@ async function generateCard() {
 
 function addComment(postId) {
     const commentBox = document.getElementById(`comment-box-${postId}`);
-    console.log('current comment box is')
-    console.log(commentBox)
+    
     const commentText = commentBox.value;
-    console.log('current box text is')
-    console.log(commentText)
+    
     if (commentText === "") {
         commentBox.setAttribute("placeholder", "write something!")
         return console.log('empty string detected');
@@ -218,22 +216,18 @@ function init() {
         let url = `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&limit=10&q=`;
         let str = document.getElementById("search").value.trim();
         url = url.concat(str);
-        console.log(url);
+        
         fetch(url)
             .then(response => response.json())
             .then(content => {
                 //  data, pagination, meta
-                console.log(content.data);
-                console.log('sausage')
-                console.log("META", content.meta);
-                console.log(content.data[0].images.downsized_small.url)
+               
                 let fig = document.createElement("figure");
                 let img = document.createElement("img");
                 img.src = content.data[0].images.downsized.url;
                 img.alt = content.data[0].title;
                 document.querySelector("#search").value = content.data[0].images.downsized.url;
-                console.log('img.src is')
-                console.log(img.src)
+                
                 return img.src;
             })
             .catch(err => {
@@ -247,7 +241,7 @@ function init() {
 
 function addQuack(e) {
     e.preventDefault();
-    console.log('clicked')
+    
     //send post data to server and then retrieve
     //first just console log the data that we get 
     const quackBox = document.getElementById('quack-input');
@@ -283,6 +277,7 @@ function addQuack(e) {
             //to be overwritten w.r.t default
             "text": `${postText}`,
             "picture": `${newImage}`,
+            "gif": `${newGif}`,
             "reactions": [{
                 id: 1,
                 count: 0
@@ -315,30 +310,27 @@ createPage()
 
 function makeCommentsWork() {
     const commentButtonsHTML = document.getElementsByClassName('comment-button')
-    console.log(commentButtonsHTML)
     setTimeout(() => {
         const commentButtons = Array.from(commentButtonsHTML)
-        console.log(commentButtons)
+        
         for (let i = 0; i < commentButtons.length; i++) {
-            console.log('hello')
             commentButtons[i].addEventListener('click', function (e) {
                 const postId = this.getAttribute("id-tag");
                 addComment(postId);
 
             })
-            console.log(`added event listener to ${commentButtons[i]}`)
         }
     }, 1000)
 }
 
 function makeReactionsWork() {
     const reactionIcons = document.getElementsByClassName('reaction-button')
-    console.log(reactionIcons)
+    
     setTimeout(() => {
         const reactionIconsArray = Array.from(reactionIcons)
         for (let i = 0; i < reactionIconsArray.length; i++) {
             reactionIconsArray[i].addEventListener('click', function (e) {
-                console.log('reaction button clicked')
+                
                 const postId = this.getAttribute('id-tag')
                 const reactionId = this.getAttribute('reaction-tag')
                 const reactionCount = this.getAttribute('reaction-count')
