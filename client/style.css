@@ -146,6 +146,7 @@ input {
 
 .gif {
     font-weight: 800;
+    font-size: 15px;
 }
 
 .gif:hover {
@@ -173,7 +174,17 @@ input {
 .img-input {
     width: 100%;
 }
-  
+
+#gifForm {
+    margin-top: 5px;
+}
+
+#search {
+    width: 97%;
+    margin-left: -1.5px;
+}
+
+
 
 .bluef {
     color:lightskyblue;
@@ -186,9 +197,11 @@ input {
     border-radius: 3rem;
     border-width: 0px;
     width: 10rem;
+    height: 3rem;
     background-color: #60a74a;
     color: white;
-    font-weight: 800;
+    font-weight: 700;
+    font-size: 15px;
     margin-top: 0.5rem;
 }
 
@@ -215,9 +228,15 @@ input {
     font-size: 2rem;
 }
 
-.card-footer {
+div > .card-footer {
+    background-color: var(--primary-1);
     /* display: flex; */
     /* justify-content: space-evenly; */
+}
+
+.card-footer > h4 {
+    color: var(--complement-0); 
+    font-weight:bolder;
 }
 
 .card-footer p {
@@ -239,6 +258,28 @@ input {
 .quack-reactions .card-icons:hover {
     color: #60a74a;
     cursor: pointer;
+}
+
+.reactions-div {
+    display: flex;
+    justify-content: space-around;
+    width: 40%;
+    margin: auto;
+    padding: 1rem;
+}
+
+.reactions-div > button {
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    border: var(--primary-2) solid 0.5px;
+}
+
+.reactions-div > button:hover, 
+.reactions-div > button:active {
+    border: var(--complement-0) solid 0.5px;
+    background-color: var(--primary-0);
+    font-weight: bolder;
+    color: var(--complement-0);
 }
 
 .search {

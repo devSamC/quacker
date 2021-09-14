@@ -44,6 +44,22 @@ function addImage() {
 
 }
 
+function makeGifBtnWork() {
+    setTimeout(()=> {
+        const gifForm = document.getElementById('gifForm')
+        const gifBtn = document.getElementById('gifBtn')
+        gifBtn.addEventListener('click', e => hideGifInput(e)) 
+    }, 1000)
+
+   
+
+
+}
+
+function hideGifInput() {
+   
+    gifForm.classList.toggle('hidden')
+}
 
 
 async function generateCard() {
@@ -326,6 +342,7 @@ function createPage() {
     makeCommentsWork()
     makeCommentIconsWork()
     makeReactionsWork()
+    makeGifBtnWork()
 
 }
 createPage()
