@@ -198,13 +198,13 @@ input {
     font-size: 0.7rem;
     margin-bottom: -5px;
 }
-.card-footer .card-icons {
+.quack-reactions .card-icons {
     margin-top: 5px;
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.card-footer .card-icons:hover {
+.quack-reactions .card-icons:hover {
     color: #60a74a;
     cursor: pointer;
 }

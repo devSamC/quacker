@@ -39,41 +39,59 @@ async function generateCard() {
     console.log(postsData)
     const postBox = document.getElementById('quack-test-holder');
     postBox.innerHTML = ""
-    for (let i = postsData.length-1; i >= 0; i--) {
+    for (let i = postsData.length - 1; i >= 0; i--) {
         //iterate backwards through array to give posts in chronological order
         const newPost = document.createElement('div');
         const newPostBody = document.createElement('div');
         const newPostImage = document.createElement('img');
         const newPostText = document.createElement('p')
+        const newPostReactionsEtc = document.createElement('div')
         newPost.appendChild(newPostImage)
         newPost.appendChild(newPostBody)
         newPostBody.appendChild(newPostText)
-
+        newPostBody.appendChild(newPostReactionsEtc)
         newPost.classList.add('card');
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text');
         newPostImage.classList.add('card-img-top')
+        newPostReactionsEtc.classList.add('text-muted', 'quack-reactions')
         newPostText.textContent = postsData[i].text;
         newPostImage.setAttribute("src", `${postsData[i].picture}`)
-        //card footer
-        const cardFooter = document.createElement('div')
-        cardFooter.classList.add('card-footer', 'text-muted')
-        newPost.appendChild(cardFooter)
-        
+
         //comment and reaction icons
         //comment
         const cardCommentIcon = document.createElement('i')
         cardCommentIcon.classList.add('far', 'fa-comments', 'card-icons')
-        cardFooter.appendChild(cardCommentIcon)
+        newPostReactionsEtc.appendChild(cardCommentIcon)
         //reaction
         const cardReactionIcon = document.createElement('i')
         cardReactionIcon.classList.add('far', 'fa-heart', 'card-icons')
-        cardFooter.appendChild(cardReactionIcon)
+        newPostReactionsEtc.appendChild(cardReactionIcon)
         //timestamp
         const timeStamp = document.createElement('p')
         timeStamp.textContent = postsData[i].date;
-        cardFooter.appendChild(timeStamp)
+        newPostReactionsEtc.appendChild(timeStamp)
+
+        //card footer
+        const cardFooter = document.createElement('div')
+        cardFooter.classList.add('card-footer', 'text-muted')
+        newPost.appendChild(cardFooter)
+        //iterate through comments array and add each one to footer
+        if (postsData[i].comments.length !== 0) {
+            for (let j = 0; j < postsData[i].comments.length; j++) {
+                const commentCard = document.createElement('div')
+                commentCard.classList.add('card')
+                const commentCardBody = document.createElement('div');
+                commentCardBody.classList.add('card-body')
+                const commentText = document.createElement('p');
+                commentText.textContent =  postsData[i].comments[j].text
+                commentCard.appendChild(commentCardBody);
+                commentCardBody.appendChild(commentText);
+                cardFooter.appendChild(commentCard);
+            }
+        }
+
 
 
     }
@@ -87,8 +105,8 @@ function addQuack(e) {
     //first just console log the data that we get 
     const quackBox = document.getElementById('quack-input');
     const postText = quackBox.value
-    if(postText === "") {
-        quackBox.setAttribute("placeholder","You need to write something!")
+    if (postText === "") {
+        quackBox.setAttribute("placeholder", "You need to write something!")
         return console.log('empty string detected');
     }
     const imageInputForm = document.getElementById('img-input')
