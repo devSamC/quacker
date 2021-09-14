@@ -78,11 +78,11 @@ async function generateCard() {
         //we will add a button for each reaction choice, hopefully styled as a pill or something
         for (let k= 0; k < reactionChoices.length ; k++) {
             const reactionButton = document.createElement('button')
-            const currentReactionCount = postsData[i]
+            const currentReactionCount = postsData[i].reactions[k].count
             reactionButton.classList.add('btn','btn-outline-dark','btn-sm')
             console.log(reactionChoices[k])
             reactionButton.setAttribute('type','button')
-            reactionButton.textContent = `${reactionChoices[k]}`
+            reactionButton.textContent = `${currentReactionCount} ${reactionChoices[k]}`
             reactionsHolder.append(reactionButton)
         }
         //comment and reaction icons
@@ -266,6 +266,10 @@ function makeCommentIconsWork() {
 
         }
     },1000)
+}
+
+function makeReactionsWork() {
+    
 }
 
 
