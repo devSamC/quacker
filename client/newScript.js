@@ -5,7 +5,7 @@ const imageButton = document.getElementById('add-image')
 imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
 
-const reactionChoices = ['❤','❓','🔝']
+const reactionChoices = ['❤', '❓', '🔝']
 
 // const axios = require('axios')
 
@@ -63,7 +63,7 @@ async function generateCard() {
         newPostBody.appendChild(reactionsHolder)
         newPostBody.appendChild(newPostReactionsEtc)
         //make it a card
-        newPost.classList.add(`card`);  
+        newPost.classList.add(`card`);
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text');
@@ -73,15 +73,19 @@ async function generateCard() {
         newPostImage.setAttribute("src", `${postsData[i].picture}`)
         //set the title
         newPostTitle.textContent = `Quack id${postsData[i].id}`
-        newPostTitle.classList.add('card-title','custom-card-title')
+        newPostTitle.classList.add('card-title', 'custom-card-title')
         //add current reactions below the main text
         //we will add a button for each reaction choice, hopefully styled as a pill or something
-        for (let k= 0; k < reactionChoices.length ; k++) {
+        for (let k = 0; k < reactionChoices.length; k++) {
             const reactionButton = document.createElement('button')
             const currentReactionCount = postsData[i].reactions[k].count
-            reactionButton.classList.add('btn','btn-outline-dark','btn-sm')
+            reactionButton.classList.add('btn', 'btn-outline-dark', 'btn-sm', 'reaction-button')
             console.log(reactionChoices[k])
-            reactionButton.setAttribute('type','button')
+            reactionButton.setAttribute('type', 'button')
+            reactionButton.setAttribute('id', `reaction-button-${k}-${postsData[i].id}`)
+            reactionButton.setAttribute('id-tag', `${postsData[i].id}`)
+            reactionButton.setAttribute('reaction-tag', `${k+1}`)
+            reactionButton.setAttribute('reaction-count', currentReactionCount)
             reactionButton.textContent = `${currentReactionCount} ${reactionChoices[k]}`
             reactionsHolder.append(reactionButton)
         }
@@ -115,7 +119,7 @@ async function generateCard() {
         commentBox.setAttribute('type', 'text');
         commentBox.setAttribute('placeholder', 'write a comment')
         commentBox.setAttribute('id', `comment-box-${postsData[i].id}`)
-        commentBox.classList.add('comment-input','hidden')
+        commentBox.classList.add('comment-input', 'hidden')
         cardFooter.appendChild(commentBox)
 
         //submit comment button
@@ -126,7 +130,7 @@ async function generateCard() {
         submitComment.classList.add('comment-button', 'hidden')
         cardFooter.appendChild(submitComment)
         submitComment.setAttribute('id-tag', `${postsData[i].id}`)
-        
+
 
 
         //iterate through comments array and add each one to footer
@@ -179,6 +183,17 @@ function addComment(postId) {
 
 }
 
+function addReactionCount(postId, reactionId, currentReactionCount) {
+    const newReaction = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${postId}/reactions/${reactionId}`, {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "count": currentReactionCount + 1
+        })
+    }).then(response => createPage())
+}
 
 function addQuack(e) {
     e.preventDefault();
@@ -224,6 +239,7 @@ function createPage() {
     generateCard()
     makeCommentsWork()
     makeCommentIconsWork()
+    makeReactionsWork()
 }
 createPage()
 
@@ -246,31 +262,48 @@ function makeCommentsWork() {
     }, 1000)
 }
 
+function makeReactionsWork() {
+    const reactionIcons = document.getElementsByClassName('reaction-button')
+    console.log(reactionIcons)
+    setTimeout(() => {
+        const reactionIconsArray = Array.from(reactionIcons)
+        for (let i = 0; i < reactionIconsArray.length; i++) {
+            reactionIconsArray[i].addEventListener('click', function (e) {
+                console.log('reaction button clicked')
+                const postId = this.getAttribute('id-tag')
+                const reactionId = this.getAttribute('reaction-tag')
+                const reactionCount = this.getAttribute('reaction-count')
+                addReactionCount(postId, reactionId, reactionCount);
+            })
+        }
+    }, 1000)
+}
+
 function toggleHidden(id) {
     const postId = id
     const hiddenBox = document.getElementById(`comment-box-${id}`)
     const hiddenButton = document.getElementById(`comment-button-${id}`)
     hiddenButton.classList.toggle('hidden')
     hiddenBox.classList.toggle('hidden');
-}  
+}
 
 function makeCommentIconsWork() {
     const cardIcons = document.getElementsByClassName('fa-comments')
     setTimeout(() => {
         const cardIconsArray = Array.from(cardIcons)
         for (let i = 0; i < cardIconsArray.length; i++) {
-            cardIconsArray[i].addEventListener('click', function(e) {
+            cardIconsArray[i].addEventListener('click', function (e) {
                 const postId = this.getAttribute('id-tag')
                 toggleHidden(postId)
             })
 
         }
-    },1000)
+    }, 1000)
 }
 
-function makeReactionsWork() {
-    
-}
+
+
+
 
 
 

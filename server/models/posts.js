@@ -40,17 +40,15 @@ class Post {
     return newPost;
   }
 
-  addReaction(id, reactionData) {
-    const post = findById(id);
-    post.reactions
+  addReaction(reactionData, id, reactionId) {
+    const reactionCount = reactionData.count
+    const currentPost = postsData[id-1];
+    console.log(currentPost)
+    currentPost.reactions[reactionId-1].count++;
   }
 
   addComment(commentData, id) {
     const commentText = commentData.text
-    // //get current post
-    // const post = findById(id);
-    //get current id then create new comment with id
-    // const post = currentPost
     const currentPost = postsData[id-1];
     console.log(currentPost)
     const currentCommentId = currentPost.comments.length
