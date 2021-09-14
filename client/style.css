@@ -214,9 +214,15 @@ input {
 }
 
 
-.card-footer {
+div > .card-footer {
+    background-color: var(--primary-1);
     /* display: flex; */
     /* justify-content: space-evenly; */
+}
+
+.card-footer > h4 {
+    color: var(--complement-0); 
+    font-weight:bolder;
 }
 
 .card-footer p {
