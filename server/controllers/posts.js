@@ -43,7 +43,13 @@ router.patch("/posts/:id/comments", (req, res) => {
 })
 
 router.patch("/posts/:id/reactions/:reactionid", (req, res) => {
-
+  const id = req.params.id
+  const reactionId = req.params.reactionid
+  const reactionData = req.body
+  const postToPatch = new Post(Post.findById(id));
+  console.log('now attempting to add reaction')
+  console.log(`passing : data : ${reactionData},id : ${id},reactionId : ${reactionId}`)
+  postToPatch.addReaction(reactionData, id, reactionId)
 })
 
 module.exports = router;

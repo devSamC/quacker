@@ -44,7 +44,7 @@ class Post {
     const reactionCount = reactionData.count
     const currentPost = postsData[id-1];
     console.log(currentPost)
-    currentPost.reactions[reactionId-1].count++;
+    currentPost.reactions[reactionId-1].count = reactionCount+1;
   }
 
   addComment(commentData, id) {
