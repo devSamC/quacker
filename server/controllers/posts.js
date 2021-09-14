@@ -49,6 +49,7 @@ router.patch("/posts/:id/reactions/:reactionid", (req, res) => {
   const postToPatch = new Post(Post.findById(id));
   console.log('now attempting to add reaction')
   console.log(`passing : data : ${reactionData},id : ${id},reactionId : ${reactionId}`)
+  console.log(`data is ${reactionData.count},${reactionData.id}`)
   postToPatch.addReaction(reactionData, id, reactionId)
 })
 
