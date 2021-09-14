@@ -336,6 +336,12 @@ function makeReactionsWork() {
                 const reactionId = this.getAttribute('reaction-tag')
                 const reactionCount = this.getAttribute('reaction-count')
                 addReactionCount(postId, reactionId, reactionCount);
+                //clientside change
+                const currentValue = this.textContent
+                const valueArray = currentValue.split(' ')
+                this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
+                console.log(currentValue)
+                
             })
         }
     }, 1000)
