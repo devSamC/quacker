@@ -167,7 +167,7 @@ function addQuack(e) {
             "text": `${postText}`,
             "picture": `${newImage}`,
             "reactions": "",
-            "comments": "",
+            "comments": "[]",
 
         })
     }).then(response => {
