@@ -55,6 +55,25 @@ async function generateCard() {
         newPostImage.classList.add('card-img-top')
         newPostText.textContent = postsData[i].text;
         newPostImage.setAttribute("src", `${postsData[i].picture}`)
+        //card footer
+        const cardFooter = document.createElement('div')
+        cardFooter.classList.add('card-footer', 'text-muted')
+        newPost.appendChild(cardFooter)
+        //timestamp
+        const timeStamp = document.createElement('p')
+        timeStamp.textContent = postsData[i].date;
+        cardFooter.appendChild(timeStamp)
+        //comment and reaction icons
+        //comment
+        const cardCommentIcon = document.createElement('i')
+        cardCommentIcon.classList.add('far', 'fa-comments')
+        cardFooter.appendChild(cardCommentIcon)
+        //reaction
+        const cardReactionIcon = document.createElement('i')
+        cardReactionIcon.classList.add('far', 'fa-heart')
+        cardFooter.appendChild(cardReactionIcon)
+
+
     }
 }
 
