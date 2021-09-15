@@ -438,6 +438,17 @@ div > .card-footer > h4 {
     margin-right: 5px;
 }
 
+#no-more-quacks {
+    left: 25%;
+    right: 25%;
+    border-radius: 10px;
+    width: 50%;
+}
+
+.no-comments-text {
+    padding: 10px;
+}
+
 
 
 
