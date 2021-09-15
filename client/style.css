@@ -55,6 +55,16 @@ body {
     margin-top: 1rem ;
 }
 
+.about-text {
+    position: fixed;
+    margin-top: 100px;
+}
+
+.options {
+    position:fixed;
+    margin-top: 200px;
+}
+
 .left-footer {
     position: fixed;
     bottom: 0;
