@@ -28,7 +28,7 @@
             <div class="top">
                 <img class="mobile-logo" src="./images/logo.png">
                 <h2 class="quacker">Quacker</h2>
-                <div class="quack-box">
+                <div class="quack-box custom-card">
                     <!-- includes user image  -->
                     <div class="left-box ">
                         <img src="./images/user.png">
@@ -36,13 +36,14 @@
                     <!-- includes text input submit button and gif option -->
                     <div class="rightbox">
                         <div class="top-quack" id="top-quack">
-                            <input id="quack-input" type="text" placeholder="What's Quacking??">
+                            <input id="quack-input" type="text" placeholder="What's Quacking??" maxlength="281">
+                            <p id="remaining-chars"></p>
                         </div>
                         <div class=big-bottom>
                             <div class="bottom-quack">
                                 <i class="add-image far fa-image" id="add-image"></i>
-                                <p id="gifBtn" class="gif"><span class="redg">g</span><span class="yellowi">i</span><span
-                                        class="bluef">f</span></p>
+                                <p id="gifBtn" class="gif"><span class="redg">g</span><span
+                                        class="yellowi">i</span><span class="bluef">f</span></p>
 
                                 <input id="quack-btn" value="Quack" type="submit">
                             </div>
@@ -51,12 +52,12 @@
                                     placeholder="Enter Image Url">
                             </div>
                             <form id="gifForm" class="hidden">
-                                <input id="search" placeholder="Search for a GIF! "type="search" />
+                                <input id="search" placeholder="Search for a GIF! " type="search" />
                                 <button id="btnSearch" class="btnSearch">Go</button>
-                              </form>
-                              <div class="out"></div>
+                            </form>
+                            <div class="out"></div>
 
-                        
+
                         </div>
 
 
