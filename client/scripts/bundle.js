@@ -431,7 +431,7 @@ inputBox.addEventListener('keydown', e=> changeDuck(e))
 
 function changeDuck(e) {
     const duckImage = document.getElementById('duck-img');
-    duckImage.setAttribute('src','./images/duckGifV2.gif')
+    duckImage.setAttribute('src','./images/duckGifV3.gif')
 }
 
 function giveSearchInput(e) {
@@ -783,6 +783,7 @@ function addComment(postId) {
 
     if (commentText === "") {
         commentBox.setAttribute("placeholder", "write something!")
+        
         return console.log('empty string detected');
     }
     //somehow get current id
@@ -907,6 +908,8 @@ function addQuack(e) {
     const postText = quackBox.value
     if (postText === "") {
         quackBox.setAttribute("placeholder", "You need to write something!")
+        const duckImage = document.getElementById('duck-img');
+        duckImage.setAttribute('src','./images/Angry-alphabg-mouthopen.png')
         return console.log('empty string detected');
     }
     const gifInputForm = document.getElementById('search')
