@@ -964,8 +964,8 @@ function makeReactionsWork() {
                 const currentValue = this.textContent
                 const valueArray = currentValue.split(' ')
                 this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
-                this.classList.remove('btn-outline-dark')
-                this.classList.add('btn-dark')
+                this.classList.remove('btn-outline-primary')
+                this.classList.add('btn-primary')
 
 
             }, {

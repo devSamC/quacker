@@ -210,7 +210,7 @@ async function generateCard() {
         for (let k = 0; k < reactionChoices.length; k++) {
             const reactionButton = document.createElement('button')
             const currentReactionCount = postsData[i].reactions[k].count
-            reactionButton.classList.add('btn', 'btn-outline-dark', 'reaction-button')
+            reactionButton.classList.add('btn', 'btn-outline-success', 'reaction-button')
 
             reactionButton.setAttribute('type', 'button')
             reactionButton.setAttribute('id', `reaction-button-${k}-${postsData[i].id}`)
@@ -559,8 +559,8 @@ function makeReactionsWork() {
                 const currentValue = this.textContent
                 const valueArray = currentValue.split(' ')
                 this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
-                this.classList.remove('btn-outline-dark')
-                this.classList.add('btn-dark')
+                this.classList.remove('btn-outline-success')
+                this.classList.add('btn')
 
 
             }, {
