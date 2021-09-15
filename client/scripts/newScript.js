@@ -373,10 +373,52 @@ function addReactionCount(postId, reactionId, currentReactionCount) {
 }
 
 // giphy api stuff 
-
+let fig = document.getElementById("figure");
 let APIKEY = "91J9L3KzBaZxex6NxItZcvPTbFjKvQnn";
 // you will need to get your own API KEY
 // https://developers.giphy.com/dashboard/
+document.addEventListener("DOMContentLoaded", previewGif);
+
+function previewGif() {
+    document.getElementById("previewGif").addEventListener("click", ev => {
+        ev.preventDefault(); //to stop the page reload
+        removePreview()
+        let url = `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&limit=10&q=`;
+        let str = document.getElementById("search").value.trim();
+        url = url.concat(str);
+        let out = document.querySelector(".out");
+
+        if(out !== '') {
+            out = ''
+        }
+        
+        fetch(url)
+            .then(response => response.json())
+            .then(content => {
+
+                console.log("this happened")
+               
+
+               
+                let img = document.createElement("img");
+                let fc = document.createElement("figcaption");
+                img.src = content.data[0].images.fixed_width.url;
+                img.alt = content.data[0].title;
+                fc.textContent = content.data[0].title;
+                fig.appendChild(img);
+                fig.appendChild(fc);
+                out = document.querySelector(".out");
+                out.insertAdjacentElement("afterbegin", fig);
+               
+
+                return img.src;
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
@@ -389,22 +431,26 @@ function init() {
         fetch(url)
             .then(response => response.json())
             .then(content => {
-                //  data, pagination, meta
-
+               
                 let fig = document.createElement("figure");
                 let img = document.createElement("img");
+            
                 img.src = content.data[0].images.downsized.url;
                 img.alt = content.data[0].title;
                 document.querySelector("#search").value = content.data[0].images.downsized.url;
 
-                return img.src;
+                
             })
             .catch(err => {
                 console.error(err);
             });
     });
 }
+function removePreview() {
+    fig.innerHTML = ""
 
+
+}
 
 
 
@@ -436,6 +482,8 @@ function addQuack(e) {
     if (!gifForm.classList.contains('hidden')) {
         gifForm.classList.toggle('hidden')
     }
+
+    removePreview()
     quackBox.value = ""
     const allPosts = getAllPosts()
     const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/posts', {
