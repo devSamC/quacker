@@ -270,6 +270,12 @@ div > .card-footer {
     /* justify-content: space-evenly; */
 }
 
+/* Title in Comment section*/
+div > .card-footer > h4 {
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+}
+
 .quack-test .card .card-footer {
     border-radius: 0px 0px 15px 15px;
 }
