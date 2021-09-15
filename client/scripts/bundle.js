@@ -725,7 +725,8 @@ async function generateCard() {
             }
         } else {
             const noCommentText = document.createElement('p')
-            noCommentText.textContent = "no comments :( be the first?"
+            noCommentText.classList.add('no-comments-text')
+            noCommentText.textContent = "no comments 😥 be the first?"
             cardFooter.appendChild(noCommentText)
         }
 
