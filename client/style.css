@@ -578,7 +578,7 @@ div>.card-footer>h4 {
 
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 550px) {
     .top {
         width: 100%;
     }
