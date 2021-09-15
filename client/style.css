@@ -449,6 +449,17 @@ div > .card-footer > h4 {
     padding: 10px;
 }
 
+.comment-input, .comment-button {
+    border: 1px solid rgba(141,183,165,1);
+    border-radius: 2rem;
+    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.5);
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 3px;
+}
+
+
+
 
 
 
