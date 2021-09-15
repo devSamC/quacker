@@ -133,7 +133,7 @@ async function generateCard() {
         newPost.classList.add(`card`);
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
-        newPostText.classList.add('card-text');
+        newPostText.classList.add('card-text', 'fs-3');
         newPostImage.classList.add('card-img-top')
         newPostGif.classList.add('card-img-top')
         newPostReactionsEtc.classList.add('text-muted', 'quack-reactions')
@@ -141,9 +141,9 @@ async function generateCard() {
         newPostImage.setAttribute("src", `${postsData[i].picture}`)
         newPostGif.setAttribute("src", `${postsData[i].gif}`)
         //set the title
-        const stringCombo = generateCombination(2, "-")
+        const stringCombo = generateCombination(2, "-", postsData[i].id)
         newPostTitle.textContent = `Quack id ${stringCombo}`
-        newPostTitle.classList.add('card-title', 'custom-card-title')
+        newPostTitle.classList.add('card-title', 'custom-card-title', 'text-muted')
         //add current reactions below the main text
         //we will add a button for each reaction choice, hopefully styled as a pill or something
         for (let k = 0; k < reactionChoices.length; k++) {
@@ -1796,12 +1796,17 @@ const adjectives = ['aback',
 'zonked'
 ];
 
-function generateCombination(numAdjectives, delimiter, capitalizeFirstLetter) {
+function generateCombination(numAdjectives, delimiter, seed, capitalizeFirstLetter) {
     let combination = '';
-    const animal = animals[Math.floor(Math.random() * animals.length)];
+    const randomIshOne = (seed*9301 + 49297)%233280
+    const randomIshTwo = (seed*8*9301 + 49297)%233280
+    const pseudoRandomOne = randomIshOne/233280
+    const pseudoRandomTwo = randomIshTwo/233280
+    console.log(pseudoRandomOne, pseudoRandomTwo)
+    const animal = animals[Math.floor(pseudoRandomOne * animals.length)];
 
     for (let i = 0; i < numAdjectives; i++) {
-        const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+        const adjective = adjectives[(Math.floor(pseudoRandomTwo * (i+1) * adjectives.length))%adjectives.length];
 
         combination += capitalizeFirstLetter ? adjective.charAt(0).toUpperCase() + adjective.slice(1) + delimiter : adjective + delimiter;
     }
