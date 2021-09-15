@@ -1,5 +1,8 @@
 const submitButton = document.getElementById('quack-btn');
 const imageButton = document.getElementById('add-image')
+var dayjs = require('./dayjs/dayjs')
+var relativeTime = require('./dayjs/plugin/relativeTime')
+dayjs.extend(relativeTime)
 // const giphyURL = require('./giphy.js')
 
 // console.log('now logging giphy url')
@@ -172,7 +175,7 @@ async function generateCard() {
         cardReactionIcon.setAttribute('id-tag', `${postsData[i].id}`)
         //timestamp
         const timeStamp = document.createElement('p')
-        timeStamp.textContent = postsData[i].date;
+        timeStamp.textContent = dayjs().to((postsData[i].date));
         newPostReactionsEtc.appendChild(timeStamp)
         timeStamp.classList.add('timeStamp')
 
