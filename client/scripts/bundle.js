@@ -430,7 +430,7 @@ sortMenu.addEventListener('change', e => changeSort(e))
 searchSubmitButton.addEventListener('click', e => giveSearchInput(e))
 inputBox.addEventListener('keydown', e => changeDuck(e))
 logo.addEventListener("mouseover", e => changeLogo(e))
-logo.addEventListener("mouseout", e=> changeLogoBack(e))
+logo.addEventListener("mouseout", e => changeLogoBack(e))
 
 function changeDuck(e) {
     const duckImage = document.getElementById('duck-img');
@@ -659,7 +659,7 @@ async function generateCard() {
         //make it a card
         newPost.classList.add(`card`, `animated-div`);
         newPost.setAttribute(`id`, `post-card-id-${postsData[i].id}`)
-        newPost.setAttribute('style',`--animation-order: ${postsData.length - i}`);
+        newPost.setAttribute('style', `--animation-order: ${postsData.length - i}`);
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text', 'fs-3');
@@ -743,12 +743,29 @@ async function generateCard() {
                 commentText.classList.add('commentText');
                 const commentDate = document.createElement('p');
                 commentDate.classList.add('timeStamp', 'commentDate');
+                const commentReactionHolder = document.createElement('div')
+                commentReactionHolder.classList.add('reactions-div')
                 commentText.textContent = postsData[i].comments[j].text
                 commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
-                commentCardBody.appendChild(commentDate)
+                commentCardBody.appendChild(commentDate);
+                commentCardBody.appendChild(commentReactionHolder)
                 cardFooter.appendChild(commentCard);
+                for (let q = 0; q < reactionChoices.length; q++) {
+                    const commentReactionButton = document.createElement('button')
+                    const currentCommentReactionCount = postsData[i].comments[j].reactions[q].count
+
+                    commentReactionButton.classList.add('btn', 'btn-outline-success', 'reaction-button', 'btn-sm')
+
+                    commentReactionButton.setAttribute('type', 'button')
+                    commentReactionButton.setAttribute('id', `reaction-button-${q}-${postsData[i].comments[j].reactions[q].id}`)
+                    commentReactionButton.setAttribute('id-tag', `${postsData[i].comments[j].reactions[q].id}`)
+                    commentReactionButton.setAttribute('reaction-tag', `${q+1}`)
+                    commentReactionButton.setAttribute('reaction-count', currentCommentReactionCount)
+                    commentReactionButton.textContent = `${currentCommentReactionCount} ${reactionChoices[q]}`
+                    commentReactionHolder.append(commentReactionButton)
+                }
             }
         } else {
             const noCommentText = document.createElement('p')
@@ -949,11 +966,11 @@ function addQuack(e) {
     //check if gif input form has anything - if so use that for image
     const newGif = gifInputForm.value;
     const newImage = imageInputForm.value;
-    console.log(gifInputForm.value.slice(0,4))
-    if (gifInputForm.value !== "" && gifInputForm.value.slice(0,4) !== "http") {
+    console.log(gifInputForm.value.slice(0, 4))
+    if (gifInputForm.value !== "" && gifInputForm.value.slice(0, 4) !== "http") {
         console.log('error detected')
         gifInputForm.value = ""
-        gifInputForm.setAttribute("placeholder","*** !!! you need to click add GIF first !!! ***")
+        gifInputForm.setAttribute("placeholder", "*** !!! you need to click add GIF first !!! ***")
         makeDuckAngry();
         return;
     }
