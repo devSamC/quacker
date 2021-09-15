@@ -404,7 +404,8 @@
 }));
 },{}],3:[function(require,module,exports){
 const submitButton = document.getElementById('quack-btn');
-const imageButton = document.getElementById('add-image')
+const imageButton = document.getElementById('add-image');
+const sortMenu =document.getElementById('sortBy')
 var dayjs = require('./dayjs/dayjs')
 var relativeTime = require('./dayjs/plugin/relativeTime')
 dayjs.extend(relativeTime)
@@ -421,6 +422,12 @@ dayjs.extend(relativeTime)
 
 imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
+sortMenu.addEventListener('change', e=> changeSort(e))
+
+function changeSort(e) {
+    console.log('value changed')
+    createPage()
+}
 
 const reactionChoices = ['❤', '❓', '🔝']
 
@@ -508,6 +515,7 @@ async function generateCard() {
             return acount - bcount;
         })
     }
+    
     console.log(postsData)
     const postBox = document.getElementById('quack-test-holder');
     postBox.innerHTML = ""
