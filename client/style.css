@@ -243,7 +243,7 @@ input {
 
 .flying-in {
     text-shadow: 1px black;
-    animation-duration: 5s;
+    animation-duration: 1s;
     animation-name: flyin;
     animation-timing-function: cubic-bezier(0.79, 0.18, 0.06, 0.97)
 }
@@ -576,6 +576,39 @@ div>.card-footer>h4 {
     }
      */
 
+}
+
+/* testing animation loading */
+.animated-div {
+    opacity: 0;
+    animation-name: animateIn;
+    animation-duration: 300ms;
+    animation-delay: calc(var(--animation-order) * 200ms);
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+/* div {
+    animation-name: animateIn;
+    animation-duration: 200ms;
+    animation-delay: calc(var(--animation-order) * 100ms);
+    animation-timing-function: ease-in-out;
+} */
+
+@keyframes animateIn {
+    0% {
+        
+        transform: scale(0.8);
+        filter: grayscale(100%);
+        opacity:0;
+        top: -20px;
+    }
+    100% {
+       
+        transform: scale(1);
+        filter: grayscale(0%);
+        opacity:1;
+        top: 0px;
+    }
 }
 
 @media only screen and (max-width: 550px) {

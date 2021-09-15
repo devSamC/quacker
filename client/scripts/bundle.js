@@ -657,8 +657,9 @@ async function generateCard() {
         reactionsHolder.classList.add('reactions-div')
         newPostBody.appendChild(newPostReactionsEtc)
         //make it a card
-        newPost.classList.add(`card`);
+        newPost.classList.add(`card`, `animated-div`);
         newPost.setAttribute(`id`, `post-card-id-${postsData[i].id}`)
+        newPost.setAttribute('style',`--animation-order: ${postsData.length - i}`);
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text', 'fs-3');
