@@ -23,13 +23,13 @@ const postsData = [{
     "comments": [{
             id: 1,
             text: "me too!",
-            reactions: "",
+            reactions: [{id: 1, count: 1},{id: 2, count: 2},{id: 3, count: 3}],
             date: "Tue, 14 Sep 2021 11:45:55 GMT"
         },
         {
             id: 2,
             text: "me as well! wow!",
-            reactions: "",
+            reactions: [{id: 1, count: 0},{id: 2, count: 0},{id: 3, count: 0}],
             date: "Tue, 14 Sep 2021 12:45:55 GMT"
         }
     ],
