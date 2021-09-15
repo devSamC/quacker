@@ -526,6 +526,32 @@ async function generateCard() {
         return dayjs().to(post.date, true).split(' ')[1] === 'minutes' || dayjs().to(post.date, true).split(' ')[2] === 'seconds'
     }
 
+    //filter array by 'rising' - most reactions in last X minutes
+    if (selectionButton.value === 'Rising') {
+        postsData.sort(function risingFunction(a,b) {
+            // we will compute the difference in dates between each post and the current date
+            // and the number of reactions of the post
+            // then compute the ratio of reactions / time taken
+            // then sort by highest ratio
+            const currentDate = dayjs()
+            const aPostDate = a.date
+            const bPostDate = b.date
+            const aDiff = currentDate.diff(aPostDate)
+            const bDiff = currentDate.diff(bPostDate)
+            let acount = 0
+            let bcount = 0
+            for (let i = 0; i < a.reactions.length; i++) {
+                acount += a.reactions[i].count
+            }
+            for (let i = 0; i < b.reactions.length; i++) {
+                bcount += b.reactions[i].count
+            }
+            const aRatio = acount/aDiff
+            const bRatio = bcount/bDiff
+            return aRatio - bRatio
+        })
+    }
+
 const postBox = document.getElementById('quack-test-holder');
 postBox.innerHTML = ""
 for (let i = postsData.length - 1; i >= 0; i--) {
