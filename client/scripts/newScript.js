@@ -123,7 +123,9 @@ async function generateCard() {
             }
             for (let i = 0; i < post.comments.length; i++) {
                 const textArray = post.comments[i].text.split(' ');
-                return textArray.includes(searchQuery)
+                if(textArray.includes(searchQuery)) {
+                    return true
+                }
             }
             
         }
