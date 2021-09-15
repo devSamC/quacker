@@ -219,6 +219,7 @@ async function generateCard() {
                 commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
+                commentCardBody.appendChild(commentDate)
                 cardFooter.appendChild(commentCard);
             }
         } else {
@@ -236,7 +237,8 @@ function addComment(postId) {
     const commentBox = document.getElementById(`comment-box-${postId}`);
 
     const commentText = commentBox.value;
-
+    const currentTime = dayjs()
+    console.log(currentTime)
     if (commentText === "") {
         commentBox.setAttribute("placeholder", "write something!")
         return console.log('empty string detected');
@@ -251,7 +253,7 @@ function addComment(postId) {
         },
         body: JSON.stringify({
             "text": `${commentText}`,
-            "date": `${dayjs().toString()}`
+            "date": `${currentTime}`
         })
     }).then(response => createPage())
 
