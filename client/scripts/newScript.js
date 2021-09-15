@@ -34,7 +34,7 @@ function changeDuck(e) {
 
 function makeDuckAngry() {
     const duckImage = document.getElementById('duck-img');
-    duckImage.setAttribute('src', './images/Angry-alphabg-mouthopen.png')
+    duckImage.setAttribute('src', './images/angry-redeye.png')
 }
 
 function giveSearchInput(e) {
@@ -532,8 +532,9 @@ function addQuack(e) {
     const postText = quackBox.value
     if (postText === "") {
         quackBox.setAttribute("placeholder", "You need to write something!")
-        const duckImage = document.getElementById('duck-img');
-        duckImage.setAttribute('src', './images/Angry-alphabg-mouthopen.png')
+        makeDuckAngry();
+        // const duckImage = document.getElementById('duck-img');
+        // duckImage.setAttribute('src', './images/Angry-alphabg-mouthopen.png')
         return console.log('empty string detected');
     }
     const gifInputForm = document.getElementById('search')
@@ -542,10 +543,11 @@ function addQuack(e) {
     //check if gif input form has anything - if so use that for image
     const newGif = gifInputForm.value;
     const newImage = imageInputForm.value;
-    if (gifInputForm.value !== "" || gifInputForm.value.slice(0,4) !== "http") {
+    console.log(gifInputForm.value.slice(0,4))
+    if (gifInputForm.value !== "" && gifInputForm.value.slice(0,4) !== "http") {
         console.log('error detected')
         gifInputForm.value = ""
-        gifInputForm.setAttribute("placeholder","you need to click add GIF first")
+        gifInputForm.setAttribute("placeholder","*** !!! you need to click add GIF first !!! ***")
         makeDuckAngry();
         return;
     }
