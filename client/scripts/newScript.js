@@ -1,6 +1,7 @@
 const submitButton = document.getElementById('quack-btn');
 const imageButton = document.getElementById('add-image');
 const sortMenu = document.getElementById('sortBy')
+const searchSubmitButton = document.getElementById('search-posts-submit')
 var dayjs = require('./dayjs/dayjs')
 var relativeTime = require('./dayjs/plugin/relativeTime')
 var isTrendingAdded = false;
@@ -19,6 +20,13 @@ dayjs.extend(relativeTime)
 imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
 sortMenu.addEventListener('change', e => changeSort(e))
+searchSubmitButton.addEventListener('click', e=>giveSearchInput(e))
+
+function giveSearchInput(e) {
+    console.log('clicked search input button')
+    createPage();
+}
+
 
 function changeSort(e) {
     console.log('value changed')
@@ -90,28 +98,47 @@ async function generateCard() {
 
     let postsData = await posts.json()
     const selectionButton = document.getElementById('sortBy');
-    console.log(selectionButton.value)
-    // console.log(postsData)
+    const searchBar = document.getElementById('search-input')
+
+    //searching logic
+    //will manipulate postsData according to search queries
+    //do this before checking selectionButton to allow filtering of items once searched
+
+    if (searchBar.value !== "") {
+        //search main text
+        const searchQuery = searchBar.value
+        let searched = [];
+        searched = postsData.filter(mainTextContains)
+
+        function mainTextContains(post) {
+            const textArray = post.text.split(' ');
+            return textArray.includes(searchQuery)
+        }
+
+        searchedInComments = postsData.filter(commentTextContains)
+
+        function commentTextContains(post) {
+            if (post.comments.length === 0) {
+                return false;
+            }
+            for (let i = 0; i < post.comments.length; i++) {
+                const textArray = post.comments[i].text.split(' ');
+                return textArray.includes(searchQuery)
+            }
+            
+        }
+
+        searchedInComments.forEach(e => searched.push(e))
+        postsData = searched
+    }
+    //search comments
+    //search by post id?
+
+
+
     //sort array by most reactions
     if (selectionButton.value === 'Hot') {
         postsData.sort((a, b) => sortByReactions(a, b))
-        // {
-        //     //a counter
-        //     console.log(a)
-        //     let acount = 0
-        //     for (let i = 0; i < a.reactions.length; i++) {
-        //         acount += a.reactions[i].count
-        //         console.log(`added ${a.reactions[i].count} to acount`)
-        //     }
-        //     console.log(acount)
-        //     let bcount = 0
-        //     for (let i = 0; i < b.reactions.length; i++) {
-        //         bcount += b.reactions[i].count
-        //     }
-        //     console.log(bcount)
-        //     console.log(bcount - acount)
-        //     return acount - bcount;
-        // })
     }
 
     function sortByReactions(a, b) {
@@ -388,18 +415,18 @@ function previewGif() {
         url = url.concat(str);
         let out = document.querySelector(".out");
 
-        if(out !== '') {
+        if (out !== '') {
             out = ''
         }
-        
+
         fetch(url)
             .then(response => response.json())
             .then(content => {
 
                 console.log("this happened")
-               
 
-               
+
+
                 let img = document.createElement("img");
                 let fc = document.createElement("figcaption");
                 img.src = content.data[0].images.fixed_width.url;
@@ -409,7 +436,7 @@ function previewGif() {
                 fig.appendChild(fc);
                 out = document.querySelector(".out");
                 out.insertAdjacentElement("afterbegin", fig);
-               
+
 
                 return img.src;
             })
@@ -431,21 +458,22 @@ function init() {
         fetch(url)
             .then(response => response.json())
             .then(content => {
-               
+
                 let fig = document.createElement("figure");
                 let img = document.createElement("img");
-            
+
                 img.src = content.data[0].images.downsized.url;
                 img.alt = content.data[0].title;
                 document.querySelector("#search").value = content.data[0].images.downsized.url;
 
-                
+
             })
             .catch(err => {
                 console.error(err);
             });
     });
 }
+
 function removePreview() {
     fig.innerHTML = ""
 
