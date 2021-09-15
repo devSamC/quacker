@@ -22,13 +22,19 @@ dayjs.extend(relativeTime)
 imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
 sortMenu.addEventListener('change', e => changeSort(e))
-searchSubmitButton.addEventListener('click', e=>giveSearchInput(e))
-inputBox.addEventListener('keydown', e=> changeDuck(e))
-logo.addEventListener("mouseover", e=> changeLogo(e))
+searchSubmitButton.addEventListener('click', e => giveSearchInput(e))
+inputBox.addEventListener('keydown', e => changeDuck(e))
+logo.addEventListener("mouseover", e => changeLogo(e))
+logo.addEventListener("mouseout", e=> changeLogoBack(e))
 
 function changeDuck(e) {
     const duckImage = document.getElementById('duck-img');
-    duckImage.setAttribute('src','./images/duckGifV3.gif')
+    duckImage.setAttribute('src', './images/duckGifV3.gif')
+}
+
+function makeDuckAngry() {
+    const duckImage = document.getElementById('duck-img');
+    duckImage.setAttribute('src', './images/Angry-alphabg-mouthopen.png')
 }
 
 function giveSearchInput(e) {
@@ -44,12 +50,19 @@ function changeSort(e) {
 
 
 
-    
+
 function changeLogo(e) {
-        console.log('mouse is over')
-        logo.setAttribute('src', './images/flying-gif-shadow.gif')
-        
+    console.log('mouse is over')
+    logo.setAttribute('src', './images/flying-gif-shadow.gif')
+
 }
+
+
+function changeLogoBack(e) {
+    logo.setAttribute('src', 'images/logo.png')
+}
+
+
 
 const reactionChoices = ['❤', '❓', '🔝']
 
@@ -65,7 +78,7 @@ async function getAllPosts() {
 function displayCharLimit() {
     let length = 0;
     const charLimit = 281;
-    
+
     const remainingChars = document.getElementById('remaining-chars')
     inputBox.addEventListener('keyup', function (e) {
         length = this.value.length;
@@ -83,6 +96,7 @@ function addImage() {
 
     const imageInputForm = document.getElementById('img-input')
     imageInputForm.classList.toggle('hidden')
+    imageInputForm.classList.toggle('img-input-animation')
     // const topQuack = document.getElementById('top-quack')
     // const imageInputDiv = document.createElement('div');
     // const imageInputForm = document.createElement('input')
@@ -108,6 +122,7 @@ gifBtn.addEventListener('click', e => hideGifInput(e))
 function hideGifInput() {
     console.log('gif clicked')
     gifForm.classList.toggle('hidden')
+    gifForm.classList.toggle('img-input-animation')
 }
 
 
@@ -141,11 +156,11 @@ async function generateCard() {
             }
             for (let i = 0; i < post.comments.length; i++) {
                 const textArray = post.comments[i].text.split(' ');
-                if(textArray.includes(searchQuery)) {
+                if (textArray.includes(searchQuery)) {
                     return true
                 }
             }
-            
+
         }
 
         searchedInComments.forEach(e => searched.push(e))
@@ -343,7 +358,7 @@ async function generateCard() {
 
     }
 
-    
+
 
     //adding 'trending tweet'
     // first check what type of sorting has been used 
@@ -392,7 +407,7 @@ function addComment(postId) {
 
     if (commentText === "") {
         commentBox.setAttribute("placeholder", "write something!")
-        
+
         return console.log('empty string detected');
     }
     //somehow get current id
@@ -512,13 +527,13 @@ function addQuack(e) {
     //send post data to server and then retrieve
     //first just console log the data that we get 
     const duckImage = document.getElementById('duck-img');
-    duckImage.setAttribute('src','./images/happy.png')
+    duckImage.setAttribute('src', './images/happy.png')
     const quackBox = document.getElementById('quack-input');
     const postText = quackBox.value
     if (postText === "") {
         quackBox.setAttribute("placeholder", "You need to write something!")
         const duckImage = document.getElementById('duck-img');
-        duckImage.setAttribute('src','./images/Angry-alphabg-mouthopen.png')
+        duckImage.setAttribute('src', './images/Angry-alphabg-mouthopen.png')
         return console.log('empty string detected');
     }
     const gifInputForm = document.getElementById('search')
@@ -527,7 +542,13 @@ function addQuack(e) {
     //check if gif input form has anything - if so use that for image
     const newGif = gifInputForm.value;
     const newImage = imageInputForm.value;
-
+    if (gifInputForm.value !== "" || gifInputForm.value.slice(0,4) !== "http") {
+        console.log('error detected')
+        gifInputForm.value = ""
+        gifInputForm.setAttribute("placeholder","you need to click add GIF first")
+        makeDuckAngry();
+        return;
+    }
     imageInputForm.value = ""
     gifInputForm.value = ""
     //check if hidden class exists before toggling

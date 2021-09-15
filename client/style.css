@@ -212,13 +212,33 @@ input {
     cursor:pointer;
 }
 
+
+
 .img-input {
     height: 2rem;
     border: 1px solid var(--primary-4);
     border-radius: 10px;
     width: 100%;
     padding: 5px;
+    
 }
+
+.img-input-animation {
+    animation-duration: 0.2s;
+    animation-name: fadein;
+}
+
+
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1
+    }
+}
+
 
 
 
@@ -267,9 +287,9 @@ input {
     background-color: #6bbd52;
 }
 
-.custom-card-title {
-    
-}
+
+
+
 
 div > .card {
     box-shadow: 0px 0px 10px rgba(0,0,0,0.3);
