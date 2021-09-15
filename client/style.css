@@ -267,10 +267,6 @@ div > .card {
     font-size: 1 rem;
 }
 
-div > .card-body > p {
-    font-size: 1.4rem;
-}
-
 .custom-card {
     box-shadow: 0px 0px 10px rgba(147, 247, 200, 0.6);
     padding: 5px;
@@ -299,10 +295,24 @@ div > .card-footer {
     /* justify-content: space-evenly; */
 }
 
-/* Title in Comment section*/
+/* Title and text in Comment section*/
 div > .card-footer > h4 {
     margin-top: 1rem;
     margin-bottom: .5rem;
+}
+
+.commentText {
+    font-size: 1.4rem;
+    text-align: left;
+}
+
+.commentDate {
+    text-align: right;
+}
+
+.timeStamp {
+    font-size: 1rem;
+    background-color: #60a74a;
 }
 
 .quack-test .card .card-footer {
@@ -316,12 +326,7 @@ div > .card-footer > h4 {
 
 .card-footer p {
     margin-top: 1rem;
-    font-size: 1rem;
     margin-bottom: -5px;
-}
-
-.timeStamp {
-    font-size: 0.8rem;
 }
 
 .quack-reactions .card-icons {
