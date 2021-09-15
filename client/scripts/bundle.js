@@ -408,6 +408,7 @@ const imageButton = document.getElementById('add-image');
 const sortMenu = document.getElementById('sortBy')
 var dayjs = require('./dayjs/dayjs')
 var relativeTime = require('./dayjs/plugin/relativeTime')
+var isTrendingAdded = false;
 dayjs.extend(relativeTime)
 // const giphyURL = require('./giphy.js')
 
@@ -498,26 +499,44 @@ async function generateCard() {
     // console.log(postsData)
     //sort array by most reactions
     if (selectionButton.value === 'Hot') {
-        postsData.sort(function compareFunction(a, b) {
-            //a counter
-            console.log(a)
-            let acount = 0
-            for (let i = 0; i < a.reactions.length; i++) {
-                acount += a.reactions[i].count
-                console.log(`added ${a.reactions[i].count} to acount`)
-            }
-            console.log(acount)
-            let bcount = 0
-            for (let i = 0; i < b.reactions.length; i++) {
-                bcount += b.reactions[i].count
-            }
-            console.log(bcount)
-            console.log(bcount - acount)
-            return acount - bcount;
-        })
+        postsData.sort((a, b) => sortByReactions(a, b))
+        // {
+        //     //a counter
+        //     console.log(a)
+        //     let acount = 0
+        //     for (let i = 0; i < a.reactions.length; i++) {
+        //         acount += a.reactions[i].count
+        //         console.log(`added ${a.reactions[i].count} to acount`)
+        //     }
+        //     console.log(acount)
+        //     let bcount = 0
+        //     for (let i = 0; i < b.reactions.length; i++) {
+        //         bcount += b.reactions[i].count
+        //     }
+        //     console.log(bcount)
+        //     console.log(bcount - acount)
+        //     return acount - bcount;
+        // })
+    }
+
+    function sortByReactions(a, b) {
+        //a counter
+
+        let acount = 0
+        for (let i = 0; i < a.reactions.length; i++) {
+            acount += a.reactions[i].count
+
+        }
+
+        let bcount = 0
+        for (let i = 0; i < b.reactions.length; i++) {
+            bcount += b.reactions[i].count
+        }
+
+        return acount - bcount;
     }
     //filter array by recent posts
-    
+
     if (selectionButton.value === 'Fresh') {
         postsData = postsData.filter(isFresh)
     }
@@ -528,7 +547,7 @@ async function generateCard() {
 
     //filter array by 'rising' - most reactions in last X minutes
     if (selectionButton.value === 'Rising') {
-        postsData.sort(function risingFunction(a,b) {
+        postsData.sort(function risingFunction(a, b) {
             // we will compute the difference in dates between each post and the current date
             // and the number of reactions of the post
             // then compute the ratio of reactions / time taken
@@ -546,142 +565,186 @@ async function generateCard() {
             for (let i = 0; i < b.reactions.length; i++) {
                 bcount += b.reactions[i].count
             }
-            const aRatio = acount/aDiff
-            const bRatio = bcount/bDiff
+            const aRatio = acount / aDiff
+            const bRatio = bcount / bDiff
             return aRatio - bRatio
         })
     }
 
-const postBox = document.getElementById('quack-test-holder');
-postBox.innerHTML = ""
-for (let i = postsData.length - 1; i >= 0; i--) {
-    //iterate backwards through array to give posts in chronological order
-    const newPost = document.createElement('div');
-    const newPostTitle = document.createElement('h2');
-    const newPostBody = document.createElement('div');
-    const newPostImage = document.createElement('img');
-    const newPostGif = document.createElement('img')
-    const newPostText = document.createElement('p')
-    const newPostReactionsEtc = document.createElement('div')
-    const currentReactions = document.createElement('div')
-    const reactionsHolder = document.createElement('div')
+    const postBox = document.getElementById('quack-test-holder');
+    postBox.innerHTML = ""
+    for (let i = postsData.length - 1; i >= 0; i--) {
+        //iterate backwards through array to give posts in chronological order
+        const newPost = document.createElement('div');
+        const newPostTitle = document.createElement('h2');
+        const newPostBody = document.createElement('div');
+        const newPostImage = document.createElement('img');
+        const newPostGif = document.createElement('img')
+        const newPostText = document.createElement('p')
+        const newPostReactionsEtc = document.createElement('div')
+        const currentReactions = document.createElement('div')
+        const reactionsHolder = document.createElement('div')
 
-    //give div the right children
-    newPost.appendChild(newPostImage)
-    newPost.appendChild(newPostGif)
-    newPost.appendChild(newPostBody)
-    newPostBody.appendChild(newPostTitle)
-    newPostBody.appendChild(newPostText)
-    newPostBody.appendChild(reactionsHolder)
-    reactionsHolder.classList.add('reactions-div')
-    newPostBody.appendChild(newPostReactionsEtc)
-    //make it a card
-    newPost.classList.add(`card`);
-    newPostBody.classList.add('card-body');
-    postBox.appendChild(newPost)
-    newPostText.classList.add('card-text', 'fs-3');
-    newPostImage.classList.add('card-img-top')
-    newPostGif.classList.add('card-img-top')
-    newPostReactionsEtc.classList.add('text-muted', 'quack-reactions')
-    newPostText.textContent = postsData[i].text;
-    newPostImage.setAttribute("src", `${postsData[i].picture}`)
-    newPostGif.setAttribute("src", `${postsData[i].gif}`)
-    //set the title
-    const stringCombo = generateCombination(2, "-", postsData[i].id)
-    newPostTitle.textContent = `Quack id ${stringCombo}`
-    newPostTitle.classList.add('card-title', 'custom-card-title', 'text-muted')
-    //add current reactions below the main text
-    //we will add a button for each reaction choice, hopefully styled as a pill or something
-    for (let k = 0; k < reactionChoices.length; k++) {
-        const reactionButton = document.createElement('button')
-        const currentReactionCount = postsData[i].reactions[k].count
-        reactionButton.classList.add('btn', 'btn-outline-dark', 'reaction-button')
+        //give div the right children
+        newPost.appendChild(newPostImage)
+        newPost.appendChild(newPostGif)
+        newPost.appendChild(newPostBody)
+        newPostBody.appendChild(newPostTitle)
+        newPostBody.appendChild(newPostText)
+        newPostBody.appendChild(reactionsHolder)
+        reactionsHolder.classList.add('reactions-div')
+        newPostBody.appendChild(newPostReactionsEtc)
+        //make it a card
+        newPost.classList.add(`card`);
+        newPost.setAttribute(`id`, `post-card-id-${postsData[i].id}`)
+        newPostBody.classList.add('card-body');
+        postBox.appendChild(newPost)
+        newPostText.classList.add('card-text', 'fs-3');
+        newPostImage.classList.add('card-img-top')
+        newPostGif.classList.add('card-img-top')
+        newPostReactionsEtc.classList.add('text-muted', 'quack-reactions')
+        newPostText.textContent = postsData[i].text;
+        newPostImage.setAttribute("src", `${postsData[i].picture}`)
+        newPostGif.setAttribute("src", `${postsData[i].gif}`)
+        //set the title
+        const stringCombo = generateCombination(2, "-", postsData[i].id)
+        newPostTitle.textContent = `Quack id ${stringCombo}`
+        newPostTitle.classList.add('card-title', 'custom-card-title', 'text-muted')
+        //add current reactions below the main text
+        //we will add a button for each reaction choice, hopefully styled as a pill or something
+        for (let k = 0; k < reactionChoices.length; k++) {
+            const reactionButton = document.createElement('button')
+            const currentReactionCount = postsData[i].reactions[k].count
+            reactionButton.classList.add('btn', 'btn-outline-dark', 'reaction-button')
 
-        reactionButton.setAttribute('type', 'button')
-        reactionButton.setAttribute('id', `reaction-button-${k}-${postsData[i].id}`)
-        reactionButton.setAttribute('id-tag', `${postsData[i].id}`)
-        reactionButton.setAttribute('reaction-tag', `${k+1}`)
-        reactionButton.setAttribute('reaction-count', currentReactionCount)
-        reactionButton.textContent = `${currentReactionCount} ${reactionChoices[k]}`
-        reactionsHolder.append(reactionButton)
-    }
-    //comment and reaction icons
-    //comment
-    const cardCommentIcon = document.createElement('i')
-    cardCommentIcon.classList.add('far', 'fa-comments', 'card-icons')
-    newPostReactionsEtc.appendChild(cardCommentIcon)
-    cardCommentIcon.setAttribute('id-tag', `${postsData[i].id}`)
-    //reaction
-    const cardReactionIcon = document.createElement('i')
-    cardReactionIcon.classList.add('far', 'fa-heart', 'card-icons')
-    newPostReactionsEtc.appendChild(cardReactionIcon)
-    cardReactionIcon.setAttribute('id-tag', `${postsData[i].id}`)
-    //timestamp
-    const timeStamp = document.createElement('p')
-    timeStamp.textContent = dayjs().to((postsData[i].date));
-    newPostReactionsEtc.appendChild(timeStamp)
-    timeStamp.classList.add('timeStamp')
-
-    //card footer
-    const cardFooter = document.createElement('div')
-    cardFooter.classList.add('card-footer', 'text-muted')
-    newPost.appendChild(cardFooter)
-    //comments section title
-    const commentsTitle = document.createElement('h4')
-    commentsTitle.textContent = "Comments"
-    cardFooter.appendChild(commentsTitle)
-    //add comment box
-    const commentBox = document.createElement('input');
-    commentBox.setAttribute('type', 'text');
-    commentBox.setAttribute('placeholder', 'write a comment')
-    commentBox.setAttribute('id', `comment-box-${postsData[i].id}`)
-    commentBox.classList.add('comment-input', 'hidden')
-    cardFooter.appendChild(commentBox)
-
-    //submit comment button
-    const submitComment = document.createElement('input')
-    submitComment.setAttribute('type', 'submit')
-    submitComment.setAttribute('value', 'Submit comment')
-    submitComment.setAttribute('id', `comment-button-${postsData[i].id}`)
-    submitComment.classList.add('comment-button', 'hidden')
-    cardFooter.appendChild(submitComment)
-    submitComment.setAttribute('id-tag', `${postsData[i].id}`)
-
-
-
-    //iterate through comments array and add each one to footer
-    if (postsData[i].comments.length !== 0) {
-        for (let j = 0; j < postsData[i].comments.length; j++) {
-            const commentCard = document.createElement('div')
-            commentCard.classList.add('card')
-            const commentCardBody = document.createElement('div');
-            commentCardBody.classList.add('card-body')
-            const commentText = document.createElement('p');
-            const commentDate = document.createElement('p');
-            commentText.textContent = postsData[i].comments[j].text
-            commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
-            commentCard.appendChild(commentCardBody);
-            commentCardBody.appendChild(commentText);
-            commentCardBody.appendChild(commentDate)
-            cardFooter.appendChild(commentCard);
+            reactionButton.setAttribute('type', 'button')
+            reactionButton.setAttribute('id', `reaction-button-${k}-${postsData[i].id}`)
+            reactionButton.setAttribute('id-tag', `${postsData[i].id}`)
+            reactionButton.setAttribute('reaction-tag', `${k+1}`)
+            reactionButton.setAttribute('reaction-count', currentReactionCount)
+            reactionButton.textContent = `${currentReactionCount} ${reactionChoices[k]}`
+            reactionsHolder.append(reactionButton)
         }
-    } else {
-        const noCommentText = document.createElement('p')
-        noCommentText.textContent = "no comments :( be the first?"
-        cardFooter.appendChild(noCommentText)
+        //comment and reaction icons
+        //comment
+        const cardCommentIcon = document.createElement('i')
+        cardCommentIcon.classList.add('far', 'fa-comments', 'card-icons')
+        newPostReactionsEtc.appendChild(cardCommentIcon)
+        cardCommentIcon.setAttribute('id-tag', `${postsData[i].id}`)
+        //reaction
+        const cardReactionIcon = document.createElement('i')
+        cardReactionIcon.classList.add('far', 'fa-heart', 'card-icons')
+        newPostReactionsEtc.appendChild(cardReactionIcon)
+        cardReactionIcon.setAttribute('id-tag', `${postsData[i].id}`)
+        //timestamp
+        const timeStamp = document.createElement('p')
+        timeStamp.textContent = dayjs().to((postsData[i].date));
+        newPostReactionsEtc.appendChild(timeStamp)
+        timeStamp.classList.add('timeStamp')
+
+        //card footer
+        const cardFooter = document.createElement('div')
+        cardFooter.classList.add('card-footer', 'text-muted')
+        newPost.appendChild(cardFooter)
+        //comments section title
+        const commentsTitle = document.createElement('h4')
+        commentsTitle.textContent = "Comments"
+        cardFooter.appendChild(commentsTitle)
+        //add comment box
+        const commentBox = document.createElement('input');
+        commentBox.setAttribute('type', 'text');
+        commentBox.setAttribute('placeholder', 'write a comment')
+        commentBox.setAttribute('id', `comment-box-${postsData[i].id}`)
+        commentBox.classList.add('comment-input', 'hidden')
+        cardFooter.appendChild(commentBox)
+
+        //submit comment button
+        const submitComment = document.createElement('input')
+        submitComment.setAttribute('type', 'submit')
+        submitComment.setAttribute('value', 'Submit comment')
+        submitComment.setAttribute('id', `comment-button-${postsData[i].id}`)
+        submitComment.classList.add('comment-button', 'hidden')
+        cardFooter.appendChild(submitComment)
+        submitComment.setAttribute('id-tag', `${postsData[i].id}`)
+
+
+
+        //iterate through comments array and add each one to footer
+        if (postsData[i].comments.length !== 0) {
+            for (let j = 0; j < postsData[i].comments.length; j++) {
+                const commentCard = document.createElement('div')
+                commentCard.classList.add('card')
+                const commentCardBody = document.createElement('div');
+                commentCardBody.classList.add('card-body')
+                const commentText = document.createElement('p');
+                const commentDate = document.createElement('p');
+                commentText.textContent = postsData[i].comments[j].text
+                commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
+                commentCard.appendChild(commentCardBody);
+                commentCardBody.appendChild(commentText);
+                commentCardBody.appendChild(commentDate)
+                cardFooter.appendChild(commentCard);
+            }
+        } else {
+            const noCommentText = document.createElement('p')
+            noCommentText.textContent = "no comments :( be the first?"
+            cardFooter.appendChild(noCommentText)
+        }
+
+
+
+
+
+
     }
 
 
 
+    //adding 'trending tweet'
+    // first check what type of sorting has been used 
+    // if its 'hot' we can just grab the first child of the cards holder div
+    // if its anything else, we need to sort by reaction count
+    if (selectionButton.value === 'Hot' && !isTrendingAdded) {
+        const holder = document.getElementById('quack-test-holder');
+        const topCard = holder.firstChild;
+        const trendingCard = topCard.cloneNode(true);
+        trendingCard.setAttribute("id", 'top-trending-card');
+        const elementToRemove = trendingCard.childNodes[3];
+        trendingCard.removeChild(elementToRemove)
+        // const elementToRemoveAgain = trendingCard.childNodes[3];
+        // trendingCard.removeChild(elementToRemoveAgain)
+        const trendingHolder = document.getElementById('trending')
+        trendingHolder.appendChild(trendingCard)
+        isTrendingAdded = true
+    }
+    // if its not hot
+    // first get sorted array, then grab the ids of the top post
+    else {
+        postsData.sort((a, b) => sortByReactions(a, b))
+        const topPostId = postsData[0].id
+        const cardToCopy = document.getElementById(`post-card-id-${topPostId}`)
+        const trendingCard = cardToCopy.cloneNode;
+        trendingCard.setAttribute("id", 'top-trending-card')
+        const elementToRemove = trendingCard.childNodes[3];
+        trendingCard.removeChild(elementToRemove)
+        // const elementToRemoveAgain = trendingCard.childNodes[3];
+        // trendingCard.removeChild(elementToRemoveAgain)
+        const trendingHolder = document.getElementById('trending')
+        trendingHolder.appendChild(trendingCard)
+    }
+
 }
-}
+
+
+
+
 
 function addComment(postId) {
     const commentBox = document.getElementById(`comment-box-${postId}`);
 
     const commentText = commentBox.value;
     const currentTime = dayjs()
-    console.log(currentTime)
+
     if (commentText === "") {
         commentBox.setAttribute("placeholder", "write something!")
         return console.log('empty string detected');
@@ -855,7 +918,7 @@ function makeReactionsWork() {
                 this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
                 this.classList.remove('btn-outline-dark')
                 this.classList.add('btn-dark')
-                console.log(currentValue)
+
 
             }, {
                 once: true
@@ -2252,7 +2315,7 @@ function generateCombination(numAdjectives, delimiter, seed, capitalizeFirstLett
     const randomIshTwo = (seed * 8 * 9301 + 49297) % 233280
     const pseudoRandomOne = randomIshOne / 233280
     const pseudoRandomTwo = randomIshTwo / 233280
-    console.log(pseudoRandomOne, pseudoRandomTwo)
+
     const animal = animals[Math.floor(pseudoRandomOne * animals.length)];
 
     for (let i = 0; i < numAdjectives; i++) {
