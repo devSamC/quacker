@@ -51,10 +51,11 @@ class Post {
 
   addComment(commentData, id) {
     const commentText = commentData.text
+    const commentDate = commentData.date
     const currentPost = postsData[id-1];
     console.log(currentPost)
     const currentCommentId = currentPost.comments.length
-    currentPost.comments.push({id: currentCommentId + 1, text: commentText, reactions: ""})
+    currentPost.comments.push({id: currentCommentId + 1, text: commentText, reactions: "", date: commentDate})
   }
 
   deletePost(id) {

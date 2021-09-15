@@ -214,7 +214,9 @@ async function generateCard() {
                 const commentCardBody = document.createElement('div');
                 commentCardBody.classList.add('card-body')
                 const commentText = document.createElement('p');
+                const commentDate = document.createElement('p');
                 commentText.textContent = postsData[i].comments[j].text
+                commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
                 cardFooter.appendChild(commentCard);
@@ -248,7 +250,8 @@ function addComment(postId) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            "text": `${commentText}`
+            "text": `${commentText}`,
+            "date": `${dayjs().toString()}`
         })
     }).then(response => createPage())
 
