@@ -2,6 +2,7 @@ const submitButton = document.getElementById('quack-btn');
 const imageButton = document.getElementById('add-image');
 const sortMenu = document.getElementById('sortBy')
 const searchSubmitButton = document.getElementById('search-posts-submit')
+const inputBox = document.getElementById('quack-input');
 var dayjs = require('./dayjs/dayjs')
 var relativeTime = require('./dayjs/plugin/relativeTime')
 var isTrendingAdded = false;
@@ -21,6 +22,12 @@ imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
 sortMenu.addEventListener('change', e => changeSort(e))
 searchSubmitButton.addEventListener('click', e=>giveSearchInput(e))
+inputBox.addEventListener('keydown', e=> changeDuck(e))
+
+function changeDuck(e) {
+    const duckImage = document.getElementById('duck-img');
+    duckImage.setAttribute('src','./images/duckGifV2.gif')
+}
 
 function giveSearchInput(e) {
     console.log('clicked search input button')
@@ -47,7 +54,7 @@ async function getAllPosts() {
 function displayCharLimit() {
     let length = 0;
     const charLimit = 281;
-    const inputBox = document.getElementById('quack-input');
+    
     const remainingChars = document.getElementById('remaining-chars')
     inputBox.addEventListener('keyup', function (e) {
         length = this.value.length;
@@ -489,6 +496,8 @@ function addQuack(e) {
 
     //send post data to server and then retrieve
     //first just console log the data that we get 
+    const duckImage = document.getElementById('duck-img');
+    duckImage.setAttribute('src','./images/happy.png')
     const quackBox = document.getElementById('quack-input');
     const postText = quackBox.value
     if (postText === "") {
