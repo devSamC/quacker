@@ -497,6 +497,12 @@ div > .card-footer > h4 {
     .logo {
         position: absolute; 
     }
+    .about-text {
+        display:none;
+    }
+    .options {
+        display:none
+    }
 }
 
 
