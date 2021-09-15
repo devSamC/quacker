@@ -204,13 +204,10 @@ input {
 
 .img-input {
     height: 2rem;
-    border: 1px solid var(--primary-4);
     border-radius: 10px;
     width: 100%;
     padding: 5px;
 }
-
-
 
 
 #gifForm {
@@ -227,11 +224,15 @@ input {
     width: 100%;
     height: 2rem;
     margin-left: -1.5px;
-    border: 1px solid var(--primary-4);
     border-radius: 10px;
     padding: 5px;
 }
 
+.img-input, #search {
+    border: 1px solid var(--primary-0);
+    box-shadow: 0px 0px 10px var(--primary-0);
+    border-radius: 1.5rem;
+}
 
 
 .bluef {
@@ -297,8 +298,10 @@ div > .card-footer {
 
 /* Title and text in Comment section*/
 div > .card-footer > h4 {
-    margin-top: 1rem;
-    margin-bottom: .5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0rem;
+    color: var(--complement-0); 
+    font-weight: bolder;
 }
 
 .commentText {
@@ -318,14 +321,9 @@ div > .card-footer > h4 {
     border-radius: 0px 0px 15px 15px;
 }
 
-.card-footer > h4 {
-    color: var(--complement-0); 
-    font-weight:bolder;
-}
-
 .card-footer p {
-    margin-top: 1rem;
-    margin-bottom: -5px;
+    margin-top: 0rem;
+    margin-bottom: 0px;
 }
 
 .quack-reactions .card-icons {
