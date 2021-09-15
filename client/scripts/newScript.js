@@ -1,8 +1,10 @@
 const submitButton = document.getElementById('quack-btn');
 const imageButton = document.getElementById('add-image');
-const sortMenu =document.getElementById('sortBy')
+const sortMenu = document.getElementById('sortBy')
+const searchSubmitButton = document.getElementById('search-posts-submit')
 var dayjs = require('./dayjs/dayjs')
 var relativeTime = require('./dayjs/plugin/relativeTime')
+var isTrendingAdded = false;
 dayjs.extend(relativeTime)
 // const giphyURL = require('./giphy.js')
 
@@ -17,7 +19,14 @@ dayjs.extend(relativeTime)
 
 imageButton.addEventListener('click', e => addImage(e))
 submitButton.addEventListener('click', e => addQuack(e))
-sortMenu.addEventListener('change', e=> changeSort(e))
+sortMenu.addEventListener('change', e => changeSort(e))
+searchSubmitButton.addEventListener('click', e=>giveSearchInput(e))
+
+function giveSearchInput(e) {
+    console.log('clicked search input button')
+    createPage();
+}
+
 
 function changeSort(e) {
     console.log('value changed')
@@ -87,31 +96,103 @@ function hideGifInput() {
 async function generateCard() {
     const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/posts')
 
-    const postsData = await posts.json()
+    let postsData = await posts.json()
     const selectionButton = document.getElementById('sortBy');
-    console.log(selectionButton.value)
-    console.log(postsData)
+    const searchBar = document.getElementById('search-input')
+
+    //searching logic
+    //will manipulate postsData according to search queries
+    //do this before checking selectionButton to allow filtering of items once searched
+
+    if (searchBar.value !== "") {
+        //search main text
+        const searchQuery = searchBar.value
+        let searched = [];
+        searched = postsData.filter(mainTextContains)
+
+        function mainTextContains(post) {
+            const textArray = post.text.split(' ');
+            return textArray.includes(searchQuery)
+        }
+
+        searchedInComments = postsData.filter(commentTextContains)
+
+        function commentTextContains(post) {
+            if (post.comments.length === 0) {
+                return false;
+            }
+            for (let i = 0; i < post.comments.length; i++) {
+                const textArray = post.comments[i].text.split(' ');
+                return textArray.includes(searchQuery)
+            }
+            
+        }
+
+        searchedInComments.forEach(e => searched.push(e))
+        postsData = searched
+    }
+    //search comments
+    //search by post id?
+
+
+
+    //sort array by most reactions
     if (selectionButton.value === 'Hot') {
-        postsData.sort(function compareFunction(a, b) {
-            //a counter
-            console.log(a)
+        postsData.sort((a, b) => sortByReactions(a, b))
+    }
+
+    function sortByReactions(a, b) {
+        //a counter
+
+        let acount = 0
+        for (let i = 0; i < a.reactions.length; i++) {
+            acount += a.reactions[i].count
+
+        }
+
+        let bcount = 0
+        for (let i = 0; i < b.reactions.length; i++) {
+            bcount += b.reactions[i].count
+        }
+
+        return acount - bcount;
+    }
+    //filter array by recent posts
+
+    if (selectionButton.value === 'Fresh') {
+        postsData = postsData.filter(isFresh)
+    }
+
+    function isFresh(post) {
+        return dayjs().to(post.date, true).split(' ')[1] === 'minutes' || dayjs().to(post.date, true).split(' ')[2] === 'seconds'
+    }
+
+    //filter array by 'rising' - most reactions in last X minutes
+    if (selectionButton.value === 'Rising') {
+        postsData.sort(function risingFunction(a, b) {
+            // we will compute the difference in dates between each post and the current date
+            // and the number of reactions of the post
+            // then compute the ratio of reactions / time taken
+            // then sort by highest ratio
+            const currentDate = dayjs()
+            const aPostDate = a.date
+            const bPostDate = b.date
+            const aDiff = currentDate.diff(aPostDate)
+            const bDiff = currentDate.diff(bPostDate)
             let acount = 0
+            let bcount = 0
             for (let i = 0; i < a.reactions.length; i++) {
                 acount += a.reactions[i].count
-                console.log(`added ${a.reactions[i].count} to acount`)
             }
-            console.log(acount)
-            let bcount = 0
             for (let i = 0; i < b.reactions.length; i++) {
                 bcount += b.reactions[i].count
             }
-            console.log(bcount)
-            console.log(bcount - acount)
-            return acount - bcount;
+            const aRatio = acount / aDiff
+            const bRatio = bcount / bDiff
+            return aRatio - bRatio
         })
     }
-    
-    console.log(postsData)
+
     const postBox = document.getElementById('quack-test-holder');
     postBox.innerHTML = ""
     for (let i = postsData.length - 1; i >= 0; i--) {
@@ -137,6 +218,7 @@ async function generateCard() {
         newPostBody.appendChild(newPostReactionsEtc)
         //make it a card
         newPost.classList.add(`card`);
+        newPost.setAttribute(`id`, `post-card-id-${postsData[i].id}`)
         newPostBody.classList.add('card-body');
         postBox.appendChild(newPost)
         newPostText.classList.add('card-text', 'fs-3');
@@ -155,7 +237,7 @@ async function generateCard() {
         for (let k = 0; k < reactionChoices.length; k++) {
             const reactionButton = document.createElement('button')
             const currentReactionCount = postsData[i].reactions[k].count
-            reactionButton.classList.add('btn', 'btn-outline-dark', 'reaction-button')
+            reactionButton.classList.add('btn', 'btn-outline-success', 'reaction-button')
 
             reactionButton.setAttribute('type', 'button')
             reactionButton.setAttribute('id', `reaction-button-${k}-${postsData[i].id}`)
@@ -233,15 +315,58 @@ async function generateCard() {
 
 
 
+
+
+
     }
+
+
+
+    //adding 'trending tweet'
+    // first check what type of sorting has been used 
+    // if its 'hot' we can just grab the first child of the cards holder div
+    // if its anything else, we need to sort by reaction count
+    if (selectionButton.value === 'Hot' && !isTrendingAdded) {
+        const holder = document.getElementById('quack-test-holder');
+        const topCard = holder.firstChild;
+        const trendingCard = topCard.cloneNode(true);
+        trendingCard.setAttribute("id", 'top-trending-card');
+        const elementToRemove = trendingCard.childNodes[3];
+        trendingCard.removeChild(elementToRemove)
+        // const elementToRemoveAgain = trendingCard.childNodes[3];
+        // trendingCard.removeChild(elementToRemoveAgain)
+        const trendingHolder = document.getElementById('trending')
+        trendingHolder.appendChild(trendingCard)
+        isTrendingAdded = true
+    }
+    // if its not hot
+    // first get sorted array, then grab the ids of the top post
+    else {
+        postsData.sort((a, b) => sortByReactions(a, b))
+        const topPostId = postsData[0].id
+        const cardToCopy = document.getElementById(`post-card-id-${topPostId}`)
+        const trendingCard = cardToCopy.cloneNode;
+        trendingCard.setAttribute("id", 'top-trending-card')
+        const elementToRemove = trendingCard.childNodes[3];
+        trendingCard.removeChild(elementToRemove)
+        // const elementToRemoveAgain = trendingCard.childNodes[3];
+        // trendingCard.removeChild(elementToRemoveAgain)
+        const trendingHolder = document.getElementById('trending')
+        trendingHolder.appendChild(trendingCard)
+    }
+
 }
+
+
+
+
 
 function addComment(postId) {
     const commentBox = document.getElementById(`comment-box-${postId}`);
 
     const commentText = commentBox.value;
     const currentTime = dayjs()
-    console.log(currentTime)
+
     if (commentText === "") {
         commentBox.setAttribute("placeholder", "write something!")
         return console.log('empty string detected');
@@ -275,10 +400,52 @@ function addReactionCount(postId, reactionId, currentReactionCount) {
 }
 
 // giphy api stuff 
-
+let fig = document.getElementById("figure");
 let APIKEY = "91J9L3KzBaZxex6NxItZcvPTbFjKvQnn";
 // you will need to get your own API KEY
 // https://developers.giphy.com/dashboard/
+document.addEventListener("DOMContentLoaded", previewGif);
+
+function previewGif() {
+    document.getElementById("previewGif").addEventListener("click", ev => {
+        ev.preventDefault(); //to stop the page reload
+        removePreview()
+        let url = `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&limit=10&q=`;
+        let str = document.getElementById("search").value.trim();
+        url = url.concat(str);
+        let out = document.querySelector(".out");
+
+        if (out !== '') {
+            out = ''
+        }
+
+        fetch(url)
+            .then(response => response.json())
+            .then(content => {
+
+                console.log("this happened")
+
+
+
+                let img = document.createElement("img");
+                let fc = document.createElement("figcaption");
+                img.src = content.data[0].images.fixed_width.url;
+                img.alt = content.data[0].title;
+                fc.textContent = content.data[0].title;
+                fig.appendChild(img);
+                fig.appendChild(fc);
+                out = document.querySelector(".out");
+                out.insertAdjacentElement("afterbegin", fig);
+
+
+                return img.src;
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+}
+
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
@@ -291,15 +458,15 @@ function init() {
         fetch(url)
             .then(response => response.json())
             .then(content => {
-                //  data, pagination, meta
 
                 let fig = document.createElement("figure");
                 let img = document.createElement("img");
+
                 img.src = content.data[0].images.downsized.url;
                 img.alt = content.data[0].title;
                 document.querySelector("#search").value = content.data[0].images.downsized.url;
 
-                return img.src;
+
             })
             .catch(err => {
                 console.error(err);
@@ -307,6 +474,11 @@ function init() {
     });
 }
 
+function removePreview() {
+    fig.innerHTML = ""
+
+
+}
 
 
 
@@ -338,6 +510,8 @@ function addQuack(e) {
     if (!gifForm.classList.contains('hidden')) {
         gifForm.classList.toggle('hidden')
     }
+
+    removePreview()
     quackBox.value = ""
     const allPosts = getAllPosts()
     const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/posts', {
@@ -413,9 +587,9 @@ function makeReactionsWork() {
                 const currentValue = this.textContent
                 const valueArray = currentValue.split(' ')
                 this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
-                this.classList.remove('btn-outline-dark')
-                this.classList.add('btn-dark')
-                console.log(currentValue)
+                this.classList.remove('btn-outline-success')
+                this.classList.add('btn')
+
 
             }, {
                 once: true
@@ -1812,7 +1986,7 @@ function generateCombination(numAdjectives, delimiter, seed, capitalizeFirstLett
     const randomIshTwo = (seed * 8 * 9301 + 49297) % 233280
     const pseudoRandomOne = randomIshOne / 233280
     const pseudoRandomTwo = randomIshTwo / 233280
-    console.log(pseudoRandomOne, pseudoRandomTwo)
+
     const animal = animals[Math.floor(pseudoRandomOne * animals.length)];
 
     for (let i = 0; i < numAdjectives; i++) {

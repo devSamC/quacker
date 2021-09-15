@@ -32,5 +32,5 @@
 //       });
 //   });
 // }
-// const giphyURL = init()
-// module.exports = giphyURL 
+const giphyURL = init()
+module.exports = giphyURL 
