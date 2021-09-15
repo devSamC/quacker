@@ -3,6 +3,7 @@ const imageButton = document.getElementById('add-image');
 const sortMenu = document.getElementById('sortBy')
 const searchSubmitButton = document.getElementById('search-posts-submit')
 const inputBox = document.getElementById('quack-input');
+const logo = document.getElementById('logo')
 var dayjs = require('./dayjs/dayjs')
 var relativeTime = require('./dayjs/plugin/relativeTime')
 var isTrendingAdded = false;
@@ -23,6 +24,7 @@ submitButton.addEventListener('click', e => addQuack(e))
 sortMenu.addEventListener('change', e => changeSort(e))
 searchSubmitButton.addEventListener('click', e=>giveSearchInput(e))
 inputBox.addEventListener('keydown', e=> changeDuck(e))
+logo.addEventListener("mouseover", e=> changeLogo(e))
 
 function changeDuck(e) {
     const duckImage = document.getElementById('duck-img');
@@ -38,6 +40,15 @@ function giveSearchInput(e) {
 function changeSort(e) {
     console.log('value changed')
     createPage()
+}
+
+
+
+    
+function changeLogo(e) {
+        console.log('mouse is over')
+        logo.setAttribute('src', './images/flying-gif-shadow.gif')
+        
 }
 
 const reactionChoices = ['❤', '❓', '🔝']
@@ -332,7 +343,7 @@ async function generateCard() {
 
     }
 
-
+    
 
     //adding 'trending tweet'
     // first check what type of sorting has been used 
