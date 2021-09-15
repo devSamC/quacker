@@ -328,6 +328,7 @@ div > .card-footer > h4 {
     color: var(--complement-0);
 }
 
+
 .search {
     border: 1px solid lightgray;
     width: 23rem;
@@ -341,6 +342,13 @@ div > .card-footer > h4 {
 #search-input {
     border-width: 0px;
 }
+
+
+.search, 
+#search-input {
+    background-color: white;
+}
+
 #search-input:focus {
     outline: none;
     margin-left: 0.3rem;
