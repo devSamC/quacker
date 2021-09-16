@@ -77,8 +77,6 @@ body {
 }
 
 
-
-
 .trending {
   position: fixed;
   top: 1rem;
@@ -326,6 +324,10 @@ input {
   border-radius: 1.5rem;
 }
 
+#figure {
+  margin-right: 29px ;
+}
+
 .bluef {
   color: lightskyblue;
 }
@@ -439,6 +441,12 @@ div > .card-footer > h4 {
 
 .timeStamp, .CommentTimeStamp {
   font-size: 1rem;
+}
+
+.lower-comment-holder {
+  display: flex;
+  flex-direction: row;
+  margin-left: 120px;
 }
 
 .quack-test .card .card-footer {
@@ -645,6 +653,8 @@ div > .card-footer > h4 {
 
   .commentAuthor {
     width: 50%;
+    position: relative;
+    top: 7vh;
   }
 }
 
