@@ -37,12 +37,12 @@ describe('index.html', () => {
   });
 
   describe("body", () => {
-
+    test("it has a header", () => {
+      let header = document.querySelector('header');
+      expect(header).toBeTruthy();
+    });
   });
 
-  describe("footer", () => {
-    let footer = document.querySelector('footer');
-    expect(footer).toBeTruthy();
-  });
+  
 
 })
