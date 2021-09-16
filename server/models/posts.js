@@ -26,7 +26,7 @@ class Post {
       // console.log(postsData)
       // const post = new Post(postsData);
       // console.log(post)
-      return postsData[id-1]
+      return postsData[id - 1]
     } catch (error) {
       throw new Error('no such post with id')
     }
@@ -44,19 +44,33 @@ class Post {
 
   addReaction(reactionData, id, reactionId) {
     const reactionCount = parseInt(reactionData.count)
-    const currentPost = postsData[id-1];
+    const currentPost = postsData[id - 1];
     console.log(currentPost)
-    currentPost.reactions[reactionId-1].count = reactionCount+1;
-    console.log(currentPost.reactions[reactionId-1].count)
+    currentPost.reactions[reactionId - 1].count = reactionCount + 1;
+    console.log(currentPost.reactions[reactionId - 1].count)
   }
 
   addComment(commentData, id) {
     const commentText = commentData.text
     const commentDate = commentData.date
-    const currentPost = postsData[id-1];
+    const currentPost = postsData[id - 1];
     console.log(currentPost)
     const currentCommentId = currentPost.comments.length
-    currentPost.comments.push({id: currentCommentId + 1, text: commentText, reactions: "", date: commentDate})
+    currentPost.comments.push({
+      id: currentCommentId + 1,
+      text: commentText,
+      reactions: [{
+        id: 1,
+        count: 0
+      }, {
+        id: 2,
+        count: 0
+      }, {
+        id: 3,
+        count: 0
+      }],
+      date: commentDate
+    })
   }
 
   deletePost(id) {
