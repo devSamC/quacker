@@ -377,7 +377,7 @@ async function generateCard() {
                 const commentDate = document.createElement("p");
                 commentDate.classList.add("CommentTimeStamp", "commentDate");
                 const commentReactionHolder = document.createElement("div");
-                commentReactionHolder.classList.add("reactions-div");
+                commentReactionHolder.classList.add("comment-reactions-div");
                 commentText.textContent = postsData[i].comments[j].text;
                 commentAuthor.textContent = `comment by ${postsData[i].comments[j].author}`;
                 commentDate.textContent = dayjs().to(postsData[i].comments[j].date);

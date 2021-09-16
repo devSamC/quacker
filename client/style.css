@@ -393,6 +393,10 @@ div > .card-footer > h4 {
   text-align: right;
 }
 
+.comment-reactions-div {
+  position: relative;
+  right: 38%;
+}
 
 .no-comments-text {
   padding: 10px;
@@ -454,22 +458,26 @@ div > .card-footer > h4 {
   cursor: pointer;
 }
 
-.reactions-div {
+.reactions-div,
+.comment-reactions-div {
   display: flex;
   justify-content: space-around;
-  width: 40%;
+  width: 30%;
   margin: auto;
   padding: 1rem;
 }
 
-.reactions-div > button {
+.reactions-div > button,
+.comment-reactions-div > button {
   border-radius: 10px;
   padding: 0.5rem 1rem;
   border: var(--primary-2) solid 0.5px;
 }
 
 .reactions-div > button:hover,
-.reactions-div > button:active {
+.reactions-div > button:active,
+.comment-reactions-div > button:hover,
+.comment-reactions-div > button:active {
   border: var(--complement-0) solid 0.5px;
   background-color: var(--primary-0);
   font-weight: bolder;
