@@ -55,6 +55,7 @@ router.patch("/posts/:id/reactions/:reactionid", (req, res) => {
   console.log(`passing : data : ${reactionData},id : ${id},reactionId : ${reactionId}`)
   console.log(`data is ${reactionData.count},${reactionData.id}`)
   postToPatch.addReaction(reactionData, id, reactionId)
+  res.sendStatus(204);
 })
 
 router.patch("/posts/:id/comments/:commentid/reactions/:reactionid", (req, res) => {
@@ -63,7 +64,8 @@ router.patch("/posts/:id/comments/:commentid/reactions/:reactionid", (req, res) 
   const reactionId = req.params.reactionid
   const reactionData = req.body
   const postToPatch = new Post(Post.findById(id))
-  postToPatch.addCommentReaction(reactionData, id, commentId, reactionId)
+  postToPatch.addCommentReaction(reactionData, id, commentId, reactionId);
+  res.sendStatus(204);
 })
 
 module.exports = router;
