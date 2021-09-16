@@ -755,7 +755,9 @@ function toggleHidden(id) {
     const hiddenBox = document.getElementById(`comment-box-${id}`);
     const hiddenButton = document.getElementById(`comment-button-${id}`);
     hiddenButton.classList.toggle("hidden");
+    hiddenButton.classList.toggle("img-input-animation")
     hiddenBox.classList.toggle("hidden");
+    hiddenBox.classList.toggle("img-input-animation");
 }
 
 function makeCommentIconsWork() {
