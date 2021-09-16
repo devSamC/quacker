@@ -407,12 +407,13 @@ div > .card-footer > h4 {
 .commentDate {
   text-align: right;
   position: relative;
-  top: 3.5vh;
+  top: 4vh;
 }
 
 .comment-reactions-div {
   position: relative;
   right: 38%;
+  top: 1vh;
 }
 
 .no-comments-text {
@@ -631,6 +632,17 @@ div > .card-footer > h4 {
      */
 }
 
+@media only screen and (max-width: 768px) {
+  .comment-reactions-div {
+    position: relative;
+    top: 1.5vh;
+  }
+
+  .comment-reactions-div > button {
+    border-radius: 12px;
+    padding: 0rem 0.2rem;
+  }
+}
 @media only screen and (max-width: 550px) {
 
   .quack-holder {
