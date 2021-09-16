@@ -12,7 +12,7 @@ describe('index.html', () => {
     document.documentElement.innerHTML = html.toString();
   })
 
-  describe("head", () => {
+  describe('head', () => {
 
     test('it has a link to CSS stylesheet', () => {
       let cssStylesheet = document.querySelector('[rel="stylesheet"]');
@@ -36,11 +36,17 @@ describe('index.html', () => {
 
   });
 
-  describe("body", () => {
-    test("it has a header", () => {
+  describe('body', () => {
+    test('it has a header', () => {
       let header = document.querySelector('header');
       expect(header).toBeTruthy();
     });
+    test("it has a logo", () => {
+      let logo = document.getElementById('logo');
+      expect(logo).toBeTruthy
+    })
+
+    
   });
 
 
