@@ -15,6 +15,23 @@ dayjs.extend(relativeTime)
 
 // const giphyURL = giphy.init()
 
+// getting ip
+async function getIp() {
+    const userIp = await fetch('https://api.ipify.org/?format=json');
+    return userIp.json()
+
+
+
+    // fetch('https://api.ipify.org/?format=json')
+    // .then(res => res.json())
+    // .then(res => {
+    //     const joinedIp = res.ip.split('.').join('')
+    //     const userId = generateCombination(2,'-',joinedIp)
+    //     return ([joinedIp, userId])
+    // })
+}
+
+
 
 
 
@@ -133,6 +150,15 @@ async function generateCard() {
     const selectionButton = document.getElementById('sortBy');
     const searchBar = document.getElementById('search-input')
 
+    // getting ip logic
+
+    const userIp = await getIp();
+    const ipString = userIp.ip.split('.').join('')
+    //the ip is now a string of just numbers, we will use this to make an id
+    const userId = generateCombination(2, '-', ipString)
+    console.log(userId);
+
+
     //searching logic
     //will manipulate postsData according to search queries
     //do this before checking selectionButton to allow filtering of items once searched
@@ -234,6 +260,7 @@ async function generateCard() {
         //iterate backwards through array to give posts in chronological order
         const newPost = document.createElement('div');
         const newPostTitle = document.createElement('h2');
+        const newPostAuthor = document.createElement('h3');
         const newPostBody = document.createElement('div');
         const newPostImage = document.createElement('img');
         const newPostGif = document.createElement('img')
@@ -247,6 +274,7 @@ async function generateCard() {
         newPost.appendChild(newPostGif)
         newPost.appendChild(newPostBody)
         newPostBody.appendChild(newPostTitle)
+        newPostBody.appendChild(newPostAuthor)
         newPostBody.appendChild(newPostText)
         newPostBody.appendChild(reactionsHolder)
         reactionsHolder.classList.add('reactions-div')
@@ -268,6 +296,7 @@ async function generateCard() {
         const stringCombo = generateCombination(2, "-", postsData[i].id)
         newPostTitle.textContent = `Quack id ${stringCombo}`
         newPostTitle.classList.add('card-title', 'custom-card-title', 'text-muted')
+        newPostAuthor.textContent = `${postsData[i].author}`
         //add current reactions below the main text
         //we will add a button for each reaction choice, hopefully styled as a pill or something
         for (let k = 0; k < reactionChoices.length; k++) {
@@ -539,9 +568,13 @@ function removePreview() {
 
 
 
-function addQuack(e) {
+async function addQuack(e) {
     e.preventDefault();
-
+    // getting ip logic
+    const userIp = await getIp()
+    const ipString = userIp.ip.split('.').join('')
+    //the ip is now a string of just numbers, we will use this to make an id
+    const userId = generateCombination(2, '-', ipString)
     //send post data to server and then retrieve
     //first just console log the data that we get 
     const duckImage = document.getElementById('duck-img');
@@ -591,6 +624,7 @@ function addQuack(e) {
         body: JSON.stringify({
             //because we are using object destructuring in the router, we can send only the parameters we want
             //to be overwritten w.r.t default
+            "author": `${userId}`,
             "text": `${postText}`,
             "picture": `${newImage}`,
             "gif": `${newGif}`,
