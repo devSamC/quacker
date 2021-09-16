@@ -296,7 +296,7 @@ async function generateCard() {
         const stringCombo = generateCombination(2, "-", postsData[i].id)
         newPostTitle.textContent = `Quack id ${stringCombo}`
         newPostTitle.classList.add('card-title', 'custom-card-title', 'text-muted')
-        newPostAuthor.textContent = `${postsData[i].author}`
+        newPostAuthor.textContent = `posted by ${postsData[i].author}`
         //add current reactions below the main text
         //we will add a button for each reaction choice, hopefully styled as a pill or something
         for (let k = 0; k < reactionChoices.length; k++) {
@@ -365,14 +365,18 @@ async function generateCard() {
                 commentCardBody.classList.add('card-body')
                 const commentText = document.createElement('p');
                 commentText.classList.add('commentText');
+                const commentAuthor = document.createElement('p');
+                commentText.classList.add('commentAuthor')
                 const commentDate = document.createElement('p');
                 commentDate.classList.add('timeStamp', 'commentDate');
                 const commentReactionHolder = document.createElement('div')
                 commentReactionHolder.classList.add('reactions-div')
                 commentText.textContent = postsData[i].comments[j].text
+                commentAuthor.textContent= `comment by ${postsData[i].comments[j].author}`
                 commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
+                commentCardBody.appendChild(commentAuthor)
                 commentCardBody.appendChild(commentDate);
                 commentCardBody.appendChild(commentReactionHolder)
                 cardFooter.appendChild(commentCard);
@@ -447,7 +451,7 @@ async function generateCard() {
 
 
 
-function addComment(postId) {
+function addComment(postId, commentAuthor) {
     const commentBox = document.getElementById(`comment-box-${postId}`);
 
     const commentText = commentBox.value;
@@ -467,6 +471,7 @@ function addComment(postId) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            "author": `${commentAuthor}`,
             "text": `${commentText}`,
             "date": `${currentTime}`
         })
@@ -674,13 +679,18 @@ createPage()
 
 function makeCommentsWork() {
     const commentButtonsHTML = document.getElementsByClassName('comment-button')
-    setTimeout(() => {
+    setTimeout(async function() {
         const commentButtons = Array.from(commentButtonsHTML)
-
+        // getting ip logic
+        const userIp = await getIp()
+        const ipString = userIp.ip.split('.').join('')
+        //the ip is now a string of just numbers, we will use this to make an id
+        const userId = generateCombination(2, '-', ipString)
         for (let i = 0; i < commentButtons.length; i++) {
             commentButtons[i].addEventListener('click', function (e) {
+                console.log('clicked')
                 const postId = this.getAttribute("id-tag");
-                addComment(postId);
+                addComment(postId, userId);
 
             })
         }
