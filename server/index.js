@@ -1,7 +1,5 @@
 const express = require('express');
 const app = express();
-const importData = require('./data.js');
-const Post = require('./models/posts');
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const postsRoutes = require('./controllers/posts')

@@ -65,6 +65,7 @@ class Post {
     const currentCommentId = currentPost.comments.length
     currentPost.comments.push({
       id: currentCommentId + 1,
+      author: `${commentData.author}`,
       text: commentText,
       reactions: [{
         id: 1,
