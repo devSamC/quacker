@@ -22,6 +22,7 @@ async function getIp() {
         return userIp.json()
     }
     catch(error) {
+        return {"ip": "69.420.420.69"}
         alert('please disable your content blockers - im really sorry')
     }
 
