@@ -6,22 +6,27 @@ const Post = require('../models/posts')
 
 router.get('/', (req, res) => {
   res.send('hello world')
+  res.sendStatus(200);
 })
 
 router.get('/posts', (req, res) => {
   res.send(postsData)
+  res.sendStatus(200);
 })
 
 router.get('/posts/:id/comments', (req, res) => {
   res.send(postsData[req.params.id - 1].comments)
+  res.sendStatus(200);
 })
 
 router.get('/posts/:id/reactions/:reactionid', (req, res) => {
   res.send(postsData[req.params.id - 1].reactions[req.params.reactionid - 1])
+  res.sendStatus(200);
 })
 
 router.get('/posts/:id/comments/:commentid/reactions/:reactionid', (req, res) => {
   res.send(postsData[req.params.id - 1].comments[req.params.commentid -1].reactions[req.params.reactionid - 1])
+  res.sendStatus(200);
 })
 
 router.post('/posts', (req, res) => {
@@ -31,6 +36,7 @@ router.post('/posts', (req, res) => {
   res.send({
     message: `${newPost.text} added`
   })
+  res.sendStatus(200);
 })
 
 router.patch("/posts/:id/comments", (req, res) => {
@@ -58,10 +64,10 @@ router.patch("/posts/:id/reactions/:reactionid", (req, res) => {
   console.log(`passing : data : ${reactionData},id : ${id},reactionId : ${reactionId}`)
   console.log(`data is ${reactionData.count},${reactionData.id}`)
   postToPatch.addReaction(reactionData, id, reactionId)
-  // res.send({
-  //   message: `reaction added to post`
-  // })
-  // res.sendStatus(204);
+  res.send({
+    message: `reaction added to post`
+  })
+  res.sendStatus(200);
 })
 
 router.patch("/posts/:id/comments/:commentid/reactions/:reactionid", (req, res) => {
@@ -74,7 +80,7 @@ router.patch("/posts/:id/comments/:commentid/reactions/:reactionid", (req, res) 
   // res.send({
   //   message: `reaction added to post`
   // })
-  // res.sendStatus(204);
+  res.sendStatus(200);
 })
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const postsData = require(`../data.js`)
 const dayjs = require('dayjs')
 
+
 class Post {
   constructor(data) {
     this.id = data.id
@@ -18,18 +19,12 @@ class Post {
   }
 
   static findById(id) {
-    try {
-      // console.log(id)
-      // console.log(postsData)
-      // console.log(postsData)
-      // const postsData = postsData.filter((post) => post.id === id);
-      // console.log(postsData)
-      // const post = new Post(postsData);
-      // console.log(post)
-      return postsData[id - 1]
-    } catch (error) {
+    if (id <= 0) {
       throw new Error('no such post with id')
     }
+    
+      return postsData[id - 1]
+    
   }
   static create(post) {
     const currentTime = dayjs().toString();
@@ -81,10 +76,10 @@ class Post {
     })
   }
 
-  deletePost(id) {
-    const post = findById(id);
-    postsData.splice(postsData.indexOf(post), 1);
-  }
+  // deletePost(id) {
+  //   const post = findById(id);
+  //   postsData.splice(postsData.indexOf(post), 1);
+  // }
 
 
 }
