@@ -1,3 +1,5 @@
+/* root  */
+
 :root {
   /* light mode colours */
   --primary-0: rgba(215, 222, 219, 1);
@@ -27,6 +29,8 @@ body {
   font-family: "Lato", sans-serif;
 }
 
+
+
 .navBar {
   display: flex;
   justify-content: space-evenly;
@@ -34,15 +38,9 @@ body {
   background-color: var(--complement-0);
 }
 
-.top {
-  width: 40%;
-  text-align: center;
-  margin-right: 20px;
-  margin-left: 20px;
-  /* border-right: 1px solid lightgray;
-    border-left: 1px solid lightgray; */
-}
 
+
+/* left side-bar  */
 .logo {
   width: 6rem;
   display: flex;
@@ -67,6 +65,8 @@ body {
   left: 1.5rem;
 }
 
+/* Right-Sidebar  */
+
 .top-right {
   display: flex;
   flex-direction: column;
@@ -74,26 +74,35 @@ body {
   align-items: center;
 }
 
-.search {
-  position: relative;
-  margin-top: 1rem;
-}
 
-.sort {
-  position: relative;
-  margin-top: 2rem;
-  font-size: 2rem;
-}
+
 
 .trending {
   position: fixed;
   top: 12rem;
+  text-align: center;
 }
 
-.left-box img {
-  width: 50px;
-  height: 50px;
+
+
+.trending i {
+  display: none;
 }
+
+
+/* Middle Bar */
+
+.top {
+  width: 40%;
+  text-align: center;
+  margin-right: 20px;
+  margin-left: 20px;
+  /* border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray; */
+}
+
+
+/* Main title Top Middle */
 
 .quacker {
   font-family: "Lato", sans-serif;
@@ -104,11 +113,60 @@ body {
   margin-top: 1rem;
 }
 
-#quack-test-holder {
-  padding: 1rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+/* Title Animation */
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
+.flying-in {
+  text-shadow: 1px black;
+  animation-duration: 1s;
+  animation-name: flyin;
+  animation-timing-function: cubic-bezier(0.79, 0.18, 0.06, 0.97);
+}
+
+@keyframes flyin {
+  from {
+    margin-left: 200px;
+    left: 400px;
+    letter-spacing: 80px;
+    opacity: 0;
+
+    /* background: red;
+        background: -webkit-linear-gradient(left, orange, yellow, green, cyan, blue, violet);
+        background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
+        background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
+        background: linear-gradient(to right, orange, yellow, green, cyan, blue, violet);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; */
+  }
+
+  to {
+    left: 0px;
+    letter-spacing: 0px;
+    opacity: 1;
+
+    /* background: black; */
+
+    /* -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; */
+  }
+}
+
+.search {
+  position: relative;
+  margin-top: 1rem;
+}
+
+
+/* The quack input box  */
 
 .quack-box {
   /* border: 1px solid red; */
@@ -118,26 +176,18 @@ body {
   margin-top: 4rem;
 }
 
+
+.left-box img { 
+  /* Duck avatar next to what's quacking input  */ 
+  width: 50px;
+  height: 50px;
+}
+
+
 .rightbox {
   width: 187%;
 }
 
-/*
-input {
-     background-color: white;
-    border-color: white;
-    border-image: none; 
-    border-width:0px; 
-}
-*/
-
-.trending {
-  text-align: center;
-}
-
-.trending i {
-  display: none;
-}
 
 #remaining-chars {
   color: var(--primary-4);
@@ -220,50 +270,21 @@ input {
   animation-name: fadein;
 }
 
-@keyframes fadein {
-  from {
-    opacity: 0;
-  }
 
-  to {
-    opacity: 1;
-  }
+
+
+/*
+input {
+     background-color: white;
+    border-color: white;
+    border-image: none; 
+    border-width:0px; 
 }
+*/
 
-.flying-in {
-  text-shadow: 1px black;
-  animation-duration: 1s;
-  animation-name: flyin;
-  animation-timing-function: cubic-bezier(0.79, 0.18, 0.06, 0.97);
-}
 
-@keyframes flyin {
-  from {
-    margin-left: 200px;
-    left: 400px;
-    letter-spacing: 80px;
-    opacity: 0;
 
-    /* background: red;
-        background: -webkit-linear-gradient(left, orange, yellow, green, cyan, blue, violet);
-        background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
-        background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
-        background: linear-gradient(to right, orange, yellow, green, cyan, blue, violet);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent; */
-  }
 
-  to {
-    left: 0px;
-    letter-spacing: 0px;
-    opacity: 1;
-
-    /* background: black; */
-
-    /* -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent; */
-  }
-}
 
 #gifForm {
   margin-top: 5px;
@@ -315,6 +336,25 @@ input {
   background-color: #6bbd52;
 }
 
+
+/* client entries (the quacks)  */
+
+
+
+.sort {
+  position: relative;
+  margin-top: 2rem;
+  font-size: 2rem;
+}
+
+
+#quack-test-holder {
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+
 div > .card {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
   border-radius: 1.5rem;
@@ -326,19 +366,6 @@ div > .card {
   padding: 5px;
 }
 
-.reactions-div {
-  margin-bottom: 30px;
-}
-
-.reaction-button:focus {
-  outline: none;
-  box-shadow: none !important;
-}
-
-.quack-reactions i {
-  margin-bottom: 30px;
-  font-size: 2rem;
-}
 
 div > .card-footer {
   background-color: var(--primary-1);
@@ -355,6 +382,8 @@ div > .card-footer > h4 {
   font-weight: bolder;
 }
 
+/* Comments  */
+
 .commentText {
   font-size: 1.4rem;
   text-align: left;
@@ -362,6 +391,21 @@ div > .card-footer > h4 {
 
 .commentDate {
   text-align: right;
+}
+
+
+.no-comments-text {
+  padding: 10px;
+}
+
+.comment-input,
+.comment-button {
+  border: 1px solid rgba(141, 183, 165, 1);
+  border-radius: 2rem;
+  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.5);
+  margin-left: 5px;
+  margin-right: 5px;
+  padding: 3px;
 }
 
 .timeStamp {
@@ -376,6 +420,23 @@ div > .card-footer > h4 {
   margin-top: 0rem;
   margin-bottom: 0px;
 }
+
+/* reactions */
+
+.reactions-div {
+  margin-bottom: 30px;
+}
+
+.reaction-button:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+.quack-reactions i {
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
 
 .quack-reactions .card-icons {
   margin-top: 0.5rem;
@@ -459,9 +520,7 @@ div > .card-footer > h4 {
   margin-bottom: 1rem;
 }
 
-.hidden {
-  visibility: hidden;
-}
+
 
 .quack-holder {
   margin-bottom: 4rem;
@@ -474,6 +533,8 @@ div > .card-footer > h4 {
   margin-right: 5px;
 }
 
+
+
 #no-more-quacks {
   left: 25%;
   right: 25%;
@@ -481,19 +542,14 @@ div > .card-footer > h4 {
   width: 50%;
 }
 
-.no-comments-text {
-  padding: 10px;
+/* Hidden toggle class  */
+
+.hidden {
+  visibility: hidden;
 }
 
-.comment-input,
-.comment-button {
-  border: 1px solid rgba(141, 183, 165, 1);
-  border-radius: 2rem;
-  box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.5);
-  margin-left: 5px;
-  margin-right: 5px;
-  padding: 3px;
-}
+
+/* Responsiveness */
 
 @media only screen and (max-width: 970px) {
   /* .top-left {
@@ -539,6 +595,31 @@ div > .card-footer > h4 {
      */
 }
 
+@media only screen and (max-width: 550px) {
+  .top {
+    width: 100%;
+  }
+
+  .quacker {
+    display: inline-block;
+  }
+
+  .logo {
+    position: absolute;
+  }
+
+  .about-text {
+    display: none;
+  }
+
+  .options {
+    display: none;
+  }
+}
+
+
+/* ANIMATION */
+
 /* testing animation loading */
 .animated-div {
   opacity: 0;
@@ -572,24 +653,3 @@ div > .card-footer > h4 {
   }
 }
 
-@media only screen and (max-width: 550px) {
-  .top {
-    width: 100%;
-  }
-
-  .quacker {
-    display: inline-block;
-  }
-
-  .logo {
-    position: absolute;
-  }
-
-  .about-text {
-    display: none;
-  }
-
-  .options {
-    display: none;
-  }
-}

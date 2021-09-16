@@ -1,516 +1,530 @@
-const submitButton = document.getElementById('quack-btn');
-const imageButton = document.getElementById('add-image');
-const sortMenu = document.getElementById('sortBy')
-const searchSubmitButton = document.getElementById('search-posts-submit')
-const inputBox = document.getElementById('quack-input');
-const logo = document.getElementById('logo')
-var dayjs = require('./dayjs/dayjs')
-var relativeTime = require('./dayjs/plugin/relativeTime')
+//requires
+const animals = require("./generate-ids/animals");
+const adjectives = require("./generate-ids/adjectives");
+const generateCombination = require("./generate-ids/generateCombination");
+var dayjs = require("./dayjs/dayjs");
+var relativeTime = require("./dayjs/plugin/relativeTime");
+dayjs.extend(relativeTime);
+//DOM constants
+const reactionChoices = ["❤", "❓", "🔝"];
+const submitButton = document.getElementById("quack-btn");
+const imageButton = document.getElementById("add-image");
+const sortMenu = document.getElementById("sortBy");
+const searchSubmitButton = document.getElementById("search-posts-submit");
+const gifForm = document.getElementById("gifForm");
+const gifBtn = document.getElementById("gifBtn");
+const inputBox = document.getElementById("quack-input");
+const logo = document.getElementById("logo");
+const selectionButton = document.getElementById("sortBy");
+const searchBar = document.getElementById("search-input");
+//functional vars
 var isTrendingAdded = false;
-dayjs.extend(relativeTime)
-// const giphyURL = require('./giphy.js')
 
-// console.log('now logging giphy url')
-// console.log(giphyURL)
+//event listeners
+gifBtn.addEventListener("click", (e) => hideGifInput(e));
+imageButton.addEventListener("click", (e) => addImage(e));
+submitButton.addEventListener("click", (e) => addQuack(e));
+sortMenu.addEventListener("change", (e) => changeSort(e));
+searchSubmitButton.addEventListener("click", (e) => giveSearchInput(e));
+inputBox.addEventListener("keydown", (e) => changeDuck(e));
+logo.addEventListener("mouseover", (e) => changeLogo(e));
+logo.addEventListener("mouseout", (e) => changeLogoBack(e));
 
-// const giphyURL = giphy.init()
+//functions
+
+//run the page
+createPage();
+
+//main page startup and card generation
+
+function createPage() {
+    init();
+    generateCard();
+    makeCommentsWork();
+    makeCommentIconsWork();
+    makeReactionsWork();
+    displayCharLimit();
+  }
+
 
 // getting ip
 async function getIp() {
-    try {
-        const userIp = await fetch('https://api.ipify.org/?format=json');
-        return userIp.json()
-    }
-    catch(error) {
-        return {"ip": "69.420.420.69"}
-        alert('please disable your content blockers - im really sorry')
-    }
-
-
-
-
-    // fetch('https://api.ipify.org/?format=json')
-    // .then(res => res.json())
-    // .then(res => {
-    //     const joinedIp = res.ip.split('.').join('')
-    //     const userId = generateCombination(2,'-',joinedIp)
-    //     return ([joinedIp, userId])
-    // })
+  try {
+    const userIp = await fetch("https://api.ipify.org/?format=json");
+    return userIp.json();
+  } catch (error) {
+    console.log(
+      "you are using a content blocker - \n good choice - but now I cant get your ip,\n so I am making it up and giving you \n a default id as punishment"
+    );
+    return {
+      ip: "69.420.420.69",
+    };
+  }
 }
-
-
-
-
-
-
-imageButton.addEventListener('click', e => addImage(e))
-submitButton.addEventListener('click', e => addQuack(e))
-sortMenu.addEventListener('change', e => changeSort(e))
-searchSubmitButton.addEventListener('click', e => giveSearchInput(e))
-inputBox.addEventListener('keydown', e => changeDuck(e))
-logo.addEventListener("mouseover", e => changeLogo(e))
-logo.addEventListener("mouseout", e => changeLogoBack(e))
-
+//making duck talk
 function changeDuck(e) {
-    const duckImage = document.getElementById('duck-img');
-    duckImage.setAttribute('src', './images/duckGifV3.gif')
+  const duckImage = document.getElementById("duck-img");
+  duckImage.setAttribute("src", "./images/duckGifV3.gif");
 }
-
+//making duck angry
 function makeDuckAngry() {
-    const duckImage = document.getElementById('duck-img');
-    duckImage.setAttribute('src', './images/angry-redeye.png')
+  const duckImage = document.getElementById("duck-img");
+  duckImage.setAttribute("src", "./images/angry-redeye.png");
+}
+//hide gif input
+function hideGifInput() {
+  console.log("gif clicked");
+  gifForm.classList.toggle("hidden");
+  gifForm.classList.toggle("img-input-animation");
 }
 
 function giveSearchInput(e) {
-    console.log('clicked search input button')
-    createPage();
+  console.log("clicked search input button");
+  createPage();
 }
-
-
+//update page when sort by is updated
 function changeSort(e) {
-    console.log('value changed')
-    createPage()
+  console.log("value changed");
+  createPage();
 }
-
-
-
-
+//animate logo on mouseover
 function changeLogo(e) {
-    console.log('mouse is over')
-    logo.setAttribute('src', './images/flying-gif-shadow.gif')
-
+  console.log("mouse is over");
+  logo.setAttribute("src", "./images/flying-gif-shadow.gif");
 }
-
-
+//make logo happy/normal again
 function changeLogoBack(e) {
-    logo.setAttribute('src', 'images/logo.png')
+  logo.setAttribute("src", "images/logo.png");
 }
-
-
-
-const reactionChoices = ['❤', '❓', '🔝']
-
-// const axios = require('axios')
 
 async function getAllPosts() {
-    const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/posts')
-    const postsData = await posts.json()
-    return postsData
+  const posts = await fetch("https://quackerapi-nodejs.herokuapp.com/posts");
+  const postsData = await posts.json();
+  return postsData;
 }
 
 //character limit function
 function displayCharLimit() {
-    let length = 0;
-    const charLimit = 281;
+  let length = 0;
+  const charLimit = 281;
 
-    const remainingChars = document.getElementById('remaining-chars')
-    inputBox.addEventListener('keyup', function (e) {
-        length = this.value.length;
-        if (length > charLimit) {
-            return false
-        } else if (length > 0) {
-            remainingChars.textContent = `${charLimit-length} characters remaining`
-        } else {
-            remainingChars.textContent = `${charLimit} characters remaining`
-        }
-    })
+  const remainingChars = document.getElementById("remaining-chars");
+  inputBox.addEventListener("keyup", function (e) {
+    length = this.value.length;
+    if (length > charLimit) {
+      return false;
+    } else if (length > 0) {
+      remainingChars.textContent = `${charLimit - length} characters remaining`;
+    } else {
+      remainingChars.textContent = `${charLimit} characters remaining`;
+    }
+  });
 }
-
+//hide/show img input w/ animation
 function addImage() {
-
-    const imageInputForm = document.getElementById('img-input')
-    imageInputForm.classList.toggle('hidden')
-    imageInputForm.classList.toggle('img-input-animation')
-    // const topQuack = document.getElementById('top-quack')
-    // const imageInputDiv = document.createElement('div');
-    // const imageInputForm = document.createElement('input')
-    // imageInputForm.setAttribute("type","text")
-    // imageInputForm.setAttribute("placeholder","enter image url")
-    // topQuack.appendChild(imageInputDiv);
-    // imageInputDiv.appendChild(imageInputForm);
-    //redundant code above
-
-    //good code below
-
-    const newImage = imageInputForm.value
-
+  const imageInputForm = document.getElementById("img-input");
+  imageInputForm.classList.toggle("hidden");
+  imageInputForm.classList.toggle("img-input-animation");
 }
 
+//searching and sorting helper functions
 
-const gifForm = document.getElementById('gifForm')
-const gifBtn = document.getElementById('gifBtn')
-gifBtn.addEventListener('click', e => hideGifInput(e))
+//check if post content contains query
+function mainTextContains(post) {
+  const searchQuery = searchBar.value;
+  const textArray = post.text.split(" ");
+  return textArray.includes(searchQuery);
+}
+//check if comment content contains query
+function commentTextContains(post) {
+  const searchQuery = searchBar.value;
+  if (post.comments.length === 0) {
+    return false;
+  }
+  for (let i = 0; i < post.comments.length; i++) {
+    const textArray = post.comments[i].text.split(" ");
+    if (textArray.includes(searchQuery)) {
+      return true;
+    }
+  }
+}
+//sort by reaction count
+function sortByReactions(a, b) {
+  //a counter
 
+  let acount = 0;
+  for (let i = 0; i < a.reactions.length; i++) {
+    acount += a.reactions[i].count;
+  }
 
+  let bcount = 0;
+  for (let i = 0; i < b.reactions.length; i++) {
+    bcount += b.reactions[i].count;
+  }
 
-function hideGifInput() {
-    console.log('gif clicked')
-    gifForm.classList.toggle('hidden')
-    gifForm.classList.toggle('img-input-animation')
+  return acount - bcount;
 }
 
+function isFresh(post) {
+  return (
+    dayjs().to(post.date, true).split(" ")[1] === "minutes" ||
+    dayjs().to(post.date, true).split(" ")[2] === "seconds"
+  );
+}
 
+function risingFunction(a, b) {
+  // we will compute the difference in dates between each post and the current date
+  // and the number of reactions of the post
+  // then compute the ratio of reactions / time taken
+  // then sort by highest ratio
+  const currentDate = dayjs();
+  const aPostDate = a.date;
+  const bPostDate = b.date;
+  const aDiff = currentDate.diff(aPostDate);
+  const bDiff = currentDate.diff(bPostDate);
+  let acount = 0;
+  let bcount = 0;
+  for (let i = 0; i < a.reactions.length; i++) {
+    acount += a.reactions[i].count;
+  }
+  for (let i = 0; i < b.reactions.length; i++) {
+    bcount += b.reactions[i].count;
+  }
+  const aRatio = acount / aDiff;
+  const bRatio = bcount / bDiff;
+  return aRatio - bRatio;
+}
+
+//make the whole page
 async function generateCard() {
-    const posts = await fetch('https://quackerapi-nodejs.herokuapp.com/posts')
+  const posts = await fetch("https://quackerapi-nodejs.herokuapp.com/posts");
 
-    let postsData = await posts.json()
-    const selectionButton = document.getElementById('sortBy');
-    const searchBar = document.getElementById('search-input')
+  let postsData = await posts.json();
 
-    // getting ip logic
+  // getting ip logic
 
-    const userIp = await getIp();
-    const ipString = userIp.ip.split('.').join('')
-    //the ip is now a string of just numbers, we will use this to make an id
-    const userId = generateCombination(2, '-', ipString)
-    console.log(userId);
+  const userIp = await getIp();
+  const ipString = userIp.ip.split(".").join("");
+  //the ip is now a string of just numbers, we will use this to make an id
+  const userId = generateCombination(2, "-", ipString);
+  console.log(userId);
+
+  //searching logic
+  //will manipulate postsData according to search queries
+  //do this before checking selectionButton to allow filtering of items once searched
+
+  if (searchBar.value !== "") {
+    //search main text
+
+    let searched = [];
+    searched = postsData.filter(mainTextContains);
+    searchedInComments = postsData.filter(commentTextContains);
+    searchedInComments.forEach((e) => searched.push(e));
+    postsData = searched;
+  }
+  //search comments
+  //search by post id?
+
+  //sort array by most reactions
+  if (selectionButton.value === "Hot") {
+    postsData.sort((a, b) => sortByReactions(a, b));
+  }
+
+  //filter array by recent posts
+
+  if (selectionButton.value === "Fresh") {
+    postsData = postsData.filter(isFresh);
+  }
+
+  //filter array by 'rising' - most reactions in last X minutes
+  if (selectionButton.value === "Rising") {
+    postsData.sort((a, b) => risingFunction(a, b));
+  }
+
+  const postBox = document.getElementById("quack-test-holder");
+  postBox.innerHTML = "";
+  for (let i = postsData.length - 1; i >= 0; i--) {
+    //iterate backwards through array to give posts in chronological order
+
+    const newPost = document.createElement("div");
+    const newPostTitle = document.createElement("h2");
+    const newPostAuthor = document.createElement("h3");
+    const newPostBody = document.createElement("div");
+    const newPostImage = document.createElement("img");
+    const newPostGif = document.createElement("img");
+    const newPostText = document.createElement("p");
+    const newPostReactionsEtc = document.createElement("div");
+    const currentReactions = document.createElement("div");
+    const reactionsHolder = document.createElement("div");
+
+    //give div the right children
+
+    newPost.appendChild(newPostImage);
+    newPost.appendChild(newPostGif);
+    newPost.appendChild(newPostBody);
+    newPostBody.appendChild(newPostTitle);
+    newPostBody.appendChild(newPostAuthor);
+    newPostBody.appendChild(newPostText);
+    newPostBody.appendChild(reactionsHolder);
+    newPostBody.appendChild(newPostReactionsEtc);
+    postBox.appendChild(newPost);
+
+    //styling
+
+    newPost.classList.add(`card`, `animated-div`);
+    newPost.setAttribute(`id`, `post-card-id-${postsData[i].id}`);
+    newPost.setAttribute("style", `--animation-order: ${postsData.length - i}`);
+    newPostBody.classList.add("card-body");
+
+    newPostText.classList.add("card-text", "fs-3");
+    newPostImage.classList.add("card-img-top");
+    newPostGif.classList.add("card-img-top");
+    newPostReactionsEtc.classList.add("text-muted", "quack-reactions");
+    newPostText.textContent = postsData[i].text;
+    newPostImage.setAttribute("src", `${postsData[i].picture}`);
+    newPostGif.setAttribute("src", `${postsData[i].gif}`);
+    reactionsHolder.classList.add("reactions-div");
+
+    //set the title id, author id, and style
+
+    const stringCombo = generateCombination(2, "-", postsData[i].id);
+    newPostTitle.textContent = `Quack id ${stringCombo}`;
+    newPostTitle.classList.add("card-title", "custom-card-title", "text-muted");
+    newPostAuthor.textContent = `posted by ${postsData[i].author}`;
+
+    //add current reactions below the main text
+    //we will add a button for each reaction choice
+    for (let k = 0; k < reactionChoices.length; k++) {
+      const reactionButton = document.createElement("button");
+      const currentReactionCount = postsData[i].reactions[k].count;
+      reactionButton.classList.add(
+        "btn",
+        "btn-outline-success",
+        "reaction-button"
+      );
+
+      reactionButton.setAttribute("type", "button");
+      reactionButton.setAttribute(
+        "id",
+        `reaction-button-${k}-${postsData[i].id}`
+      );
+      reactionButton.setAttribute("id-tag", `${postsData[i].id}`);
+      reactionButton.setAttribute("reaction-tag", `${k + 1}`);
+      reactionButton.setAttribute("reaction-count", currentReactionCount);
+      reactionButton.textContent = `${currentReactionCount} ${reactionChoices[k]}`;
+      reactionsHolder.append(reactionButton);
+    }
 
 
-    //searching logic
-    //will manipulate postsData according to search queries
-    //do this before checking selectionButton to allow filtering of items once searched
+    //comment and reaction icons
+    
+    //comments
+    const cardCommentIcon = document.createElement("i");
+    cardCommentIcon.classList.add("far", "fa-comments", "card-icons");
+    newPostReactionsEtc.appendChild(cardCommentIcon);
+    cardCommentIcon.setAttribute("id-tag", `${postsData[i].id}`);
 
-    if (searchBar.value !== "") {
-        //search main text
-        const searchQuery = searchBar.value
-        let searched = [];
-        searched = postsData.filter(mainTextContains)
+    //reactions
+    const cardReactionIcon = document.createElement("i");
+    cardReactionIcon.classList.add("far", "fa-heart", "card-icons");
+    newPostReactionsEtc.appendChild(cardReactionIcon);
+    cardReactionIcon.setAttribute("id-tag", `${postsData[i].id}`);
 
-        function mainTextContains(post) {
-            const textArray = post.text.split(' ');
-            return textArray.includes(searchQuery)
+    //timestamps
+    const timeStamp = document.createElement("p");
+    timeStamp.textContent = dayjs().to(postsData[i].date);
+    newPostReactionsEtc.appendChild(timeStamp);
+    timeStamp.classList.add("timeStamp");
+
+    //card footer
+    const cardFooter = document.createElement("div");
+    cardFooter.classList.add("card-footer", "text-muted");
+    newPost.appendChild(cardFooter);
+
+    //comments section title
+    const commentsTitle = document.createElement("h4");
+    commentsTitle.textContent = "Comments";
+    cardFooter.appendChild(commentsTitle);
+
+    //add comment box
+    const commentBox = document.createElement("input");
+    commentBox.setAttribute("type", "text");
+    commentBox.setAttribute("placeholder", "write a comment");
+    commentBox.setAttribute("id", `comment-box-${postsData[i].id}`);
+    commentBox.classList.add("comment-input", "hidden");
+    cardFooter.appendChild(commentBox);
+
+    //submit comment button
+    const submitComment = document.createElement("input");
+    submitComment.setAttribute("type", "submit");
+    submitComment.setAttribute("value", "Submit comment");
+    submitComment.setAttribute("id", `comment-button-${postsData[i].id}`);
+    submitComment.classList.add("comment-button", "hidden");
+    cardFooter.appendChild(submitComment);
+    submitComment.setAttribute("id-tag", `${postsData[i].id}`);
+
+    //iterate through comments array and add each one to footer
+    if (postsData[i].comments.length !== 0) {
+      for (let j = 0; j < postsData[i].comments.length; j++) {
+        const commentCard = document.createElement("div");
+        commentCard.classList.add("card");
+        const commentCardBody = document.createElement("div");
+        commentCardBody.classList.add("card-body");
+        const commentText = document.createElement("p");
+        commentText.classList.add("commentText");
+        const commentAuthor = document.createElement("p");
+        commentText.classList.add("commentAuthor");
+        const commentDate = document.createElement("p");
+        commentDate.classList.add("timeStamp", "commentDate");
+        const commentReactionHolder = document.createElement("div");
+        commentReactionHolder.classList.add("reactions-div");
+        commentText.textContent = postsData[i].comments[j].text;
+        commentAuthor.textContent = `comment by ${postsData[i].comments[j].author}`;
+        commentDate.textContent = dayjs().to(postsData[i].comments[j].date);
+        commentCard.appendChild(commentCardBody);
+        commentCardBody.appendChild(commentText);
+        commentCardBody.appendChild(commentAuthor);
+        commentCardBody.appendChild(commentDate);
+        commentCardBody.appendChild(commentReactionHolder);
+        cardFooter.appendChild(commentCard);
+        for (let q = 0; q < reactionChoices.length; q++) {
+          const commentReactionButton = document.createElement("button");
+          const currentCommentReactionCount =
+            postsData[i].comments[j].reactions[q].count;
+
+          commentReactionButton.classList.add(
+            "btn",
+            "btn-outline-success",
+            "comment-reaction-button",
+            "btn-sm"
+          );
+
+          commentReactionButton.setAttribute("type", "button");
+          commentReactionButton.setAttribute(
+            "id",
+            `comment-reaction-button-${q}-${postsData[i].id}}`
+          );
+          commentReactionButton.setAttribute("id-tag", `${postsData[i].id}`);
+          commentReactionButton.setAttribute(
+            "comment-id-tag",
+            `${postsData[i].comments[j].id}`
+          );
+          commentReactionButton.setAttribute("reaction-tag", `${q + 1}`);
+          commentReactionButton.setAttribute(
+            "reaction-count",
+            currentCommentReactionCount
+          );
+          commentReactionButton.textContent = `${currentCommentReactionCount} ${reactionChoices[q]}`;
+          commentReactionHolder.append(commentReactionButton);
         }
-
-        searchedInComments = postsData.filter(commentTextContains)
-
-        function commentTextContains(post) {
-            if (post.comments.length === 0) {
-                return false;
-            }
-            for (let i = 0; i < post.comments.length; i++) {
-                const textArray = post.comments[i].text.split(' ');
-                if (textArray.includes(searchQuery)) {
-                    return true
-                }
-            }
-
-        }
-
-        searchedInComments.forEach(e => searched.push(e))
-        postsData = searched
+      }
+    } else {
+      const noCommentText = document.createElement("p");
+      noCommentText.classList.add("no-comments-text");
+      noCommentText.textContent = "no comments 😥 be the first?";
+      cardFooter.appendChild(noCommentText);
     }
-    //search comments
-    //search by post id?
+  }
 
-
-
-    //sort array by most reactions
-    if (selectionButton.value === 'Hot') {
-        postsData.sort((a, b) => sortByReactions(a, b))
-    }
-
-    function sortByReactions(a, b) {
-        //a counter
-
-        let acount = 0
-        for (let i = 0; i < a.reactions.length; i++) {
-            acount += a.reactions[i].count
-
-        }
-
-        let bcount = 0
-        for (let i = 0; i < b.reactions.length; i++) {
-            bcount += b.reactions[i].count
-        }
-
-        return acount - bcount;
-    }
-    //filter array by recent posts
-
-    if (selectionButton.value === 'Fresh') {
-        postsData = postsData.filter(isFresh)
-    }
-
-    function isFresh(post) {
-        return dayjs().to(post.date, true).split(' ')[1] === 'minutes' || dayjs().to(post.date, true).split(' ')[2] === 'seconds'
-    }
-
-    //filter array by 'rising' - most reactions in last X minutes
-    if (selectionButton.value === 'Rising') {
-        postsData.sort(function risingFunction(a, b) {
-            // we will compute the difference in dates between each post and the current date
-            // and the number of reactions of the post
-            // then compute the ratio of reactions / time taken
-            // then sort by highest ratio
-            const currentDate = dayjs()
-            const aPostDate = a.date
-            const bPostDate = b.date
-            const aDiff = currentDate.diff(aPostDate)
-            const bDiff = currentDate.diff(bPostDate)
-            let acount = 0
-            let bcount = 0
-            for (let i = 0; i < a.reactions.length; i++) {
-                acount += a.reactions[i].count
-            }
-            for (let i = 0; i < b.reactions.length; i++) {
-                bcount += b.reactions[i].count
-            }
-            const aRatio = acount / aDiff
-            const bRatio = bcount / bDiff
-            return aRatio - bRatio
-        })
-    }
-
-    const postBox = document.getElementById('quack-test-holder');
-    postBox.innerHTML = ""
-    for (let i = postsData.length - 1; i >= 0; i--) {
-        //iterate backwards through array to give posts in chronological order
-        const newPost = document.createElement('div');
-        const newPostTitle = document.createElement('h2');
-        const newPostAuthor = document.createElement('h3');
-        const newPostBody = document.createElement('div');
-        const newPostImage = document.createElement('img');
-        const newPostGif = document.createElement('img')
-        const newPostText = document.createElement('p')
-        const newPostReactionsEtc = document.createElement('div')
-        const currentReactions = document.createElement('div')
-        const reactionsHolder = document.createElement('div')
-
-        //give div the right children
-        newPost.appendChild(newPostImage)
-        newPost.appendChild(newPostGif)
-        newPost.appendChild(newPostBody)
-        newPostBody.appendChild(newPostTitle)
-        newPostBody.appendChild(newPostAuthor)
-        newPostBody.appendChild(newPostText)
-        newPostBody.appendChild(reactionsHolder)
-        reactionsHolder.classList.add('reactions-div')
-        newPostBody.appendChild(newPostReactionsEtc)
-        //make it a card
-        newPost.classList.add(`card`, `animated-div`);
-        newPost.setAttribute(`id`, `post-card-id-${postsData[i].id}`)
-        newPost.setAttribute('style', `--animation-order: ${postsData.length - i}`);
-        newPostBody.classList.add('card-body');
-        postBox.appendChild(newPost)
-        newPostText.classList.add('card-text', 'fs-3');
-        newPostImage.classList.add('card-img-top')
-        newPostGif.classList.add('card-img-top')
-        newPostReactionsEtc.classList.add('text-muted', 'quack-reactions')
-        newPostText.textContent = postsData[i].text;
-        newPostImage.setAttribute("src", `${postsData[i].picture}`)
-        newPostGif.setAttribute("src", `${postsData[i].gif}`)
-        //set the title
-        const stringCombo = generateCombination(2, "-", postsData[i].id)
-        newPostTitle.textContent = `Quack id ${stringCombo}`
-        newPostTitle.classList.add('card-title', 'custom-card-title', 'text-muted')
-        newPostAuthor.textContent = `posted by ${postsData[i].author}`
-        //add current reactions below the main text
-        //we will add a button for each reaction choice, hopefully styled as a pill or something
-        for (let k = 0; k < reactionChoices.length; k++) {
-            const reactionButton = document.createElement('button')
-            const currentReactionCount = postsData[i].reactions[k].count
-            reactionButton.classList.add('btn', 'btn-outline-success', 'reaction-button')
-
-            reactionButton.setAttribute('type', 'button')
-            reactionButton.setAttribute('id', `reaction-button-${k}-${postsData[i].id}`)
-            reactionButton.setAttribute('id-tag', `${postsData[i].id}`)
-            reactionButton.setAttribute('reaction-tag', `${k+1}`)
-            reactionButton.setAttribute('reaction-count', currentReactionCount)
-            reactionButton.textContent = `${currentReactionCount} ${reactionChoices[k]}`
-            reactionsHolder.append(reactionButton)
-        }
-        //comment and reaction icons
-        //comment
-        const cardCommentIcon = document.createElement('i')
-        cardCommentIcon.classList.add('far', 'fa-comments', 'card-icons')
-        newPostReactionsEtc.appendChild(cardCommentIcon)
-        cardCommentIcon.setAttribute('id-tag', `${postsData[i].id}`)
-        //reaction
-        const cardReactionIcon = document.createElement('i')
-        cardReactionIcon.classList.add('far', 'fa-heart', 'card-icons')
-        newPostReactionsEtc.appendChild(cardReactionIcon)
-        cardReactionIcon.setAttribute('id-tag', `${postsData[i].id}`)
-        //timestamp
-        const timeStamp = document.createElement('p')
-        timeStamp.textContent = dayjs().to((postsData[i].date));
-        newPostReactionsEtc.appendChild(timeStamp)
-        timeStamp.classList.add('timeStamp')
-
-        //card footer
-        const cardFooter = document.createElement('div')
-        cardFooter.classList.add('card-footer', 'text-muted')
-        newPost.appendChild(cardFooter)
-        //comments section title
-        const commentsTitle = document.createElement('h4')
-        commentsTitle.textContent = "Comments"
-        cardFooter.appendChild(commentsTitle)
-        //add comment box
-        const commentBox = document.createElement('input');
-        commentBox.setAttribute('type', 'text');
-        commentBox.setAttribute('placeholder', 'write a comment')
-        commentBox.setAttribute('id', `comment-box-${postsData[i].id}`)
-        commentBox.classList.add('comment-input', 'hidden')
-        cardFooter.appendChild(commentBox)
-
-        //submit comment button
-        const submitComment = document.createElement('input')
-        submitComment.setAttribute('type', 'submit')
-        submitComment.setAttribute('value', 'Submit comment')
-        submitComment.setAttribute('id', `comment-button-${postsData[i].id}`)
-        submitComment.classList.add('comment-button', 'hidden')
-        cardFooter.appendChild(submitComment)
-        submitComment.setAttribute('id-tag', `${postsData[i].id}`)
-
-
-
-        //iterate through comments array and add each one to footer
-        if (postsData[i].comments.length !== 0) {
-            for (let j = 0; j < postsData[i].comments.length; j++) {
-                const commentCard = document.createElement('div')
-                commentCard.classList.add('card')
-                const commentCardBody = document.createElement('div');
-                commentCardBody.classList.add('card-body')
-                const commentText = document.createElement('p');
-                commentText.classList.add('commentText');
-                const commentAuthor = document.createElement('p');
-                commentText.classList.add('commentAuthor')
-                const commentDate = document.createElement('p');
-                commentDate.classList.add('timeStamp', 'commentDate');
-                const commentReactionHolder = document.createElement('div')
-                commentReactionHolder.classList.add('reactions-div')
-                commentText.textContent = postsData[i].comments[j].text
-                commentAuthor.textContent = `comment by ${postsData[i].comments[j].author}`
-                commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
-                commentCard.appendChild(commentCardBody);
-                commentCardBody.appendChild(commentText);
-                commentCardBody.appendChild(commentAuthor)
-                commentCardBody.appendChild(commentDate);
-                commentCardBody.appendChild(commentReactionHolder)
-                cardFooter.appendChild(commentCard);
-                for (let q = 0; q < reactionChoices.length; q++) {
-                    const commentReactionButton = document.createElement('button')
-                    const currentCommentReactionCount = postsData[i].comments[j].reactions[q].count
-
-                    commentReactionButton.classList.add('btn', 'btn-outline-success', 'comment-reaction-button', 'btn-sm')
-
-                    commentReactionButton.setAttribute('type', 'button')
-                    commentReactionButton.setAttribute('id', `comment-reaction-button-${q}-${postsData[i].id}}`)
-                    commentReactionButton.setAttribute('id-tag', `${postsData[i].id}`)
-                    commentReactionButton.setAttribute('comment-id-tag', `${postsData[i].comments[j].id}`)
-                    commentReactionButton.setAttribute('reaction-tag', `${q+1}`)
-                    commentReactionButton.setAttribute('reaction-count', currentCommentReactionCount)
-                    commentReactionButton.textContent = `${currentCommentReactionCount} ${reactionChoices[q]}`
-                    commentReactionHolder.append(commentReactionButton)
-                }
-            }
-        } else {
-            const noCommentText = document.createElement('p')
-            noCommentText.classList.add('no-comments-text')
-            noCommentText.textContent = "no comments 😥 be the first?"
-            cardFooter.appendChild(noCommentText)
-        }
-
-
-
-
-
-
-    }
-
-
-
-    //adding 'trending tweet'
-    // first check what type of sorting has been used 
-    // if its 'hot' we can just grab the first child of the cards holder div
-    // if its anything else, we need to sort by reaction count
-    if (selectionButton.value === 'Hot' && !isTrendingAdded) {
-        const holder = document.getElementById('quack-test-holder');
-        const topCard = holder.firstChild;
-        const trendingCard = topCard.cloneNode(true);
-        trendingCard.setAttribute("id", 'top-trending-card');
-        const elementToRemove = trendingCard.childNodes[3];
-        trendingCard.removeChild(elementToRemove)
-        // const elementToRemoveAgain = trendingCard.childNodes[3];
-        // trendingCard.removeChild(elementToRemoveAgain)
-        const trendingHolder = document.getElementById('trending')
-        trendingHolder.appendChild(trendingCard)
-        isTrendingAdded = true
-    }
-    // if its not hot
-    // first get sorted array, then grab the ids of the top post
-    else {
-        postsData.sort((a, b) => sortByReactions(a, b))
-        const topPostId = postsData[0].id
-        const cardToCopy = document.getElementById(`post-card-id-${topPostId}`)
-        const trendingCard = cardToCopy.cloneNode;
-        trendingCard.setAttribute("id", 'top-trending-card')
-        const elementToRemove = trendingCard.childNodes[3];
-        trendingCard.removeChild(elementToRemove)
-        // const elementToRemoveAgain = trendingCard.childNodes[3];
-        // trendingCard.removeChild(elementToRemoveAgain)
-        const trendingHolder = document.getElementById('trending')
-        trendingHolder.appendChild(trendingCard)
-    }
-
+  //adding 'trending tweet'
+  // first check what type of sorting has been used
+  // if its 'hot' we can just grab the first child of the cards holder div
+  // if its anything else, we need to sort by reaction count
+  if (selectionButton.value === "Hot" && !isTrendingAdded) {
+    const holder = document.getElementById("quack-test-holder");
+    const topCard = holder.firstChild;
+    const trendingCard = topCard.cloneNode(true);
+    trendingCard.setAttribute("id", "top-trending-card");
+    const elementToRemove = trendingCard.childNodes[3];
+    trendingCard.removeChild(elementToRemove);
+    
+    const trendingHolder = document.getElementById("trending");
+    trendingHolder.appendChild(trendingCard);
+    isTrendingAdded = true;
+  }
+  // if its not hot
+  // first get sorted array, then grab the ids of the top post
+  else {
+    postsData.sort((a, b) => sortByReactions(a, b));
+    const topPostId = postsData[0].id;
+    const cardToCopy = document.getElementById(`post-card-id-${topPostId}`);
+    const trendingCard = cardToCopy.cloneNode;
+    trendingCard.setAttribute("id", "top-trending-card");
+    const elementToRemove = trendingCard.childNodes[3];
+    trendingCard.removeChild(elementToRemove);
+    // const elementToRemoveAgain = trendingCard.childNodes[3];
+    // trendingCard.removeChild(elementToRemoveAgain)
+    const trendingHolder = document.getElementById("trending");
+    trendingHolder.appendChild(trendingCard);
+  }
 }
-
-
-
-
 
 function addComment(postId, commentAuthor) {
-    const commentBox = document.getElementById(`comment-box-${postId}`);
+  const commentBox = document.getElementById(`comment-box-${postId}`);
 
-    const commentText = commentBox.value;
-    const currentTime = dayjs()
+  const commentText = commentBox.value;
+  const currentTime = dayjs();
 
-    if (commentText === "") {
-        commentBox.setAttribute("placeholder", "write something!")
+  if (commentText === "") {
+    commentBox.setAttribute("placeholder", "write something!");
 
-        return console.log('empty string detected');
+    return console.log("empty string detected");
+  }
+  //somehow get current id
+  const id = postId;
+  //send patch request to post id with new comment
+  const newComment = fetch(
+    `https://quackerapi-nodejs.herokuapp.com/posts/${id}/comments`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        author: `${commentAuthor}`,
+        text: `${commentText}`,
+        date: `${currentTime}`,
+      }),
     }
-    //somehow get current id
-    const id = postId
-    //send patch request to post id with new comment
-    const newComment = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${id}/comments`, {
-        method: 'PATCH',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "author": `${commentAuthor}`,
-            "text": `${commentText}`,
-            "date": `${currentTime}`
-        })
-    }).then(response => createPage())
-
+  ).then((response) => createPage());
 }
 
 function addReactionCount(postId, reactionId, currentReactionCount) {
-    const newReaction = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${postId}/reactions/${reactionId}`, {
-        method: 'PATCH',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "count": currentReactionCount
-        })
-    }).then(response => createPage())
+  const newReaction = fetch(
+    `https://quackerapi-nodejs.herokuapp.com/posts/${postId}/reactions/${reactionId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        count: currentReactionCount,
+      }),
+    }
+  ).then((response) => createPage());
 }
 
-function addCommentReactionCount(postId, commentId, reactionId, currentReactionCount) {
-    const newReaction = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${postId}/comments/${commentId}/reactions/${reactionId}`, {
-        method: 'PATCH',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            "count": currentReactionCount
-        })
-    }).then(response => createPage())
+function addCommentReactionCount(
+  postId,
+  commentId,
+  reactionId,
+  currentReactionCount
+) {
+  const newReaction = fetch(
+    `https://quackerapi-nodejs.herokuapp.com/posts/${postId}/comments/${commentId}/reactions/${reactionId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        count: currentReactionCount,
+      }),
+    }
+  ).then((response) => createPage());
 }
 
-// giphy api stuff 
+// giphy api stuff
 let fig = document.getElementById("figure");
 let APIKEY = "91J9L3KzBaZxex6NxItZcvPTbFjKvQnn";
 // you will need to get your own API KEY
@@ -518,1646 +532,244 @@ let APIKEY = "91J9L3KzBaZxex6NxItZcvPTbFjKvQnn";
 document.addEventListener("DOMContentLoaded", previewGif);
 
 function previewGif() {
-    document.getElementById("previewGif").addEventListener("click", ev => {
-        ev.preventDefault(); //to stop the page reload
-        removePreview()
-        let url = `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&limit=10&q=`;
-        let str = document.getElementById("search").value.trim();
-        url = url.concat(str);
-        let out = document.querySelector(".out");
+  document.getElementById("previewGif").addEventListener("click", (ev) => {
+    ev.preventDefault(); //to stop the page reload
+    removePreview();
+    let url = `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&limit=10&q=`;
+    let str = document.getElementById("search").value.trim();
+    url = url.concat(str);
+    let out = document.querySelector(".out");
 
-        if (out !== '') {
-            out = ''
-        }
+    if (out !== "") {
+      out = "";
+    }
 
-        fetch(url)
-            .then(response => response.json())
-            .then(content => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((content) => {
+        console.log("this happened");
 
-                console.log("this happened")
+        let img = document.createElement("img");
+        let fc = document.createElement("figcaption");
+        img.src = content.data[0].images.fixed_width.url;
+        img.alt = content.data[0].title;
+        fc.textContent = content.data[0].title;
+        fig.appendChild(img);
+        fig.appendChild(fc);
+        out = document.querySelector(".out");
+        out.insertAdjacentElement("afterbegin", fig);
 
-
-
-                let img = document.createElement("img");
-                let fc = document.createElement("figcaption");
-                img.src = content.data[0].images.fixed_width.url;
-                img.alt = content.data[0].title;
-                fc.textContent = content.data[0].title;
-                fig.appendChild(img);
-                fig.appendChild(fc);
-                out = document.querySelector(".out");
-                out.insertAdjacentElement("afterbegin", fig);
-
-
-                return img.src;
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    });
+        return img.src;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
 }
 
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
-    document.getElementById("btnSearch").addEventListener("click", ev => {
-        ev.preventDefault(); //to stop the page reload
-        let url = `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&limit=10&q=`;
-        let str = document.getElementById("search").value.trim();
-        url = url.concat(str);
+  document.getElementById("btnSearch").addEventListener("click", (ev) => {
+    ev.preventDefault(); //to stop the page reload
+    let url = `https://api.giphy.com/v1/gifs/search?api_key=${APIKEY}&limit=10&q=`;
+    let str = document.getElementById("search").value.trim();
+    url = url.concat(str);
 
-        fetch(url)
-            .then(response => response.json())
-            .then(content => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((content) => {
+        let fig = document.createElement("figure");
+        let img = document.createElement("img");
 
-                let fig = document.createElement("figure");
-                let img = document.createElement("img");
-
-                img.src = content.data[0].images.downsized.url;
-                img.alt = content.data[0].title;
-                document.querySelector("#search").value = content.data[0].images.downsized.url;
-
-
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    });
+        img.src = content.data[0].images.downsized.url;
+        img.alt = content.data[0].title;
+        document.querySelector("#search").value =
+          content.data[0].images.downsized.url;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  });
 }
 
 function removePreview() {
-    fig.innerHTML = ""
-
-
+  fig.innerHTML = "";
 }
-
-
 
 async function addQuack(e) {
-    e.preventDefault();
-    // getting ip logic
-    const userIp = await getIp()
-    const ipString = userIp.ip.split('.').join('')
-    //the ip is now a string of just numbers, we will use this to make an id
-    const userId = generateCombination(2, '-', ipString)
-    //send post data to server and then retrieve
-    //first just console log the data that we get 
-    const duckImage = document.getElementById('duck-img');
-    duckImage.setAttribute('src', './images/happy.png')
-    const quackBox = document.getElementById('quack-input');
-    const postText = quackBox.value
-    if (postText === "") {
-        quackBox.setAttribute("placeholder", "You need to write something!")
-        makeDuckAngry();
-        // const duckImage = document.getElementById('duck-img');
-        // duckImage.setAttribute('src', './images/Angry-alphabg-mouthopen.png')
-        return console.log('empty string detected');
-    }
-    const gifInputForm = document.getElementById('search')
-    const gifForm = document.getElementById('gifForm')
-    const imageInputForm = document.getElementById('img-input')
-    //check if gif input form has anything - if so use that for image
-    const newGif = gifInputForm.value;
-    const newImage = imageInputForm.value;
-    console.log(gifInputForm.value.slice(0, 4))
-    if (gifInputForm.value !== "" && gifInputForm.value.slice(0, 4) !== "http") {
-        console.log('error detected')
-        gifInputForm.value = ""
-        gifInputForm.setAttribute("placeholder", "*** !!! you need to click add GIF first !!! ***")
-        makeDuckAngry();
-        return;
-    }
-    imageInputForm.value = ""
-    gifInputForm.value = ""
-    //check if hidden class exists before toggling
-    if (!imageInputForm.classList.contains('hidden')) {
-        imageInputForm.classList.toggle('hidden');
+  e.preventDefault();
+  // getting ip logic
+  const userIp = await getIp();
+  const ipString = userIp.ip.split(".").join("");
+  //the ip is now a string of just numbers, we will use this to make an id
+  const userId = generateCombination(2, "-", ipString);
+  //send post data to server and then retrieve
+  //first just console log the data that we get
+  const duckImage = document.getElementById("duck-img");
+  duckImage.setAttribute("src", "./images/happy.png");
+  const quackBox = document.getElementById("quack-input");
+  const postText = quackBox.value;
+  if (postText === "") {
+    quackBox.setAttribute("placeholder", "You need to write something!");
+    makeDuckAngry();
+    // const duckImage = document.getElementById('duck-img');
+    // duckImage.setAttribute('src', './images/Angry-alphabg-mouthopen.png')
+    return console.log("empty string detected");
+  }
+  const gifInputForm = document.getElementById("search");
+  const gifForm = document.getElementById("gifForm");
+  const imageInputForm = document.getElementById("img-input");
+  //check if gif input form has anything - if so use that for image
+  const newGif = gifInputForm.value;
+  const newImage = imageInputForm.value;
+  console.log(gifInputForm.value.slice(0, 4));
+  if (gifInputForm.value !== "" && gifInputForm.value.slice(0, 4) !== "http") {
+    console.log("error detected");
+    gifInputForm.value = "";
+    gifInputForm.setAttribute(
+      "placeholder",
+      "*** !!! you need to click add GIF first !!! ***"
+    );
+    makeDuckAngry();
+    return;
+  }
+  imageInputForm.value = "";
+  gifInputForm.value = "";
+  //check if hidden class exists before toggling
+  if (!imageInputForm.classList.contains("hidden")) {
+    imageInputForm.classList.toggle("hidden");
+  }
+  if (!gifForm.classList.contains("hidden")) {
+    gifForm.classList.toggle("hidden");
+  }
 
-    }
-    if (!gifForm.classList.contains('hidden')) {
-        gifForm.classList.toggle('hidden')
-    }
-
-    removePreview()
-    quackBox.value = ""
-    const allPosts = getAllPosts()
-    const newPost = fetch('https://quackerapi-nodejs.herokuapp.com/posts', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
+  removePreview();
+  quackBox.value = "";
+  const allPosts = getAllPosts();
+  const newPost = fetch("https://quackerapi-nodejs.herokuapp.com/posts", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      //because we are using object destructuring in the router, we can send only the parameters we want
+      //to be overwritten w.r.t default
+      author: `${userId}`,
+      text: `${postText}`,
+      picture: `${newImage}`,
+      gif: `${newGif}`,
+      reactions: [
+        {
+          id: 1,
+          count: 0,
         },
-        body: JSON.stringify({
-            //because we are using object destructuring in the router, we can send only the parameters we want
-            //to be overwritten w.r.t default
-            "author": `${userId}`,
-            "text": `${postText}`,
-            "picture": `${newImage}`,
-            "gif": `${newGif}`,
-            "reactions": [{
-                id: 1,
-                count: 0
-            }, {
-                id: 2,
-                count: 0
-            }, {
-                id: 3,
-                count: 0
-            }],
-            "comments": [],
-
-        })
-    }).then(response => {
-        createPage()
-    })
-
+        {
+          id: 2,
+          count: 0,
+        },
+        {
+          id: 3,
+          count: 0,
+        },
+      ],
+      comments: [],
+    }),
+  }).then((response) => {
+    createPage();
+  });
 }
 
-function createPage() {
-    init()
-    generateCard()
-    makeCommentsWork()
-    makeCommentIconsWork()
-    makeReactionsWork()
-    displayCharLimit()
-
-}
-createPage()
 
 
 function makeCommentsWork() {
-    const commentButtonsHTML = document.getElementsByClassName('comment-button')
-    setTimeout(async function () {
-        const commentButtons = Array.from(commentButtonsHTML)
-        // getting ip logic
-        const userIp = await getIp()
-        const ipString = userIp.ip.split('.').join('')
-        //the ip is now a string of just numbers, we will use this to make an id
-        const userId = generateCombination(2, '-', ipString)
-        for (let i = 0; i < commentButtons.length; i++) {
-            commentButtons[i].addEventListener('click', function (e) {
-                console.log('clicked')
-                const postId = this.getAttribute("id-tag");
-                addComment(postId, userId);
-
-            })
-        }
-    }, 1000)
+  const commentButtonsHTML = document.getElementsByClassName("comment-button");
+  setTimeout(async function () {
+    const commentButtons = Array.from(commentButtonsHTML);
+    // getting ip logic
+    const userIp = await getIp();
+    const ipString = userIp.ip.split(".").join("");
+    //the ip is now a string of just numbers, we will use this to make an id
+    const userId = generateCombination(2, "-", ipString);
+    for (let i = 0; i < commentButtons.length; i++) {
+      commentButtons[i].addEventListener("click", function (e) {
+        console.log("clicked");
+        const postId = this.getAttribute("id-tag");
+        addComment(postId, userId);
+      });
+    }
+  }, 1000);
 }
 
 function makeReactionsWork() {
-    const reactionIcons = document.getElementsByClassName('reaction-button')
-    const commentReactionIcons = document.getElementsByClassName('comment-reaction-button')
-    setTimeout(() => {
-        const reactionIconsArray = Array.from(reactionIcons)
-        const commentReactionIconsArray = Array.from(commentReactionIcons)
-        for (let i = 0; i < reactionIconsArray.length; i++) {
-            reactionIconsArray[i].addEventListener('click', function (e) {
-
-                const postId = this.getAttribute('id-tag')
-                const reactionId = this.getAttribute('reaction-tag')
-                const reactionCount = this.getAttribute('reaction-count')
-                addReactionCount(postId, reactionId, reactionCount);
-                //clientside change
-                const currentValue = this.textContent
-                const valueArray = currentValue.split(' ')
-                this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
-                this.classList.remove('btn-outline-success')
-                this.classList.add('btn')
-
-
-            }, {
-                once: true
-            })
+  const reactionIcons = document.getElementsByClassName("reaction-button");
+  const commentReactionIcons = document.getElementsByClassName(
+    "comment-reaction-button"
+  );
+  setTimeout(() => {
+    const reactionIconsArray = Array.from(reactionIcons);
+    const commentReactionIconsArray = Array.from(commentReactionIcons);
+    for (let i = 0; i < reactionIconsArray.length; i++) {
+      reactionIconsArray[i].addEventListener(
+        "click",
+        function (e) {
+          const postId = this.getAttribute("id-tag");
+          const reactionId = this.getAttribute("reaction-tag");
+          const reactionCount = this.getAttribute("reaction-count");
+          addReactionCount(postId, reactionId, reactionCount);
+          //clientside change
+          const currentValue = this.textContent;
+          const valueArray = currentValue.split(" ");
+          this.textContent = `${parseInt(valueArray[0]) + 1} ${valueArray[1]}`;
+          this.classList.remove("btn-outline-success");
+          this.classList.add("btn");
+        },
+        {
+          once: true,
         }
-        for (let j = 0; j < commentReactionIconsArray.length; j++) {
-            commentReactionIconsArray[j].addEventListener('click', function (e) {
-                const postId = this.getAttribute('id-tag')
-                const commentId = this.getAttribute('comment-id-tag')
-                const reactionId = this.getAttribute('reaction-tag')
-                const reactionCount = this.getAttribute('reaction-count')
-                addCommentReactionCount(postId, commentId, reactionId, reactionCount);
-                //clientside change
-                const currentValue = this.textContent
-                const valueArray = currentValue.split(' ')
-                this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
-                this.classList.remove('btn-outline-success')
-                this.classList.add('btn')
-
-            }, {
-                once: true
-            })
-
+      );
+    }
+    for (let j = 0; j < commentReactionIconsArray.length; j++) {
+      commentReactionIconsArray[j].addEventListener(
+        "click",
+        function (e) {
+          const postId = this.getAttribute("id-tag");
+          const commentId = this.getAttribute("comment-id-tag");
+          const reactionId = this.getAttribute("reaction-tag");
+          const reactionCount = this.getAttribute("reaction-count");
+          addCommentReactionCount(postId, commentId, reactionId, reactionCount);
+          //clientside change
+          const currentValue = this.textContent;
+          const valueArray = currentValue.split(" ");
+          this.textContent = `${parseInt(valueArray[0]) + 1} ${valueArray[1]}`;
+          this.classList.remove("btn-outline-success");
+          this.classList.add("btn");
+        },
+        {
+          once: true,
         }
-    }, 1000)
+      );
+    }
+  }, 1000);
 }
 
 function toggleHidden(id) {
-    const postId = id
-    const hiddenBox = document.getElementById(`comment-box-${id}`)
-    const hiddenButton = document.getElementById(`comment-button-${id}`)
-    hiddenButton.classList.toggle('hidden')
-    hiddenBox.classList.toggle('hidden');
+  const postId = id;
+  const hiddenBox = document.getElementById(`comment-box-${id}`);
+  const hiddenButton = document.getElementById(`comment-button-${id}`);
+  hiddenButton.classList.toggle("hidden");
+  hiddenBox.classList.toggle("hidden");
 }
 
 function makeCommentIconsWork() {
-    const cardIcons = document.getElementsByClassName('fa-comments')
-    setTimeout(() => {
-        const cardIconsArray = Array.from(cardIcons)
-        for (let i = 0; i < cardIconsArray.length; i++) {
-            cardIconsArray[i].addEventListener('click', function (e) {
-                const postId = this.getAttribute('id-tag')
-                toggleHidden(postId)
-            })
-
-        }
-    }, 1000)
-}
-
-//animal id stuff - will move into different js files at some point
-const animals = [
-    'Aardvark',
-    'Albatross',
-    'Alligator',
-    'Alpaca',
-    'Ant',
-    'Anteater',
-    'Antelope',
-    'Ape',
-    'Armadillo',
-    'Donkey',
-    'Baboon',
-    'Badger',
-    'Barracuda',
-    'Bat',
-    'Bear',
-    'Beaver',
-    'Bee',
-    'Bison',
-    'Boar',
-    'Buffalo',
-    'Butterfly',
-    'Camel',
-    'Capybara',
-    'Caribou',
-    'Cassowary',
-    'Cat',
-    'Caterpillar',
-    'Cattle',
-    'Chamois',
-    'Cheetah',
-    'Chicken',
-    'Chimpanzee',
-    'Chinchilla',
-    'Chough',
-    'Clam',
-    'Cobra',
-    'Cockroach',
-    'Cod',
-    'Cormorant',
-    'Coyote',
-    'Crab',
-    'Crane',
-    'Crocodile',
-    'Crow',
-    'Curlew',
-    'Deer',
-    'Dinosaur',
-    'Dog',
-    'Dogfish',
-    'Dolphin',
-    'Dotterel',
-    'Dove',
-    'Dragonfly',
-    'Duck',
-    'Dugong',
-    'Dunlin',
-    'Eagle',
-    'Echidna',
-    'Eel',
-    'Eland',
-    'Elephant',
-    'Elk',
-    'Emu',
-    'Falcon',
-    'Ferret',
-    'Finch',
-    'Fish',
-    'Flamingo',
-    'Fly',
-    'Fox',
-    'Frog',
-    'Gaur',
-    'Gazelle',
-    'Gerbil',
-    'Giraffe',
-    'Gnat',
-    'Gnu',
-    'Goat',
-    'Goldfinch',
-    'Goldfish',
-    'Goose',
-    'Gorilla',
-    'Goshawk',
-    'Grasshopper',
-    'Grouse',
-    'Guanaco',
-    'Gull',
-    'Hamster',
-    'Hare',
-    'Hawk',
-    'Hedgehog',
-    'Heron',
-    'Herring',
-    'Hippopotamus',
-    'Hornet',
-    'Horse',
-    'Human',
-    'Hummingbird',
-    'Hyena',
-    'Ibex',
-    'Ibis',
-    'Jackal',
-    'Jaguar',
-    'Jay',
-    'Jellyfish',
-    'Kangaroo',
-    'Kingfisher',
-    'Koala',
-    'Kookabura',
-    'Kouprey',
-    'Kudu',
-    'Lapwing',
-    'Lark',
-    'Lemur',
-    'Leopard',
-    'Lion',
-    'Llama',
-    'Lobster',
-    'Locust',
-    'Loris',
-    'Louse',
-    'Lyrebird',
-    'Magpie',
-    'Mallard',
-    'Manatee',
-    'Mandrill',
-    'Mantis',
-    'Marten',
-    'Meerkat',
-    'Mink',
-    'Mole',
-    'Mongoose',
-    'Monkey',
-    'Moose',
-    'Mosquito',
-    'Mouse',
-    'Mule',
-    'Narwhal',
-    'Newt',
-    'Nightingale',
-    'Octopus',
-    'Okapi',
-    'Opossum',
-    'Oryx',
-    'Ostrich',
-    'Otter',
-    'Owl',
-    'Oyster',
-    'Panther',
-    'Parrot',
-    'Partridge',
-    'Peafowl',
-    'Pelican',
-    'Penguin',
-    'Pheasant',
-    'Pig',
-    'Pigeon',
-    'Pony',
-    'Porcupine',
-    'Porpoise',
-    'Quail',
-    'Quelea',
-    'Quetzal',
-    'Rabbit',
-    'Raccoon',
-    'Rail',
-    'Ram',
-    'Rat',
-    'Raven',
-    'Reindeer',
-    'Rhinoceros',
-    'Rook',
-    'Salamander',
-    'Salmon',
-    'Sandpiper',
-    'Sardine',
-    'Scorpion',
-    'Seahorse',
-    'Seal',
-    'Shark',
-    'Sheep',
-    'Shrew',
-    'Skunk',
-    'Snail',
-    'Snake',
-    'Sparrow',
-    'Spider',
-    'Spoonbill',
-    'Squid',
-    'Squirrel',
-    'Starling',
-    'Stingray',
-    'Stinkbug',
-    'Stork',
-    'Swallow',
-    'Swan',
-    'Tapir',
-    'Tarsier',
-    'Termite',
-    'Tiger',
-    'Toad',
-    'Trout',
-    'Turkey',
-    'Turtle',
-    'Viper',
-    'Vulture',
-    'Wallaby',
-    'Walrus',
-    'Wasp',
-    'Weasel',
-    'Whale',
-    'Wildcat',
-    'Wolf',
-    'Wolverine',
-    'Wombat',
-    'Woodcock',
-    'Woodpecker',
-    'Worm',
-    'Wren',
-    'Yak',
-    'Zebra'
-];
-
-const adjectives = ['aback',
-    'abaft',
-    'abandoned',
-    'abashed',
-    'aberrant',
-    'abhorrent',
-    'abiding',
-    'abject',
-    'ablaze',
-    'able',
-    'abnormal',
-    'aboard',
-    'aboriginal',
-    'abortive',
-    'abounding',
-    'abrasive',
-    'abrupt',
-    'absent',
-    'absorbed',
-    'absorbing',
-    'abstracted',
-    'absurd',
-    'abundant',
-    'abusive',
-    'acceptable',
-    'accessible',
-    'accidental',
-    'accurate',
-    'acid',
-    'acidic',
-    'acoustic',
-    'acrid',
-    'actually',
-    'ad',
-    'hoc',
-    'adamant',
-    'adaptable',
-    'addicted',
-    'adhesive',
-    'adjoining',
-    'adorable',
-    'adventurous',
-    'afraid',
-    'aggressive',
-    'agonizing',
-    'agreeable',
-    'ahead',
-    'ajar',
-    'alcoholic',
-    'alert',
-    'alike',
-    'alive',
-    'alleged',
-    'alluring',
-    'aloof',
-    'amazing',
-    'ambiguous',
-    'ambitious',
-    'amuck',
-    'amused',
-    'amusing',
-    'ancient',
-    'angry',
-    'animated',
-    'annoyed',
-    'annoying',
-    'anxious',
-    'apathetic',
-    'aquatic',
-    'aromatic',
-    'arrogant',
-    'ashamed',
-    'aspiring',
-    'assorted',
-    'astonishing',
-    'attractive',
-    'auspicious',
-    'automatic',
-    'available',
-    'average',
-    'awake',
-    'aware',
-    'awesome',
-    'awful',
-    'axiomatic',
-    'bad',
-    'barbarous',
-    'bashful',
-    'bawdy',
-    'beautiful',
-    'befitting',
-    'belligerent',
-    'beneficial',
-    'bent',
-    'berserk',
-    'best',
-    'better',
-    'bewildered',
-    'big',
-    'billowy',
-    'bite-sized',
-    'bitter',
-    'bizarre',
-    'black',
-    'black-and-white',
-    'bloody',
-    'blue',
-    'blue-eyed',
-    'blushing',
-    'boiling',
-    'boorish',
-    'bored',
-    'boring',
-    'bouncy',
-    'boundless',
-    'brainy',
-    'brash',
-    'brave',
-    'brawny',
-    'breakable',
-    'breezy',
-    'brief',
-    'bright',
-    'bright',
-    'broad',
-    'broken',
-    'brown',
-    'bumpy',
-    'burly',
-    'bustling',
-    'busy',
-    'cagey',
-    'calculating',
-    'callous',
-    'calm',
-    'capable',
-    'capricious',
-    'careful',
-    'careless',
-    'caring',
-    'cautious',
-    'ceaseless',
-    'certain',
-    'changeable',
-    'charming',
-    'cheap',
-    'cheerful',
-    'chemical',
-    'chief',
-    'childlike',
-    'chilly',
-    'chivalrous',
-    'chubby',
-    'chunky',
-    'clammy',
-    'classy',
-    'clean',
-    'clear',
-    'clever',
-    'cloistered',
-    'cloudy',
-    'closed',
-    'clumsy',
-    'cluttered',
-    'coherent',
-    'cold',
-    'colorful',
-    'colossal',
-    'combative',
-    'comfortable',
-    'common',
-    'complete',
-    'complex',
-    'concerned',
-    'condemned',
-    'confused',
-    'conscious',
-    'cooing',
-    'cool',
-    'cooperative',
-    'coordinated',
-    'courageous',
-    'cowardly',
-    'crabby',
-    'craven',
-    'crazy',
-    'creepy',
-    'crooked',
-    'crowded',
-    'cruel',
-    'cuddly',
-    'cultured',
-    'cumbersome',
-    'curious',
-    'curly',
-    'curved',
-    'curvy',
-    'cut',
-    'cute',
-    'cute',
-    'cynical',
-    'daffy',
-    'daily',
-    'damaged',
-    'damaging',
-    'damp',
-    'dangerous',
-    'dapper',
-    'dark',
-    'dashing',
-    'dazzling',
-    'dead',
-    'deadpan',
-    'deafening',
-    'dear',
-    'debonair',
-    'decisive',
-    'decorous',
-    'deep',
-    'deeply',
-    'defeated',
-    'defective',
-    'defiant',
-    'delicate',
-    'delicious',
-    'delightful',
-    'demonic',
-    'delirious',
-    'dependent',
-    'depressed',
-    'deranged',
-    'descriptive',
-    'deserted',
-    'detailed',
-    'determined',
-    'devilish',
-    'didactic',
-    'different',
-    'difficult',
-    'diligent',
-    'direful',
-    'dirty',
-    'disagreeable',
-    'disastrous',
-    'discreet',
-    'disgusted',
-    'disgusting',
-    'disillusioned',
-    'dispensable',
-    'distinct',
-    'disturbed',
-    'divergent',
-    'dizzy',
-    'domineering',
-    'doubtful',
-    'drab',
-    'draconian',
-    'dramatic',
-    'dreary',
-    'drunk',
-    'dry',
-    'dull',
-    'dusty',
-    'dynamic',
-    'dysfunctional',
-    'eager',
-    'early',
-    'earsplitting',
-    'earthy',
-    'easy',
-    'eatable',
-    'economic',
-    'educated',
-    'efficacious',
-    'efficient',
-    'eight',
-    'elastic',
-    'elated',
-    'elderly',
-    'electric',
-    'elegant',
-    'elfin',
-    'elite',
-    'embarrassed',
-    'eminent',
-    'empty',
-    'enchanted',
-    'enchanting',
-    'encouraging',
-    'endurable',
-    'energetic',
-    'enormous',
-    'entertaining',
-    'enthusiastic',
-    'envious',
-    'equable',
-    'equal',
-    'erect',
-    'erratic',
-    'ethereal',
-    'evanescent',
-    'evasive',
-    'even',
-    'excellent',
-    'excited',
-    'exciting',
-    'exclusive',
-    'exotic',
-    'expensive',
-    'extra-large',
-    'extra-small',
-    'exuberant',
-    'exultant',
-    'fabulous',
-    'faded',
-    'faint',
-    'fair',
-    'faithful',
-    'fallacious',
-    'false',
-    'familiar',
-    'famous',
-    'fanatical',
-    'fancy',
-    'fantastic',
-    'far',
-    'far-flung',
-    'fascinated',
-    'fast',
-    'fat',
-    'faulty',
-    'fearful',
-    'fearless',
-    'feeble',
-    'feigned',
-    'female',
-    'fertile',
-    'festive',
-    'few',
-    'fierce',
-    'filthy',
-    'fine',
-    'finicky',
-    'first',
-    'five',
-    'fixed',
-    'flagrant',
-    'flaky',
-    'flashy',
-    'flat',
-    'flawless',
-    'flimsy',
-    'flippant',
-    'flowery',
-    'fluffy',
-    'fluttering',
-    'foamy',
-    'foolish',
-    'foregoing',
-    'forgetful',
-    'fortunate',
-    'four',
-    'frail',
-    'fragile',
-    'frantic',
-    'free',
-    'freezing',
-    'frequent',
-    'fresh',
-    'fretful',
-    'friendly',
-    'frightened',
-    'frightening',
-    'full',
-    'fumbling',
-    'functional',
-    'funny',
-    'furry',
-    'furtive',
-    'future',
-    'futuristic',
-    'fuzzy',
-    'gabby',
-    'gainful',
-    'gamy',
-    'gaping',
-    'garrulous',
-    'gaudy',
-    'general',
-    'gentle',
-    'giant',
-    'giddy',
-    'gifted',
-    'gigantic',
-    'glamorous',
-    'gleaming',
-    'glib',
-    'glistening',
-    'glorious',
-    'glossy',
-    'godly',
-    'good',
-    'goofy',
-    'gorgeous',
-    'graceful',
-    'grandiose',
-    'grateful',
-    'gratis',
-    'gray',
-    'greasy',
-    'great',
-    'greedy',
-    'green',
-    'grey',
-    'grieving',
-    'groovy',
-    'grotesque',
-    'grouchy',
-    'grubby',
-    'gruesome',
-    'grumpy',
-    'guarded',
-    'guiltless',
-    'gullible',
-    'gusty',
-    'guttural',
-    'habitual',
-    'half',
-    'hallowed',
-    'halting',
-    'handsome',
-    'handsomely',
-    'handy',
-    'hanging',
-    'hapless',
-    'happy',
-    'hard',
-    'hard-to-find',
-    'harmonious',
-    'harsh',
-    'hateful',
-    'heady',
-    'healthy',
-    'heartbreaking',
-    'heavenly',
-    'heavy',
-    'hellish',
-    'helpful',
-    'helpless',
-    'hesitant',
-    'hideous',
-    'high',
-    'highfalutin',
-    'high-pitched',
-    'hilarious',
-    'hissing',
-    'historical',
-    'holistic',
-    'hollow',
-    'homeless',
-    'homely',
-    'honorable',
-    'horrible',
-    'hospitable',
-    'hot',
-    'huge',
-    'hulking',
-    'humdrum',
-    'humorous',
-    'hungry',
-    'hurried',
-    'hurt',
-    'hushed',
-    'husky',
-    'hypnotic',
-    'hysterical',
-    'icky',
-    'icy',
-    'idiotic',
-    'ignorant',
-    'ill',
-    'illegal',
-    'ill-fated',
-    'ill-informed',
-    'illustrious',
-    'imaginary',
-    'immense',
-    'imminent',
-    'impartial',
-    'imperfect',
-    'impolite',
-    'important',
-    'imported',
-    'impossible',
-    'incandescent',
-    'incompetent',
-    'inconclusive',
-    'industrious',
-    'incredible',
-    'inexpensive',
-    'infamous',
-    'innate',
-    'innocent',
-    'inquisitive',
-    'insidious',
-    'instinctive',
-    'intelligent',
-    'interesting',
-    'internal',
-    'invincible',
-    'irate',
-    'irritating',
-    'itchy',
-    'jaded',
-    'jagged',
-    'jazzy',
-    'jealous',
-    'jittery',
-    'jobless',
-    'jolly',
-    'joyous',
-    'judicious',
-    'juicy',
-    'jumbled',
-    'jumpy',
-    'juvenile',
-    'kaput',
-    'keen',
-    'kind',
-    'kindhearted',
-    'kindly',
-    'knotty',
-    'knowing',
-    'knowledgeable',
-    'known',
-    'labored',
-    'lackadaisical',
-    'lacking',
-    'lame',
-    'lamentable',
-    'languid',
-    'large',
-    'last',
-    'late',
-    'laughable',
-    'lavish',
-    'lazy',
-    'lean',
-    'learned',
-    'left',
-    'legal',
-    'lethal',
-    'level',
-    'lewd',
-    'light',
-    'like',
-    'likeable',
-    'limping',
-    'literate',
-    'little',
-    'lively',
-    'lively',
-    'living',
-    'lonely',
-    'long',
-    'longing',
-    'long-term',
-    'loose',
-    'lopsided',
-    'loud',
-    'loutish',
-    'lovely',
-    'loving',
-    'low',
-    'lowly',
-    'lucky',
-    'ludicrous',
-    'lumpy',
-    'lush',
-    'luxuriant',
-    'lying',
-    'lyrical',
-    'macabre',
-    'macho',
-    'maddening',
-    'madly',
-    'magenta',
-    'magical',
-    'magnificent',
-    'majestic',
-    'makeshift',
-    'male',
-    'malicious',
-    'mammoth',
-    'maniacal',
-    'many',
-    'marked',
-    'massive',
-    'married',
-    'marvelous',
-    'material',
-    'materialistic',
-    'mature',
-    'mean',
-    'measly',
-    'meaty',
-    'medical',
-    'meek',
-    'mellow',
-    'melodic',
-    'melted',
-    'merciful',
-    'mere',
-    'messy',
-    'mighty',
-    'military',
-    'milky',
-    'mindless',
-    'miniature',
-    'minor',
-    'miscreant',
-    'misty',
-    'mixed',
-    'moaning',
-    'modern',
-    'moldy',
-    'momentous',
-    'motionless',
-    'mountainous',
-    'muddled',
-    'mundane',
-    'murky',
-    'mushy',
-    'mute',
-    'mysterious',
-    'naive',
-    'nappy',
-    'narrow',
-    'nasty',
-    'natural',
-    'naughty',
-    'nauseating',
-    'near',
-    'neat',
-    'nebulous',
-    'necessary',
-    'needless',
-    'needy',
-    'neighborly',
-    'nervous',
-    'new',
-    'next',
-    'nice',
-    'nifty',
-    'nimble',
-    'nine',
-    'nippy',
-    'noiseless',
-    'noisy',
-    'nonchalant',
-    'nondescript',
-    'nonstop',
-    'normal',
-    'nostalgic',
-    'nosy',
-    'noxious',
-    'null',
-    'numberless',
-    'numerous',
-    'nutritious',
-    'nutty',
-    'oafish',
-    'obedient',
-    'obeisant',
-    'obese',
-    'obnoxious',
-    'obscene',
-    'obsequious',
-    'observant',
-    'obsolete',
-    'obtainable',
-    'oceanic',
-    'odd',
-    'offbeat',
-    'old',
-    'old-fashioned',
-    'omniscient',
-    'one',
-    'onerous',
-    'open',
-    'opposite',
-    'optimal',
-    'orange',
-    'ordinary',
-    'organic',
-    'ossified',
-    'outgoing',
-    'outrageous',
-    'outstanding',
-    'oval',
-    'overconfident',
-    'overjoyed',
-    'overrated',
-    'overt',
-    'overwrought',
-    'painful',
-    'painstaking',
-    'pale',
-    'paltry',
-    'panicky',
-    'panoramic',
-    'parallel',
-    'parched',
-    'parsimonious',
-    'past',
-    'pastoral',
-    'pathetic',
-    'peaceful',
-    'penitent',
-    'perfect',
-    'periodic',
-    'permissible',
-    'perpetual',
-    'petite',
-    'petite',
-    'phobic',
-    'physical',
-    'picayune',
-    'pink',
-    'piquant',
-    'placid',
-    'plain',
-    'plant',
-    'plastic',
-    'plausible',
-    'pleasant',
-    'plucky',
-    'pointless',
-    'poised',
-    'polite',
-    'political',
-    'poor',
-    'possessive',
-    'possible',
-    'powerful',
-    'precious',
-    'premium',
-    'present',
-    'pretty',
-    'previous',
-    'pricey',
-    'prickly',
-    'private',
-    'probable',
-    'productive',
-    'profuse',
-    'protective',
-    'proud',
-    'psychedelic',
-    'psychotic',
-    'public',
-    'puffy',
-    'pumped',
-    'puny',
-    'purple',
-    'purring',
-    'pushy',
-    'puzzled',
-    'puzzling',
-    'quack',
-    'quaint',
-    'quarrelsome',
-    'questionable',
-    'quick',
-    'quickest',
-    'quiet',
-    'quirky',
-    'quixotic',
-    'quizzical',
-    'rabid',
-    'racial',
-    'ragged',
-    'rainy',
-    'rambunctious',
-    'rampant',
-    'rapid',
-    'rare',
-    'raspy',
-    'ratty',
-    'ready',
-    'real',
-    'rebel',
-    'receptive',
-    'recondite',
-    'red',
-    'redundant',
-    'reflective',
-    'regular',
-    'relieved',
-    'remarkable',
-    'reminiscent',
-    'repulsive',
-    'resolute',
-    'resonant',
-    'responsible',
-    'rhetorical',
-    'rich',
-    'right',
-    'righteous',
-    'rightful',
-    'rigid',
-    'ripe',
-    'ritzy',
-    'roasted',
-    'robust',
-    'romantic',
-    'roomy',
-    'rotten',
-    'rough',
-    'round',
-    'royal',
-    'ruddy',
-    'rude',
-    'rural',
-    'rustic',
-    'ruthless',
-    'sable',
-    'sad',
-    'safe',
-    'salty',
-    'same',
-    'sassy',
-    'satisfying',
-    'savory',
-    'scandalous',
-    'scarce',
-    'scared',
-    'scary',
-    'scattered',
-    'scientific',
-    'scintillating',
-    'scrawny',
-    'screeching',
-    'second',
-    'second-hand',
-    'secret',
-    'secretive',
-    'sedate',
-    'seemly',
-    'selective',
-    'selfish',
-    'separate',
-    'serious',
-    'shaggy',
-    'shaky',
-    'shallow',
-    'sharp',
-    'shiny',
-    'shivering',
-    'shocking',
-    'short',
-    'shrill',
-    'shut',
-    'shy',
-    'sick',
-    'silent',
-    'silent',
-    'silky',
-    'silly',
-    'simple',
-    'simplistic',
-    'sincere',
-    'six',
-    'skillful',
-    'skinny',
-    'sleepy',
-    'slim',
-    'slimy',
-    'slippery',
-    'sloppy',
-    'slow',
-    'small',
-    'smart',
-    'smelly',
-    'smiling',
-    'smoggy',
-    'smooth',
-    'sneaky',
-    'snobbish',
-    'snotty',
-    'soft',
-    'soggy',
-    'solid',
-    'somber',
-    'sophisticated',
-    'sordid',
-    'sore',
-    'sore',
-    'sour',
-    'sparkling',
-    'special',
-    'spectacular',
-    'spicy',
-    'spiffy',
-    'spiky',
-    'spiritual',
-    'spiteful',
-    'splendid',
-    'spooky',
-    'spotless',
-    'spotted',
-    'spotty',
-    'spurious',
-    'squalid',
-    'square',
-    'squealing',
-    'squeamish',
-    'staking',
-    'stale',
-    'standing',
-    'statuesque',
-    'steadfast',
-    'steady',
-    'steep',
-    'stereotyped',
-    'sticky',
-    'stiff',
-    'stimulating',
-    'stingy',
-    'stormy',
-    'straight',
-    'strange',
-    'striped',
-    'strong',
-    'stupendous',
-    'stupid',
-    'sturdy',
-    'subdued',
-    'subsequent',
-    'substantial',
-    'successful',
-    'succinct',
-    'sudden',
-    'sulky',
-    'super',
-    'superb',
-    'superficial',
-    'supreme',
-    'swanky',
-    'sweet',
-    'sweltering',
-    'swift',
-    'symptomatic',
-    'synonymous',
-    'taboo',
-    'tacit',
-    'tacky',
-    'talented',
-    'tall',
-    'tame',
-    'tan',
-    'tangible',
-    'tangy',
-    'tart',
-    'tasteful',
-    'tasteless',
-    'tasty',
-    'tawdry',
-    'tearful',
-    'tedious',
-    'teeny',
-    'teeny-tiny',
-    'telling',
-    'temporary',
-    'ten',
-    'tender',
-    'tense',
-    'tense',
-    'tenuous',
-    'terrible',
-    'terrific',
-    'tested',
-    'testy',
-    'thankful',
-    'therapeutic',
-    'thick',
-    'thin',
-    'thinkable',
-    'third',
-    'thirsty',
-    'thoughtful',
-    'thoughtless',
-    'threatening',
-    'three',
-    'thundering',
-    'tidy',
-    'tight',
-    'tightfisted',
-    'tiny',
-    'tired',
-    'tiresome',
-    'toothsome',
-    'torpid',
-    'tough',
-    'towering',
-    'tranquil',
-    'trashy',
-    'tremendous',
-    'tricky',
-    'trite',
-    'troubled',
-    'truculent',
-    'true',
-    'truthful',
-    'two',
-    'typical',
-    'ubiquitous',
-    'ugliest',
-    'ugly',
-    'ultra',
-    'unable',
-    'unaccountable',
-    'unadvised',
-    'unarmed',
-    'unbecoming',
-    'unbiased',
-    'uncovered',
-    'understood',
-    'undesirable',
-    'unequal',
-    'unequaled',
-    'uneven',
-    'unhealthy',
-    'uninterested',
-    'unique',
-    'unkempt',
-    'unknown',
-    'unnatural',
-    'unruly',
-    'unsightly',
-    'unsuitable',
-    'untidy',
-    'unused',
-    'unusual',
-    'unwieldy',
-    'unwritten',
-    'upbeat',
-    'uppity',
-    'upset',
-    'uptight',
-    'used',
-    'useful',
-    'useless',
-    'utopian',
-    'utter',
-    'uttermost',
-    'vacuous',
-    'vagabond',
-    'vague',
-    'valuable',
-    'various',
-    'vast',
-    'vengeful',
-    'venomous',
-    'verdant',
-    'versed',
-    'victorious',
-    'vigorous',
-    'violent',
-    'violet',
-    'vivacious',
-    'voiceless',
-    'volatile',
-    'voracious',
-    'vulgar',
-    'wacky',
-    'waggish',
-    'waiting',
-    'wakeful',
-    'wandering',
-    'wanting',
-    'warlike',
-    'warm',
-    'wary',
-    'wasteful',
-    'watery',
-    'weak',
-    'wealthy',
-    'weary',
-    'well-groomed',
-    'well-made',
-    'well-off',
-    'well-to-do',
-    'wet',
-    'whimsical',
-    'whispering',
-    'white',
-    'whole',
-    'wholesale',
-    'wicked',
-    'wide',
-    'wide-eyed',
-    'wiggly',
-    'wild',
-    'willing',
-    'windy',
-    'wiry',
-    'wise',
-    'wistful',
-    'witty',
-    'woebegone',
-    'womanly',
-    'wonderful',
-    'wooden',
-    'woozy',
-    'workable',
-    'worried',
-    'worthless',
-    'wrathful',
-    'wretched',
-    'wrong',
-    'wry',
-    'xenophobic',
-    'yellow',
-    'yielding',
-    'young',
-    'youthful',
-    'yummy',
-    'zany',
-    'zealous',
-    'zesty',
-    'zippy',
-    'zonked'
-];
-
-function generateCombination(numAdjectives, delimiter, seed, capitalizeFirstLetter) {
-    console.log(seed)
-    let combination = '';
-    if (seed === 6942042069 || seed === "6942042069") {return "quack-with-Blocker"}
-    const randomIshOne = (seed * 9301 + 49297) % 233280
-    const randomIshTwo = (seed * 8 * 9301 + 49297) % 233280
-    const pseudoRandomOne = randomIshOne / 233280
-    const pseudoRandomTwo = randomIshTwo / 233280
-
-    const animal = animals[Math.floor(pseudoRandomOne * animals.length)];
-
-    for (let i = 0; i < numAdjectives; i++) {
-        const adjective = adjectives[(Math.floor(pseudoRandomTwo * (i + 1) * adjectives.length)) % adjectives.length];
-
-        combination += capitalizeFirstLetter ? adjective.charAt(0).toUpperCase() + adjective.slice(1) + delimiter : adjective + delimiter;
+  const cardIcons = document.getElementsByClassName("fa-comments");
+  setTimeout(() => {
+    const cardIconsArray = Array.from(cardIcons);
+    for (let i = 0; i < cardIconsArray.length; i++) {
+      cardIconsArray[i].addEventListener("click", function (e) {
+        const postId = this.getAttribute("id-tag");
+        toggleHidden(postId);
+      });
     }
-
-    combination += capitalizeFirstLetter ? animal.charAt(0).toUpperCase() + animal.slice(1) : animal;
-    return combination;
+  }, 1000);
 }
-
-
-
-
-
-
-// for (let i = 0; i < commentButtonsArray.length; i++)
-// console.log(commentButtonsArray)
