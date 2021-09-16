@@ -50,6 +50,13 @@ class Post {
     console.log(currentPost.reactions[reactionId - 1].count)
   }
 
+  addCommentReaction(reactionData, id, commentId, reactionId) {
+    const reactionCount = parseInt(reactionData.count)
+    const currentPost = postsData[id - 1];
+    const currentComment = currentPost.comments[commentId - 1]
+    currentComment.reactions[reactionId - 1].count = reactionCount + 1;
+  }
+
   addComment(commentData, id) {
     const commentText = commentData.text
     const commentDate = commentData.date
