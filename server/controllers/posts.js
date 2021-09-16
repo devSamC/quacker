@@ -43,7 +43,10 @@ router.patch("/posts/:id/comments", (req, res) => {
   console.log('logging req params id below')
   console.log(id)
   postToPatch.addComment(commentData, id);
-  res.sendStatus(204);
+  res.send({
+    message: `comment added`
+  })
+  // res.sendStatus(204);
 })
 
 router.patch("/posts/:id/reactions/:reactionid", (req, res) => {
@@ -55,6 +58,9 @@ router.patch("/posts/:id/reactions/:reactionid", (req, res) => {
   console.log(`passing : data : ${reactionData},id : ${id},reactionId : ${reactionId}`)
   console.log(`data is ${reactionData.count},${reactionData.id}`)
   postToPatch.addReaction(reactionData, id, reactionId)
+  res.send({
+    message: `reaction added to post`
+  })
   // res.sendStatus(204);
 })
 
@@ -65,6 +71,9 @@ router.patch("/posts/:id/comments/:commentid/reactions/:reactionid", (req, res) 
   const reactionData = req.body
   const postToPatch = new Post(Post.findById(id))
   postToPatch.addCommentReaction(reactionData, id, commentId, reactionId);
+  res.send({
+    message: `reaction added to post`
+  })
   // res.sendStatus(204);
 })
 
