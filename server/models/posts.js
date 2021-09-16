@@ -4,6 +4,7 @@ const dayjs = require('dayjs')
 class Post {
   constructor(data) {
     this.id = data.id
+    this.author = data.author
     this.text = data.text
     this.picture = data.picture
     this.gif = data.gif

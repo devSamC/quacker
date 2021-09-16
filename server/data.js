@@ -1,5 +1,6 @@
 const postsData = [{
     "id": 1,
+    "author": "delayed-artistic-Guppy",
     "text": "my first quack. wow i love coding",
     "picture": "",
     "gif": "",
@@ -8,6 +9,7 @@ const postsData = [{
     "date": "Sun, 12 Sep 2021 09:45:55 GMT"
 }, {
     "id": 2,
+    "author": "proof-of-Concept",
     "text": "my second quack. wow i love coding",
     "picture": "",
     "gif": "",
@@ -16,6 +18,7 @@ const postsData = [{
     "date": "Mon, 13 Sep 2021 09:45:55 GMT"
 }, {
     "id": 3,
+    "author": "wild-wild-Duck",
     "text": "my third quack. wow i love coding",
     "picture": "",
     "gif": "",
