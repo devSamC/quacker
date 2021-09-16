@@ -6,7 +6,7 @@ var dayjs = require("./dayjs/dayjs");
 var relativeTime = require("./dayjs/plugin/relativeTime");
 dayjs.extend(relativeTime);
 //DOM constants
-const reactionChoices = ["❤", "❓", "🔝"];
+const reactionChoices = ["❤", "😡", "🐤"];
 const submitButton = document.getElementById("quack-btn");
 const imageButton = document.getElementById("add-image");
 const sortMenu = document.getElementById("sortBy");
@@ -376,6 +376,8 @@ async function generateCard() {
                 commentAuthor.classList.add("commentAuthor");
                 const commentDate = document.createElement("p");
                 commentDate.classList.add("CommentTimeStamp", "commentDate");
+                const commentStuffHolder = document.createElement('div');
+                commentStuffHolder.classList.add('lower-comment-holder')
                 const commentReactionHolder = document.createElement("div");
                 commentReactionHolder.classList.add("comment-reactions-div");
                 commentText.textContent = postsData[i].comments[j].text;
@@ -383,9 +385,11 @@ async function generateCard() {
                 commentDate.textContent = dayjs().to(postsData[i].comments[j].date);
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
-                commentCardBody.appendChild(commentAuthor);
-                commentCardBody.appendChild(commentDate);
-                commentCardBody.appendChild(commentReactionHolder);
+                commentStuffHolder.appendChild(commentReactionHolder)
+                commentStuffHolder.appendChild(commentAuthor)
+                commentStuffHolder.appendChild(commentDate)
+                commentCardBody.appendChild(commentStuffHolder);
+                
                 cardFooter.appendChild(commentCard);
                 for (let q = 0; q < reactionChoices.length; q++) {
                     const commentReactionButton = document.createElement("button");
