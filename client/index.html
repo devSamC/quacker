@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-
+    
     <!------------ Fonts ------------>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,11 +30,26 @@
                 <!-- logo and about/options text -->
                 <img id="logo" class="logo" src="./images/logo.png">
                 <div class="about-text">
-                    about-text here
+                    <div class="about-description">
+                        <h2 class = "text-secondary" >about quacker</h2>
+                        <br>
+                        <p class="about-description">
+                            <b>quacker</b> is an anonymous messageboard webapp.
+                        </p>
+                        <p>we keep a safe level of anonymity via the use of personalised id tags</p> 
+                        <br>
+
+                    </div>
+                    <div class="how-to-use text-secondary">
+                        <h2>how to use</h2>
+                        <br>
+                        <p>start typing in the quack box and hit quack to create your first post</p>
+                        <p>you can also add images via url and gifs via giphy</p>
+                    </div>
+                    
                 </div>
-                <div class="options">
-                    options here
-                </div>
+
+                
                 <p class="left-footer">Project by Sam, Sansi and Brodie</p>
             </div>
             <div class="top">
@@ -47,6 +62,8 @@
                     <input type="submit" id="search-posts-submit" class="btn btn-outline-success">
                 </div>
                 <div class="quack-box custom-card">
+                   
+                   <div class="top-box">
                     <!-- includes user image  -->
                     <div class="left-box ">
                         <img id="duck-img" src="./images/Happy-alphabg.png">
@@ -57,6 +74,8 @@
                             <input id="quack-input" type="text" placeholder="What's Quacking??" maxlength="281">
                             <p id="remaining-chars" class=""></p>
                         </div>
+                    </div>
+                    </div>
                         <div class=big-bottom>
                             <div class="bottom-quack">
                                 <i class="add-image far fa-image" id="add-image"></i>
@@ -71,14 +90,16 @@
                             </div>
                             <form id="gifForm" class="hidden">
                                 <input id="search" placeholder="Search for a GIF! " type="search" />
+                                <div class="previewAdd">
                                 <button id="previewGif" class="previewGif btn btn-outline-success">Preview GIF</button>
                                 <button id="btnSearch" class="btnSearch btn btn-outline-success">Add GIF</button>
+                                </div>
                             </form>
                             <div class="out">
                             </div>
                             <figure id="figure" class="gifholder"></figure>
                         </div>
-                    </div>
+                    
                 </div>
 
                 <section class="quack-holder card">
