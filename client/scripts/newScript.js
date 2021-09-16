@@ -17,8 +17,14 @@ dayjs.extend(relativeTime)
 
 // getting ip
 async function getIp() {
-    const userIp = await fetch('https://api.ipify.org/?format=json');
-    return userIp.json()
+    try {
+        const userIp = await fetch('https://api.ipify.org/?format=json');
+        return userIp.json()
+    }
+    catch(error) {
+        alert('please disable your content blockers - im really sorry')
+    }
+
 
 
 
@@ -372,7 +378,7 @@ async function generateCard() {
                 const commentReactionHolder = document.createElement('div')
                 commentReactionHolder.classList.add('reactions-div')
                 commentText.textContent = postsData[i].comments[j].text
-                commentAuthor.textContent= `comment by ${postsData[i].comments[j].author}`
+                commentAuthor.textContent = `comment by ${postsData[i].comments[j].author}`
                 commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
@@ -679,7 +685,7 @@ createPage()
 
 function makeCommentsWork() {
     const commentButtonsHTML = document.getElementsByClassName('comment-button')
-    setTimeout(async function() {
+    setTimeout(async function () {
         const commentButtons = Array.from(commentButtonsHTML)
         // getting ip logic
         const userIp = await getIp()
