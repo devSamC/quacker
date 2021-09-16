@@ -375,7 +375,7 @@ async function generateCard() {
                 const commentAuthor = document.createElement("p");
                 commentText.classList.add("commentAuthor");
                 const commentDate = document.createElement("p");
-                commentDate.classList.add("timeStamp", "commentDate");
+                commentDate.classList.add("CommentTimeStamp", "commentDate");
                 const commentReactionHolder = document.createElement("div");
                 commentReactionHolder.classList.add("reactions-div");
                 commentText.textContent = postsData[i].comments[j].text;

@@ -409,7 +409,7 @@ div > .card-footer > h4 {
   padding: 5px;
 }
 
-.timeStamp {
+.timeStamp, .CommentTimeStamp {
   font-size: 1rem;
 }
 
