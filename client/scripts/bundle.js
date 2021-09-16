@@ -701,7 +701,7 @@ async function generateCard() {
         const stringCombo = generateCombination(2, "-", postsData[i].id)
         newPostTitle.textContent = `Quack id ${stringCombo}`
         newPostTitle.classList.add('card-title', 'custom-card-title', 'text-muted')
-        newPostAuthor.textContent = `${postsData[i].author}`
+        newPostAuthor.textContent = `posted by ${postsData[i].author}`
         //add current reactions below the main text
         //we will add a button for each reaction choice, hopefully styled as a pill or something
         for (let k = 0; k < reactionChoices.length; k++) {
@@ -770,14 +770,18 @@ async function generateCard() {
                 commentCardBody.classList.add('card-body')
                 const commentText = document.createElement('p');
                 commentText.classList.add('commentText');
+                const commentAuthor = document.createElement('p');
+                commentText.classList.add('commentAuthor')
                 const commentDate = document.createElement('p');
                 commentDate.classList.add('timeStamp', 'commentDate');
                 const commentReactionHolder = document.createElement('div')
                 commentReactionHolder.classList.add('reactions-div')
                 commentText.textContent = postsData[i].comments[j].text
+                commentAuthor.textContent= `comment by ${postsData[i].comments[j].author}`
                 commentDate.textContent = dayjs().to(postsData[i].comments[j].date)
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
+                commentCardBody.appendChild(commentAuthor)
                 commentCardBody.appendChild(commentDate);
                 commentCardBody.appendChild(commentReactionHolder)
                 cardFooter.appendChild(commentCard);
@@ -785,11 +789,12 @@ async function generateCard() {
                     const commentReactionButton = document.createElement('button')
                     const currentCommentReactionCount = postsData[i].comments[j].reactions[q].count
 
-                    commentReactionButton.classList.add('btn', 'btn-outline-success', 'reaction-button', 'btn-sm')
+                    commentReactionButton.classList.add('btn', 'btn-outline-success', 'comment-reaction-button', 'btn-sm')
 
                     commentReactionButton.setAttribute('type', 'button')
-                    commentReactionButton.setAttribute('id', `reaction-button-${q}-${postsData[i].comments[j].reactions[q].id}`)
-                    commentReactionButton.setAttribute('id-tag', `${postsData[i].comments[j].reactions[q].id}`)
+                    commentReactionButton.setAttribute('id', `comment-reaction-button-${q}-${postsData[i].id}}`)
+                    commentReactionButton.setAttribute('id-tag', `${postsData[i].id}`)
+                    commentReactionButton.setAttribute('comment-id-tag', `${postsData[i].comments[j].id}`)
                     commentReactionButton.setAttribute('reaction-tag', `${q+1}`)
                     commentReactionButton.setAttribute('reaction-count', currentCommentReactionCount)
                     commentReactionButton.textContent = `${currentCommentReactionCount} ${reactionChoices[q]}`
@@ -851,7 +856,7 @@ async function generateCard() {
 
 
 
-function addComment(postId) {
+function addComment(postId, commentAuthor) {
     const commentBox = document.getElementById(`comment-box-${postId}`);
 
     const commentText = commentBox.value;
@@ -871,6 +876,7 @@ function addComment(postId) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+            "author": `${commentAuthor}`,
             "text": `${commentText}`,
             "date": `${currentTime}`
         })
@@ -880,6 +886,18 @@ function addComment(postId) {
 
 function addReactionCount(postId, reactionId, currentReactionCount) {
     const newReaction = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${postId}/reactions/${reactionId}`, {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "count": currentReactionCount
+        })
+    }).then(response => createPage())
+}
+
+function addCommentReactionCount(postId, commentId, reactionId, currentReactionCount) {
+    const newReaction = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${postId}/comments/${commentId}/reactions/${reactionId}`, {
         method: 'PATCH',
         headers: {
             "Content-Type": "application/json"
@@ -1066,13 +1084,18 @@ createPage()
 
 function makeCommentsWork() {
     const commentButtonsHTML = document.getElementsByClassName('comment-button')
-    setTimeout(() => {
+    setTimeout(async function() {
         const commentButtons = Array.from(commentButtonsHTML)
-
+        // getting ip logic
+        const userIp = await getIp()
+        const ipString = userIp.ip.split('.').join('')
+        //the ip is now a string of just numbers, we will use this to make an id
+        const userId = generateCombination(2, '-', ipString)
         for (let i = 0; i < commentButtons.length; i++) {
             commentButtons[i].addEventListener('click', function (e) {
+                console.log('clicked')
                 const postId = this.getAttribute("id-tag");
-                addComment(postId);
+                addComment(postId, userId);
 
             })
         }
@@ -1081,9 +1104,10 @@ function makeCommentsWork() {
 
 function makeReactionsWork() {
     const reactionIcons = document.getElementsByClassName('reaction-button')
-
+    const commentReactionIcons = document.getElementsByClassName('comment-reaction-button')
     setTimeout(() => {
         const reactionIconsArray = Array.from(reactionIcons)
+        const commentReactionIconsArray = Array.from(commentReactionIcons)
         for (let i = 0; i < reactionIconsArray.length; i++) {
             reactionIconsArray[i].addEventListener('click', function (e) {
 
@@ -1102,6 +1126,25 @@ function makeReactionsWork() {
             }, {
                 once: true
             })
+        }
+        for (let j = 0; j < commentReactionIconsArray.length; j++) {
+            commentReactionIconsArray[j].addEventListener('click', function (e) {
+                const postId = this.getAttribute('id-tag')
+                const commentId = this.getAttribute('comment-id-tag')
+                const reactionId = this.getAttribute('reaction-tag')
+                const reactionCount = this.getAttribute('reaction-count')
+                addCommentReactionCount(postId, commentId, reactionId, reactionCount);
+                //clientside change
+                const currentValue = this.textContent
+                const valueArray = currentValue.split(' ')
+                this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
+                this.classList.remove('btn-outline-success')
+                this.classList.add('btn')
+
+            }, {
+                once: true
+            })
+
         }
     }, 1000)
 }
