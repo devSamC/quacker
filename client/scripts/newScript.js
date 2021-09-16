@@ -2134,7 +2134,9 @@ const adjectives = ['aback',
 ];
 
 function generateCombination(numAdjectives, delimiter, seed, capitalizeFirstLetter) {
+    console.log(seed)
     let combination = '';
+    if (seed === 6942042069 || seed === "6942042069") {return "quack-with-Blocker"}
     const randomIshOne = (seed * 9301 + 49297) % 233280
     const randomIshTwo = (seed * 8 * 9301 + 49297) % 233280
     const pseudoRandomOne = randomIshOne / 233280
