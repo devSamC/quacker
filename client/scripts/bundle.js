@@ -785,11 +785,12 @@ async function generateCard() {
                     const commentReactionButton = document.createElement('button')
                     const currentCommentReactionCount = postsData[i].comments[j].reactions[q].count
 
-                    commentReactionButton.classList.add('btn', 'btn-outline-success', 'reaction-button', 'btn-sm')
+                    commentReactionButton.classList.add('btn', 'btn-outline-success', 'comment-reaction-button', 'btn-sm')
 
                     commentReactionButton.setAttribute('type', 'button')
-                    commentReactionButton.setAttribute('id', `reaction-button-${q}-${postsData[i].comments[j].reactions[q].id}`)
-                    commentReactionButton.setAttribute('id-tag', `${postsData[i].comments[j].reactions[q].id}`)
+                    commentReactionButton.setAttribute('id', `comment-reaction-button-${q}-${postsData[i].id}}`)
+                    commentReactionButton.setAttribute('id-tag', `${postsData[i].id}`)
+                    commentReactionButton.setAttribute('comment-id-tag', `${postsData[i].comments[j].id}`)
                     commentReactionButton.setAttribute('reaction-tag', `${q+1}`)
                     commentReactionButton.setAttribute('reaction-count', currentCommentReactionCount)
                     commentReactionButton.textContent = `${currentCommentReactionCount} ${reactionChoices[q]}`
@@ -880,6 +881,18 @@ function addComment(postId) {
 
 function addReactionCount(postId, reactionId, currentReactionCount) {
     const newReaction = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${postId}/reactions/${reactionId}`, {
+        method: 'PATCH',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "count": currentReactionCount
+        })
+    }).then(response => createPage())
+}
+
+function addCommentReactionCount(postId, commentId, reactionId, currentReactionCount) {
+    const newReaction = fetch(`https://quackerapi-nodejs.herokuapp.com/posts/${postId}/comments/${commentId}/reactions/${reactionId}`, {
         method: 'PATCH',
         headers: {
             "Content-Type": "application/json"
@@ -1081,9 +1094,10 @@ function makeCommentsWork() {
 
 function makeReactionsWork() {
     const reactionIcons = document.getElementsByClassName('reaction-button')
-
+    const commentReactionIcons = document.getElementsByClassName('comment-reaction-button')
     setTimeout(() => {
         const reactionIconsArray = Array.from(reactionIcons)
+        const commentReactionIconsArray = Array.from(commentReactionIcons)
         for (let i = 0; i < reactionIconsArray.length; i++) {
             reactionIconsArray[i].addEventListener('click', function (e) {
 
@@ -1102,6 +1116,25 @@ function makeReactionsWork() {
             }, {
                 once: true
             })
+        }
+        for (let j = 0; j < commentReactionIconsArray.length; j++) {
+            commentReactionIconsArray[j].addEventListener('click', function (e) {
+                const postId = this.getAttribute('id-tag')
+                const commentId = this.getAttribute('comment-id-tag')
+                const reactionId = this.getAttribute('reaction-tag')
+                const reactionCount = this.getAttribute('reaction-count')
+                addCommentReactionCount(postId, commentId, reactionId, reactionCount);
+                //clientside change
+                const currentValue = this.textContent
+                const valueArray = currentValue.split(' ')
+                this.textContent = `${parseInt(valueArray[0])+1} ${valueArray[1]}`
+                this.classList.remove('btn-outline-success')
+                this.classList.add('btn')
+
+            }, {
+                once: true
+            })
+
         }
     }, 1000)
 }
