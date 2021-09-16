@@ -51,12 +51,14 @@ body {
 
 .about-text {
   position: fixed;
+  width: 25vw;
+  left: 10px;
   margin-top: 100px;
 }
 
 .options {
   position: fixed;
-  margin-top: 200px;
+  margin-top: 50px;
 }
 
 .left-footer {
@@ -79,7 +81,7 @@ body {
 
 .trending {
   position: fixed;
-  top: 12rem;
+  top: 1rem;
   text-align: center;
 }
 
@@ -127,14 +129,14 @@ body {
 
 .flying-in {
   text-shadow: 1px black;
-  animation-duration: 1s;
+  animation-duration: 2s;
   animation-name: flyin;
   animation-timing-function: cubic-bezier(0.79, 0.18, 0.06, 0.97);
 }
 
 @keyframes flyin {
   from {
-    margin-left: 200px;
+    
     left: 400px;
     letter-spacing: 80px;
     opacity: 0;
@@ -162,7 +164,7 @@ body {
 
 .search {
   position: relative;
-  margin-top: 1rem;
+  margin-top: 3rem;
 }
 
 
@@ -171,12 +173,18 @@ body {
 .quack-box {
   /* border: 1px solid red; */
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   width: 100%;
   margin-top: 4rem;
 }
 
+.top-box {
+  display:flex;
+}
 
+.left-box {
+  display: inline-block;
+}
 .left-box img { 
   /* Duck avatar next to what's quacking input  */ 
   width: 50px;
@@ -185,7 +193,8 @@ body {
 
 
 .rightbox {
-  width: 187%;
+  display: inline-block;
+  width: 90%;
 }
 
 
@@ -234,6 +243,7 @@ body {
 .gif {
   font-weight: 800;
   font-size: 15px;
+  padding-left: 55px;
 }
 
 .gif:hover {
@@ -266,8 +276,8 @@ body {
 }
 
 .img-input-animation {
-  animation-duration: 0.2s !important;
-  animation-name: fadein !important;
+  animation-duration: 0.2s;
+  animation-name: fadein;
 }
 
 
@@ -288,12 +298,17 @@ input {
 
 #gifForm {
   margin-top: 5px;
+  margin-bottom: 8px;
 }
 
 #gifForm button {
   margin-top: 5px;
   margin-left: 5px;
   margin-right: 5px;
+}
+
+.previewAdd {
+  margin-right: 35px;
 }
 
 #search {
@@ -601,6 +616,11 @@ div > .card-footer > h4 {
 }
 
 @media only screen and (max-width: 550px) {
+
+  .quack-holder {
+    margin-right: 1.5rem;
+  }
+  
   .top {
     width: 100%;
   }
