@@ -62,7 +62,7 @@ async function getIp() {
     }
 }
 //making duck talk
-function changeDuck(e) {
+function changeDuck() {
     const duckImage = document.getElementById("duck-img");
     duckImage.setAttribute("src", "./images/duckGifV3.gif");
 }
@@ -770,3 +770,5 @@ function makeCommentIconsWork() {
         }
     }, 1000);
 }
+
+module.exports = {createPage: createPage, getIp: getIp, changeDuck: changeDuck, makeDuckAngry: makeDuckAngry, hideGifInput: hideGifInput, giveSearchInput: giveSearchInput, changeSort: changeSort, changeLogo: changeLogo, changeLogoBack: changeLogoBack, displayCharLimit: displayCharLimit, addImage: addImage, mainTextContains: mainTextContains, commentTextContains: commentTextContains, sortByReactions: sortByReactions, isFresh: isFresh, risingFunction: risingFunction, generateCard: generateCard, addComment: addComment, addReactionCount: addReactionCount, addCommentReactionCount: addCommentReactionCount, previewGif: previewGif, init: init, removePreview: removePreview, addQuack: addQuack, makeCommentsWork: makeCommentsWork, makeReactionsWork: makeReactionsWork, toggleHidden: toggleHidden, makeCommentIconsWork: makeCommentIconsWork};

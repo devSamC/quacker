@@ -41,17 +41,16 @@ describe('index.html', () => {
       let header = document.querySelector('header');
       expect(header).toBeTruthy();
     });
+    
     test("it has a logo", () => {
       let logo = document.getElementById('logo');
-      expect(logo).toBeTruthy
-    })
+      expect(logo).toBeTruthy();
+    });
 
-    
+    test('it has a background-color', () => {
+      let nav = document.querySelector('nav');
+      let navStyle = getComputedStyle(nav);
+      expect(navStyle.backgroundColor).toBeTruthy();
+    });
   });
-
-
-  describe("")
-
-  
-
-})
+});

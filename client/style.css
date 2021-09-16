@@ -621,14 +621,14 @@ div > .card-footer > h4 {
 /* ANIMATION */
 
 /* testing animation loading */
-.animated-div {
+/* .animated-div {
   opacity: 0;
   animation-name: animateIn;
   animation-duration: 300ms;
   animation-delay: calc(var(--animation-order) * 200ms);
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
-}
+} */
 
 /* div {
     animation-name: animateIn;
