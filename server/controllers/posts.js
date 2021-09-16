@@ -43,7 +43,7 @@ router.patch("/posts/:id/comments", (req, res) => {
   console.log('logging req params id below')
   console.log(id)
   postToPatch.addComment(commentData, id);
-  // res.sendStatus(204);
+  res.sendStatus(204);
 })
 
 router.patch("/posts/:id/reactions/:reactionid", (req, res) => {
