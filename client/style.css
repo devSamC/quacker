@@ -407,7 +407,7 @@ div > .card-footer > h4 {
 .commentDate {
   text-align: right;
   position: relative;
-  top: 4vh;
+  top: 5vh;
 }
 
 .comment-reactions-div {
@@ -434,7 +434,7 @@ div > .card-footer > h4 {
 .commentAuthor {
   display: inline-block;
   position: relative;
-  top: 5.5vh;
+  top: 7vh;
 }
 
 .timeStamp, .CommentTimeStamp {
@@ -632,17 +632,22 @@ div > .card-footer > h4 {
      */
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 870px) {
   .comment-reactions-div {
     position: relative;
     top: 1.5vh;
   }
 
   .comment-reactions-div > button {
-    border-radius: 12px;
-    padding: 0rem 0.2rem;
+    border-radius: 10px;
+    padding: 0.5rem 0.5rem;
+  }
+
+  .commentAuthor {
+    width: 50%;
   }
 }
+
 @media only screen and (max-width: 550px) {
 
   .quack-holder {
