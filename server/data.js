@@ -31,7 +31,7 @@ const postsData = [{
     "date": "Mon, 13 Sep 2021 09:45:55 GMT"
 }, {
     "id": 3,
-    "author": "wild-wild-Duck",
+    "author": "quack-with-Blocker",
     "text": "Quack quack I'm a quack",
     "picture": "",
     "gif": "https://media3.giphy.com/media/ruhPcuDNmS12M/giphy.gif?cid=782dcf4bigsvnwhdxpc6xa06abpp8k6j732n8agiin5m9o8h&rid=giphy.gif&ct=g",

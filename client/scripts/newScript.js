@@ -148,7 +148,7 @@ function commentTextContains(post) {
         }
     }
 }
-//sort by reaction count
+//sort by reaction count - could add weightings later
 function sortByReactions(a, b) {
     //a counter
 
