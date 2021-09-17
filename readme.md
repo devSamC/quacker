@@ -23,8 +23,9 @@ Clone or download the repo.
 # Technologies
 - HTML, CSS, JavaScript, Express, Browserify, dayjs, bootstrap
 ​
-### Dependencies: 
-# Server-side dependencies: 
+# Dependencies: 
+
+### Server-side dependencies: 
 -  "cors": "^2.8.5",
 -  "dayjs": "^1.10.7",
 -  "express": "^4.17.1",
