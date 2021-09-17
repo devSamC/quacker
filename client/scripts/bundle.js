@@ -1924,18 +1924,18 @@ function addImage() {
 
 //check if post content contains query
 function mainTextContains(post) {
-    const searchQuery = searchBar.value;
-    const textArray = post.text.split(" ");
+    const searchQuery = searchBar.value.toLowerCase();
+    const textArray = post.text.toLowerCase().split(" ");
     return textArray.includes(searchQuery);
 }
 //check if comment content contains query
 function commentTextContains(post) {
-    const searchQuery = searchBar.value;
+    const searchQuery = searchBar.value.toLowerCase();
     if (post.comments.length === 0) {
         return false;
     }
     for (let i = 0; i < post.comments.length; i++) {
-        const textArray = post.comments[i].text.split(" ");
+        const textArray = post.comments[i].text.toLowerCase().split(" ");
         if (textArray.includes(searchQuery)) {
             return true;
         }
@@ -2169,8 +2169,7 @@ async function generateCard() {
                 commentAuthor.classList.add("commentAuthor");
                 const commentDate = document.createElement("p");
                 commentDate.classList.add("CommentTimeStamp", "commentDate");
-                const commentStuffHolder = document.createElement('div');
-                commentStuffHolder.classList.add('lower-comment-holder')
+                
                 const commentReactionHolder = document.createElement("div");
                 commentReactionHolder.classList.add("comment-reactions-div");
                 commentText.textContent = postsData[i].comments[j].text;
@@ -2178,10 +2177,10 @@ async function generateCard() {
                 commentDate.textContent = dayjs().to(postsData[i].comments[j].date);
                 commentCard.appendChild(commentCardBody);
                 commentCardBody.appendChild(commentText);
-                commentStuffHolder.appendChild(commentReactionHolder)
-                commentStuffHolder.appendChild(commentAuthor)
-                commentStuffHolder.appendChild(commentDate)
-                commentCardBody.appendChild(commentStuffHolder);
+                commentCardBody.appendChild(commentReactionHolder)
+                commentCardBody.appendChild(commentAuthor)
+                commentCardBody.appendChild(commentDate)
+                
                 
                 cardFooter.appendChild(commentCard);
                 for (let q = 0; q < reactionChoices.length; q++) {
