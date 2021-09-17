@@ -1928,7 +1928,7 @@ function mainTextContains(post) {
     const textArray = post.text.toLowerCase().split(" ");
     return textArray.includes(searchQuery);
 }
-//check if comment content contains query
+//check if comment content contains query, lowercase
 function commentTextContains(post) {
     const searchQuery = searchBar.value.toLowerCase();
     if (post.comments.length === 0) {
