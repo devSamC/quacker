@@ -1,0 +1,737 @@
+/* root  */
+
+:root {
+  /* light mode colours */
+  --primary-0: rgba(215, 222, 219, 1);
+  --primary-1: rgba(141, 183, 165, 1);
+  --primary-2: rgba(172, 202, 189, 1);
+  --primary-3: rgba(166, 179, 173, 1);
+  --primary-4: rgba(144, 160, 153, 1);
+  --complement-0: rgba(255, 249, 246, 1);
+  --complement-1: rgba(255, 213, 196, 1);
+  --complement-2: rgba(255, 228, 217, 1);
+  --complement-3: rgba(255, 242, 236, 1);
+  --complement-4: rgba(233, 217, 211, 1);
+  /* dark mode colours */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+
+
+.navBar {
+  display: flex;
+  justify-content: space-evenly;
+  position: sticky;
+  background-color: var(--complement-0);
+}
+
+
+
+/* left side-bar  */
+.logo {
+  width: 6rem;
+  display: flex;
+  justify-content: flex-end;
+  position: fixed;
+  margin-top: 1rem;
+}
+
+.about-text {
+  position: fixed;
+  width: 25vw;
+  left: 10px;
+  margin-top: 100px;
+}
+
+.options {
+  position: fixed;
+  margin-top: 50px;
+}
+
+.left-footer {
+  position: fixed;
+  bottom: 0;
+  left: 1.5rem;
+}
+
+/* Right-Sidebar  */
+
+.top-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+
+.trending {
+  position: fixed;
+  top: 1rem;
+  text-align: center;
+}
+
+
+
+.trending i {
+  display: none;
+}
+
+
+/* Middle Bar */
+
+.top {
+  width: 40%;
+  text-align: center;
+  margin-right: 20px;
+  margin-left: 20px;
+  /* border-right: 1px solid lightgray;
+    border-left: 1px solid lightgray; */
+}
+
+
+/* Main title Top Middle */
+
+.quacker {
+  font-family: "Lato", sans-serif;
+  font-size: 3rem;
+  display: flex;
+  justify-self: flex-start;
+  margin-left: 2rem;
+  margin-top: 1rem;
+}
+
+/* Title Animation */
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.flying-in {
+  text-shadow: 1px black;
+  animation-duration: 2s;
+  animation-name: flyin;
+  animation-timing-function: cubic-bezier(0.79, 0.18, 0.06, 0.97);
+}
+
+@keyframes flyin {
+  from {
+    
+    left: 400px;
+    letter-spacing: 80px;
+    opacity: 0;
+
+    /* background: red;
+        background: -webkit-linear-gradient(left, orange, yellow, green, cyan, blue, violet);
+        background: -o-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
+        background: -moz-linear-gradient(right, orange, yellow, green, cyan, blue, violet);
+        background: linear-gradient(to right, orange, yellow, green, cyan, blue, violet);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; */
+  }
+
+  to {
+    left: 0px;
+    letter-spacing: 0px;
+    opacity: 1;
+
+    /* background: black; */
+
+    /* -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent; */
+  }
+}
+
+.search {
+  position: relative;
+  margin-top: 3rem;
+}
+
+
+/* The quack input box  */
+
+.quack-box {
+  /* border: 1px solid red; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 4rem;
+}
+
+.top-box {
+  display:flex;
+}
+
+.left-box {
+  display: inline-block;
+}
+.left-box img { 
+  /* Duck avatar next to what's quacking input  */ 
+  width: 50px;
+  height: 50px;
+}
+
+
+.rightbox {
+  display: inline-block;
+  width: 90%;
+}
+
+
+#remaining-chars {
+  color: var(--primary-4);
+  left: -10px;
+  margin-left: -50px;
+}
+
+#quack-input {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding-bottom: 1rem;
+  padding-left: 1rem;
+  width: 100%;
+  height: 6rem;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+#quack-input:hover {
+  box-shadow: 0px 0px 4px 0px var(--primary-1);
+  border-radius: 10px;
+}
+
+#quack-input:focus {
+  outline: none;
+}
+
+.bottom-quack {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 0.5rem;
+  align-items: baseline;
+}
+
+#add-image {
+  font-size: 2.5rem;
+}
+
+#add-image:hover {
+  color: var(--primary-1);
+  cursor: pointer;
+}
+
+.gif {
+  font-weight: 800;
+  font-size: 15px;
+  padding-left: 55px;
+}
+
+.gif:hover {
+  cursor: pointer;
+}
+
+.redg {
+  color: red;
+}
+
+.redg:hover {
+  color: rgb(0, 255, 221);
+  cursor: pointer;
+}
+
+.yellowi {
+  color: greenyellow;
+}
+
+.yellowi:hover {
+  color: rgb(248, 165, 55);
+  cursor: pointer;
+}
+
+.img-input {
+  height: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  padding: 5px;
+}
+
+.img-input-animation {
+  animation-duration: 0.2s;
+  animation-name: fadein;
+}
+
+
+
+
+/*
+input {
+     background-color: white;
+    border-color: white;
+    border-image: none; 
+    border-width:0px; 
+}
+*/
+
+
+
+
+
+#gifForm {
+  margin-top: 5px;
+  margin-bottom: 8px;
+}
+
+#gifForm button {
+  margin-top: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.previewAdd {
+  margin-right: 35px;
+}
+
+#search {
+  width: 100%;
+  height: 2rem;
+  margin-left: -1.5px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.img-input,
+#search {
+  border: 1px solid var(--primary-0);
+  box-shadow: 0px 0px 10px var(--primary-0);
+  border-radius: 1.5rem;
+}
+
+#figure {
+  margin-right: 29px ;
+}
+
+.bluef {
+  color: lightskyblue;
+}
+
+.bluef:hover {
+  color: rgb(233, 87, 208);
+  cursor: pointer;
+}
+
+#quack-btn {
+  border-radius: 3rem;
+  border-width: 0px;
+  width: 10rem;
+  height: 3rem;
+  background-color: #60a74a;
+  color: white;
+  font-weight: 700;
+  font-size: 15px;
+  margin-top: 0.5rem;
+}
+
+#quack-btn:hover {
+  background-color: #6bbd52;
+}
+
+
+/* client entries (the quacks)  */
+
+
+
+.sort {
+  position: relative;
+  margin-top: 2rem;
+  font-size: 2rem;
+}
+
+
+#quack-test-holder {
+  padding: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+
+div > .card {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 1.5rem;
+  font-size: 1 rem;
+}
+
+.custom-card {
+  /* box-shadow: 0px 0px 10px rgba(147, 247, 200, 0.6); */
+  padding: 5px;
+}
+
+
+div > .card-footer {
+  background-color: var(--primary-1);
+  border-radius: 20px;
+  /* display: flex; */
+  /* justify-content: space-evenly; */
+}
+
+/* Title and text in Comment section*/
+div > .card-footer > h4 {
+  margin-top: 1.5rem;
+  margin-bottom: 0rem;
+  color: var(--complement-0);
+  font-weight: bolder;
+}
+
+/* Comments  */
+
+.commentText {
+  font-size: 1.4rem;
+  text-align: left;
+}
+
+.commentDate {
+  text-align: right;
+  position: relative;
+  bottom: 5vh;
+}
+
+.comment-reactions-div {
+  position: relative;
+  right: 38%;
+  top: 1vh;
+}
+
+.no-comments-text {
+  padding: 10px;
+}
+
+.comment-input,
+.comment-button {
+  border: 1px solid rgba(141, 183, 165, 1);
+  border-radius: 2rem;
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 10px;
+  padding: 5px;
+}
+
+.commentAuthor {
+  display: inline-block;
+  position: relative;
+  bottom: 3vh;
+}
+
+.timeStamp, .CommentTimeStamp {
+  font-size: 1rem;
+}
+
+.lower-comment-holder {
+  display: flex;
+  flex-direction: row;
+  margin-left: 120px;
+}
+
+.quack-test .card .card-footer {
+  border-radius: 0px 0px 15px 15px;
+}
+
+.quack-test .card .card-img-top {
+  border-radius: 15px 15px 0px 0px;
+}
+
+.card-footer p {
+  margin-top: 0rem;
+  margin-bottom: 0px;
+}
+
+/* reactions */
+
+.reactions-div {
+  margin-bottom: 30px;
+}
+
+.reaction-button:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+.quack-reactions i {
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+
+.quack-reactions .card-icons {
+  margin-top: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.quack-reactions .card-icons:hover {
+  color: #60a74a;
+  cursor: pointer;
+}
+
+.reactions-div,
+.comment-reactions-div {
+  display: flex;
+  justify-content: space-around;
+  width: 30%;
+  margin: auto;
+  padding: 1rem;
+}
+
+.reactions-div > button,
+.comment-reactions-div > button {
+  border-radius: 10px;
+  padding: 0.5rem 1rem;
+  border: var(--primary-2) solid 0.5px;
+}
+
+.reactions-div > button:hover,
+.reactions-div > button:active,
+.comment-reactions-div > button:hover,
+.comment-reactions-div > button:active {
+  border: var(--complement-0) solid 0.5px;
+  background-color: var(--primary-0);
+  font-weight: bolder;
+  color: var(--complement-0);
+}
+
+.search {
+  display: flex;
+  left: 10%;
+  right: 10%;
+  justify-content: center;
+  border: 1px solid lightgray;
+  width: 80%;
+  height: 4rem;
+  border-radius: 3rem;
+  display: flex;
+  align-items: center;
+  padding-left: 1.5rem;
+}
+
+#search-input {
+  border-width: 0px;
+  margin-left: 0;
+}
+
+.search,
+#search-input {
+  background-color: white;
+}
+
+.search:hover {
+  box-shadow: 0px 0px 0.4rem var(--primary-1);
+}
+
+#search-input:focus {
+  outline: none;
+  margin-left: 0.3rem;
+}
+
+.mobile-logo {
+  display: none;
+}
+
+.mobile-btns {
+  display: none;
+  font-size: 3rem;
+  color: black;
+  margin-top: 0.8rem;
+}
+
+.card {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+
+
+.quack-holder {
+  margin-bottom: 4rem;
+}
+
+.btn-primary {
+  background-color: var(--primary-2) !important;
+  font-size: 2rem;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+
+
+#no-more-quacks {
+  left: 25%;
+  right: 25%;
+  border-radius: 10px;
+  width: 50%;
+}
+
+/* Hidden toggle class  */
+
+.hidden {
+  visibility: hidden;
+}
+
+
+/* Responsiveness */
+
+@media only screen and (max-width: 970px) {
+  /* .top-left {
+        display: none ;
+    } */
+  .left-footer {
+    display: none;
+  }
+
+  .top-right {
+    display: none;
+  }
+
+  .top {
+    width: 50%;
+    margin-right: 5px;
+  }
+
+  footer {
+    position: fixed;
+    height: 50px;
+    background-color: lightgreen;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+  }
+
+  .mobile-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  /* .mobile-logo {
+        display: inline-block;
+        position: absolute;
+        left: 5px;
+        top:5px; 
+        width: 60px; 
+        
+    }
+     */
+}
+
+@media only screen and (max-width: 870px) {
+  .comment-reactions-div {
+    position: relative;
+    top: 1.5vh;
+  }
+
+  .comment-reactions-div > button {
+    border-radius: 10px;
+    padding: 0.5rem 0.5rem;
+  }
+
+  .commentAuthor {
+    width: 50%;
+    position: relative;
+    bottom: 4vh;
+  }
+
+  .commentDate {
+    bottom: 6vh;
+    text-align: right;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+
+  .quack-holder {
+    margin-right: 1.5rem;
+  }
+  
+  .top {
+    width: 100%;
+  }
+
+  .quacker {
+    display: inline-block;
+  }
+
+  .logo {
+    position: absolute;
+  }
+
+  .about-text {
+    display: none;
+  }
+
+  .options {
+    display: none;
+  }
+
+  .commentAuthor {
+    left: 50px;
+    text-align: right;
+  }
+  .commentDate {
+    bottom: 3vh;
+    text-align: center;
+  }
+}
+
+
+/* ANIMATION */
+
+/* testing animation loading */
+/* .animated-div {
+  opacity: 0;
+  animation-name: animateIn;
+  animation-duration: 300ms;
+  animation-delay: calc(var(--animation-order) * 200ms);
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+} */
+
+/* div {
+    animation-name: animateIn;
+    animation-duration: 200ms;
+    animation-delay: calc(var(--animation-order) * 100ms);
+    animation-timing-function: ease-in-out;
+} */
+
+@keyframes animateIn {
+  0% {
+    transform: scale(0.8);
+    filter: grayscale(100%);
+    opacity: 0;
+    top: -20px;
+  }
+
+  100% {
+    transform: scale(1);
+    filter: grayscale(0%);
+    opacity: 1;
+    top: 0px;
+  }
+}
+
